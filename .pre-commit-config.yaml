@@ -1,0 +1,9 @@
+# Optional local secret scan before each commit. Install with:
+#   pre-commit install
+# Uses the same .gitleaks.toml as the CI `secrets` job. See CONTRIBUTING.md.
+repos:
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: 83d9cd684c87d95d656c1458ef04895a7f1cbd8e # frozen: v8.30.1
+    hooks:
+      - id: gitleaks
+        args: ["--config=.gitleaks.toml"]

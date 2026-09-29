@@ -2,9 +2,9 @@
 
 ## 1. Hygiene files
 
-- [ ] 1.1 Add a root `.gitignore` with the entries from design D7. Verify: `git check-ignore -v feeds/x.rss.xml .env.local` reports both as ignored.
-- [ ] 1.2 Add `.gitleaks.toml`, extending the default rules with the three Patreon rules from design D4. Add a test script (`scripts/test-gitleaks-rules.sh`) that writes synthetic matching and non-matching samples to a temporary directory **outside the repo** and runs `gitleaks detect --no-git` against it. Verify: the script reports that each Patreon rule fires on its matching sample and stays silent on placeholder text such as `auth-redacted`.
-- [ ] 1.3 Add `.pre-commit-config.yaml` with the gitleaks hook using `.gitleaks.toml`. Verify: with `pre-commit install` done, trying to commit a synthetic matching sample is blocked. Unstage the sample afterwards and don't commit it.
+- [x] 1.1 Add a root `.gitignore` with the entries from design D7. Verify: `git check-ignore -v feeds/x.rss.xml .env.local` reports both as ignored.
+- [x] 1.2 Add `.gitleaks.toml`, extending the default rules with the three Patreon rules from design D4. Add a test script (`scripts/test-gitleaks-rules.sh`) that writes synthetic matching and non-matching samples to a temporary directory **outside the repo** and runs `gitleaks detect --no-git` against it. Verify: the script reports that each Patreon rule fires on its matching sample and stays silent on placeholder text such as `auth-redacted`.
+- [x] 1.3 Add `.pre-commit-config.yaml` with the gitleaks hook using `.gitleaks.toml`. Verify: with `pre-commit install` done, trying to commit a synthetic matching sample is blocked. Unstage the sample afterwards and don't commit it.
 
 ## 2. CI workflow
 
@@ -20,7 +20,7 @@
 ## 3. Docs and templates
 
 - [ ] 3.1 Add `.github/pull_request_template.md` with the checklist from design D7. Verify: a new PR's description is pre-filled with it.
-- [ ] 3.2 Write `CONTRIBUTING.md` (design D7), covering: the OpenSpec lifecycle with commands, branch and commit naming, the self-review routine, bypass rules, installing the pre-commit hook, bumping the pinned OpenSpec CLI, and the secret-leak response. Update `README.md` to link to it. Verify: every command in `CONTRIBUTING.md` was actually run in this change.
+- [x] 3.2 Write `CONTRIBUTING.md` (design D7), covering: the OpenSpec lifecycle with commands, branch and commit naming, the self-review routine, bypass rules, installing the pre-commit hook, bumping the pinned OpenSpec CLI, and the secret-leak response. Update `README.md` to link to it. Verify: every command in `CONTRIBUTING.md` was actually run in this change.
 
 ## 4. Repository settings (owner confirms each `gh api` call before it runs)
 

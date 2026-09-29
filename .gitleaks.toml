@@ -1,0 +1,36 @@
+# gitleaks configuration for blankie.
+#
+# Extends the default gitleaks rules with patterns for Patreon feed URLs, which
+# carry a per-user access token. GitHub secret scanning doesn't know these
+# shapes, and custom patterns aren't available on personal accounts, so this
+# config is the only thing that catches them. Used by the CI `secrets` job and
+# the optional pre-commit hook.
+#
+# Docs and fixtures must describe these URLs with placeholders that don't match
+# the patterns below (e.g. `auth-redacted`, `<creatorId>`). Any allowlist entry
+# added here needs a comment explaining why.
+#
+# Test the rules with scripts/test-gitleaks-rules.sh.
+
+title = "blankie gitleaks config"
+
+[extend]
+useDefault = true
+
+[[rules]]
+id = "patreon-rss-feed"
+description = "Patreon private RSS feed URL (auth= carries a personal access token)"
+regex = '''patreon\.com/rss/\d+\?[^\s"'<>]*\bauth='''
+keywords = ["patreon"]
+
+[[rules]]
+id = "patreon-rss-enclosure"
+description = "Patreon RSS enclosure URL (path carries a per-user token)"
+regex = '''patreon\.com/api/rss/u/[A-Za-z0-9_-]{16,}'''
+keywords = ["patreon"]
+
+[[rules]]
+id = "patreon-signed-url"
+description = "Patreon signed media URL (sig= is a per-user signature)"
+regex = '''patreon(?:usercontent)?\.com/[^\s"'<>]*[?&]sig='''
+keywords = ["patreon"]

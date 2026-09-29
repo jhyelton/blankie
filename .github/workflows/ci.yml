@@ -1,0 +1,111 @@
+# The one CI workflow for blankie.
+#
+# It runs on every PR and every push to main, with no workflow-level path
+# filters, so the aggregate `ci-ok` check always reports. `ci-ok` is the only
+# check the `main` ruleset requires. To add a check, add a job here, gate it on
+# `needs.changes.outputs.<area>` if it only matters for some paths, and list it
+# under `ci-ok.needs`. Don't create separate required workflows.
+#
+# Third-party actions are pinned to full commit SHAs. Dependabot bumps them.
+name: CI
+
+on:
+  pull_request:
+    # `edited` re-runs the title check when the PR title changes.
+    types: [opened, synchronize, reopened, edited]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  changes:
+    name: changes
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      openspec: ${{ steps.filter.outputs.openspec }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # v4.0.3
+        id: filter
+        with:
+          filters: |
+            openspec:
+              - 'openspec/**'
+
+  openspec:
+    name: openspec
+    needs: changes
+    if: needs.changes.outputs.openspec == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 22
+      # Pinned on purpose. Dependabot doesn't track this; bump it by hand
+      # (see CONTRIBUTING.md).
+      - run: npm install -g @fission-ai/openspec@1.13.2
+      - run: openspec validate --all --strict
+
+  secrets:
+    name: secrets
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      - uses: gitleaks/gitleaks-action@e0c47f4f8be36e29cdc102c57e68cb5cbf0e8d1e # v3.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_CONFIG: .gitleaks.toml
+          # Match the pre-commit hook's version.
+          GITLEAKS_VERSION: 8.30.1
+          # The job has no write permissions; findings show in the job summary.
+          GITLEAKS_ENABLE_COMMENTS: false
+
+  pr-title:
+    name: pr-title
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+    steps:
+      - uses: amannn/action-semantic-pull-request@48f256284bd46cdaab1048c3721360e808335d50 # v6.1.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          types: |
+            feat
+            fix
+            docs
+            chore
+            ci
+            refactor
+            test
+            build
+            perf
+
+  ci-ok:
+    name: ci-ok
+    if: always()
+    needs: [changes, openspec, secrets, pr-title]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check that no job failed or was cancelled
+        env:
+          RESULTS: ${{ toJSON(needs.*.result) }}
+          FAILED: ${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') }}
+        run: |
+          echo "Job results: $RESULTS"
+          if [[ "$FAILED" == "true" ]]; then
+            echo "::error::At least one CI job failed or was cancelled. Skipped jobs are OK."
+            exit 1
+          fi
