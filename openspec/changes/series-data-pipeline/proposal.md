@@ -28,9 +28,10 @@ None.
 
 ## Impact
 
-- **New code**: `tools/series-data/` (Python package, tests), `contracts/matching-vectors.json`, `data/series.schema.json`, `data/series.json`, `data/overrides.json`, and `.github/workflows/` for the weekly update and PR validation.
+- **New code**: `tools/series-data/` (Python package, tests), `contracts/matching-vectors.json`, `data/series.schema.json`, `data/series.json`, `data/overrides.json`, `.github/workflows/series-data-update.yml` for the weekly update, and a `series-data` job added to the repository's `ci.yml` for PR validation.
 - **New docs**: `tools/series-data/README.md` and `docs/runbooks/series-data.md`, covering how to review the weekly PR, write overrides, and run the local Patreon check.
 - **External systems**: reads the fan wiki's MediaWiki API (about 3 requests per week, with an identifying User-Agent) and the public Megaphone feed. Wiki content is CC BY-SA; attribution ships inside `series.json`.
 - **Repository settings**: requires the repo to be public for the raw URL to be fetchable without auth, and requires "Allow GitHub Actions to create pull requests" to be enabled.
 - **Secrets**: none. The Patreon feed is never used in CI. See `series-data-validation`.
+- **Depends on** `repo-guardrails` being applied first. That change creates `ci.yml` with its always-running `ci-ok` aggregate check, the `main` ruleset, and the PR-only admin bypass used to merge this change's bot PRs.
 - **Downstream**: `blankie-v1` will depend on the `series-data` contract and the `episode-matching` test cases.

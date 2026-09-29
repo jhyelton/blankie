@@ -52,7 +52,7 @@ data/series.schema.json           JSON Schema (draft 2020-12)
 data/series.json                  generated, committed, served from main
 data/overrides.json               hand-edited
 .github/workflows/series-data-update.yml    weekly cron + manual run
-.github/workflows/series-data-check.yml     pull_request checks
+.github/workflows/ci.yml                    existing (repo-guardrails); gains a `series-data` job
 docs/runbooks/series-data.md
 ```
 `contracts/` sits at the repo root, not under `tools/`, because the app's tests will load it too.
@@ -126,7 +126,7 @@ Series IDs follow the same idea: a slug of the wiki series page name, carried fo
 `reason` is required, so a year from now you know why each entry exists. The target is either an episode ID or, for rows that don't have an ID yet, a wiki number. Overrides that don't resolve fail the run (see the `series-data` requirement "Overrides").
 
 ### D7. Human override PRs don't regenerate the dataset
-A PR that edits `overrides.json` is checked by `series-data-check.yml`: tests, schema validation, and whether every override resolves against the committed `series.json`. It does **not** refetch the wiki. An override that targets a wiki number not yet in the committed dataset is reported as *pending*, not as an error. The generator still fails if it can't resolve that override after fetching the wiki. The new override takes effect on the next scheduled run, or immediately if you trigger the manual run after merging.
+A PR that edits `overrides.json` is checked by the `series-data` job in `ci.yml`: tests, schema validation, and whether every override resolves against the committed `series.json`. It does **not** refetch the wiki. An override that targets a wiki number not yet in the committed dataset is reported as *pending*, not as an error. The generator still fails if it can't resolve that override after fetching the wiki. The new override takes effect on the next scheduled run, or immediately if you trigger the manual run after merging.
 
 This keeps PR checks deterministic and free of network calls, and every change to `series.json` comes from the one automated path.
 - *Alternative:* regenerate in the PR. That brings in wiki drift unrelated to the override and makes the check depend on the network.
@@ -138,7 +138,7 @@ Steps:
 1. Check out the repo and set up uv.
 2. `series-data generate`, which runs every validation and guardrail check and **fails the job before any PR step** if they fail.
 3. If `git diff` shows no change other than `generatedAt`, stop.
-4. Otherwise use `peter-evans/create-pull-request` with the fixed branch `series-data/update`, so one PR is open at a time and gets refreshed each week. The PR body is the generated report: counts, added/changed episodes, unmatched lists, and any guardrails that were overridden.
+4. Otherwise use `peter-evans/create-pull-request` with the fixed branch `series-data/update`, so one PR is open at a time and gets refreshed each week. The PR body is the generated report (counts, added/changed episodes, unmatched lists, and any guardrails that were overridden), plus a link to the workflow run that produced it (see D12 for why the link matters).
 
 Permissions are `contents: write` and `pull-requests: write`, using `GITHUB_TOKEN`. That requires turning on the repo setting *Actions → General → Allow GitHub Actions to create and approve pull requests*.
 
@@ -164,11 +164,23 @@ Test fixtures are:
 
 The first set of `matching-vectors.json` covers every real miss listed in Context, plus the normalization cases from the `episode-matching` spec.
 
+### D12. CI goes through `ci.yml`, not its own workflow
+PR validation is a `series-data` job inside the repository's single `ci.yml`, which `repo-guardrails` creates.
+- The `changes` job's path filter gets a `series-data` output covering `tools/series-data/**`, `contracts/**` and `data/**`.
+- The `series-data` job runs only when that output is true: it sets up uv, then runs ruff, pytest and `series-data check`.
+- The job is added to `ci-ok`'s `needs`.
+
+Because `ci.yml` always runs and `ci-ok` treats skipped jobs as passing, PRs that don't touch series data aren't blocked. That's why a separate path-filtered workflow is not used: a required check that a path filter skips never reports.
+
+**Merging the weekly bot PR:** it's opened with `GITHUB_TOKEN`, so `ci-ok` never runs on it. The update job has already run every check the `series-data` job would run (D8), and its green workflow run is linked from the PR body. The owner merges with the ruleset's PR-only admin bypass after confirming that run passed. That is the only intended use of the bypass (see `CONTRIBUTING.md` from `repo-guardrails`). If using the bypass becomes routine or feels risky, switch the update job to a GitHub App token so its PRs trigger `ci.yml` normally. That's a small follow-up change.
+
+- *Alternative:* a separate `series-data-check.yml` with workflow-level path filters. It was rejected for the never-reporting problem above.
+
 ## Risks / Trade-offs
 
 - **[Risk] Wiki formatting drifts** (a new column, a changed date format) and the parser silently misreads it. → *Mitigation:* the row-count and series-loss guardrails fail loudly. Parser tests run against real excerpts, and an unexpected cell count in a row raises an error instead of guessing.
 - **[Risk] Vandalism or an honest mass edit** passes the guardrails with small changes, e.g. reassigning a few episodes. → *Mitigation:* every change is reviewed in a PR diff, and the membership-change summary sits at the top of the PR body. *Accepted:* a few wrong assignments until they're noticed are low-impact.
-- **[Risk] PRs created with `GITHUB_TOKEN` don't trigger other workflows**, so the `series-data-check` status check won't run on the bot's PR. If branch protection later requires that check, the bot PR can't be merged. → *Mitigation:* the update job runs the same validation itself before opening the PR (D8). When branch protection is set up, either don't require the check on `series-data/update`, or switch the update job to a GitHub App token. That's recorded in the runbook.
+- **[Risk] PRs created with `GITHUB_TOKEN` don't trigger other workflows**, so `ci.yml` never runs on the bot's PR, and the required `ci-ok` check never reports. → *Mitigation:* see D12.
 - **[Risk] Raw GitHub caching** means the app may see an update a few minutes late. → *Accepted.*
 - **[Risk] The repo isn't public yet**, so the raw URL returns 404 without auth. → *Mitigation:* the last task verifies unauthenticated fetch. If the repo is still private at that point, the task is blocked, not faked.
 - **[Trade-off] Every rule exists twice**, once in Python and once later in Dart. → *Mitigation:* the shared test case file is the contract, and both suites must pass it (the `episode-matching` spec).

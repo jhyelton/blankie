@@ -3,7 +3,7 @@
 ## 1. Tooling skeleton and PR checks
 
 - [ ] 1.1 Create `tools/series-data/` as a uv-managed Python 3.12 package `series_data`, with pytest and ruff configured and a `series-data` CLI entry point with `generate`, `check` and `check-patreon` subcommands (stubs for now) (design D1, D2). Verify: `uv run pytest` passes (one placeholder test), `uv run ruff check` is clean, and `uv run series-data --help` lists the three subcommands.
-- [ ] 1.2 Add `.github/workflows/series-data-check.yml`, which runs on pull requests that touch `tools/series-data/**`, `contracts/**` or `data/**`, sets up uv, and runs ruff, pytest and `series-data check`. Verify: a pushed branch shows the check passing in the PR's checks list.
+- [ ] 1.2 Add a `series-data` job to the existing `.github/workflows/ci.yml` (design D12): a `series-data` path-filter output for `tools/series-data/**`, `contracts/**` and `data/**`; a conditional job that sets up uv and runs ruff, pytest and `series-data check`; and the job added to `ci-ok`'s `needs`. If `ci.yml` doesn't exist yet, stop: `repo-guardrails` must be applied first. Verify: a PR touching `tools/series-data/` shows the `series-data` job running and `ci-ok` passing, and a PR touching only `README.md` shows the job skipped and `ci-ok` still passing.
 
 ## 2. Contracts: schema and shared matching test cases
 
@@ -36,7 +36,7 @@
 ## 7. Weekly update workflow
 
 - [ ] 7.1 Enable *Settings → Actions → General → Allow GitHub Actions to create and approve pull requests* (the owner does this). Verify: the setting shows as enabled.
-- [ ] 7.2 Add `.github/workflows/series-data-update.yml` per design D8: Monday cron plus `workflow_dispatch` with `accept_guardrail_changes`, generation with all checks before any PR step, a no-diff early exit that ignores `generatedAt`, `peter-evans/create-pull-request` on branch `series-data/update` with the report as the PR body, and raw responses uploaded as a 30-day artifact. It must not reference any Patreon secret. Verify: a manual run on a test branch opens a PR, and a second immediate run opens no new PR.
+- [ ] 7.2 Add `.github/workflows/series-data-update.yml` per design D8: Monday cron plus `workflow_dispatch` with `accept_guardrail_changes`, generation with all checks before any PR step, a no-diff early exit that ignores `generatedAt`, `peter-evans/create-pull-request` on branch `series-data/update` with the report plus a link to the workflow run as the PR body, and raw responses uploaded as a 30-day artifact. It must not reference any Patreon secret. Verify: a manual run on a test branch opens a PR, and a second immediate run opens no new PR.
 
 ## 8. Local Patreon check
 
@@ -51,7 +51,7 @@
   - how to write each override op
   - how to accept guardrail changes
   - how to store the Patreon URL in the Keychain and run `check-patreon`
-  - the `GITHUB_TOKEN`/branch-protection caveat from design Risks
+  - how to merge the weekly bot PR with the PR-only admin bypass after checking the linked workflow run is green, and when to switch to a GitHub App token instead (design D12)
 
   Verify: every command in the runbook was actually run in this change.
 - [ ] 9.3 After the repo is public, fetch `https://raw.githubusercontent.com/jhyelton/blankie/main/data/series.json` without credentials. Verify: `curl -sf` returns JSON that validates against `data/series.schema.json`. If the repo is still private, leave this task unchecked and report it as blocked; don't fake it.
