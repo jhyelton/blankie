@@ -31,7 +31,7 @@
 
 These tasks can only run after the first implementation PR is merged. They go in a follow-up PR, and that PR's last commit archives this change.
 
-- [ ] 5.1 Verify the Dependabot configuration from 2.3: Insights → Dependency graph → Dependabot lists it without errors.
+- [x] 5.1 Verify the Dependabot configuration from 2.3: Insights → Dependency graph → Dependabot lists it without errors.
 - [ ] 5.2 Verify the PR template from 3.1: a new PR's description is pre-filled with it.
 - [ ] 5.3 Once `ci-ok` has run on `main`, commit `.github/rulesets/main.json` (design D5) and apply it with `gh api -X POST repos/jhyelton/blankie/rulesets --input .github/rulesets/main.json`. Verify:
   - `gh api repos/jhyelton/blankie/rulesets` lists `main-protection` as active
