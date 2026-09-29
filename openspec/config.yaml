@@ -1,13 +1,52 @@
 schema: spec-driven
 
-# Project context (optional)
-# This is shown to AI when creating artifacts.
-# Add your tech stack, conventions, style guides, domain knowledge, etc.
-# Example:
-#   context: |
-#     Tech stack: TypeScript, React, Node.js
-#     We use conventional commits
-#     Domain: e-commerce platform
+# Project context: shown to AI when creating artifacts.
+context: |
+  Product: blankie is a single-show podcast app for "Blank Check with Griffin & David".
+  It is built for one owner and replaces Pocket Casts for that show. The owner listens
+  in two lanes: Lane A is catching up on new and unheard episodes (newest first), and
+  Lane B is re-listening to one past miniseries in order. The main pain point being
+  solved is finding and re-queuing old miniseries in a long, flat, noisy feed.
+
+  Platforms: daily use on the owner's iPhone as soon as possible, then a move to
+  Android around the end of 2026. The stack is Flutter, gated on the audio-spike
+  change recording GO; React Native/Expo is the fallback. There is no paid Apple
+  Developer account: installs use free signing with a documented 7-day re-install
+  (docs/runbooks/ios-device-install.md). No backend service unless a change justifies one.
+
+  Feeds (both supported):
+  - Public: https://feeds.megaphone.fm/blank-check (~600 episodes since 2015).
+  - Patreon "Blank Check: Special Features": a per-user private URL. It contains
+    "(Ad-Free)" copies of every public episode plus ~320 exclusives (franchise
+    commentaries, mailbags, live shows, etc.).
+  - Feed quirks: no itunes:season/episode; episodeType is unreliable or missing;
+    titles are "<Film> with <Guest>" and never name the series; enclosure
+    length="0"; enclosure URLs 302-redirect to expiring signed CDN URLs (always
+    retry from the original URL). Patreon GUIDs match public GUIDs only for older
+    episodes; newer ones differ and titles vary slightly (punctuation, tabs).
+
+  Episode model: each episode appears once, keyed by its wiki identity
+  (normalized title + air date), whichever feeds it came from. Play the ad-free
+  copy when available. Playback progress and played-state belong to the logical
+  episode, not to a feed URL or GUID.
+
+  Series data: miniseries membership cannot be inferred from the feeds. It comes
+  from the fan wiki (blank-check.fandom.com, via the MediaWiki API
+  action=parse&prop=wikitext on the Episodes and "Blank Check: Special Features"
+  pages). It is published as series.json from this public GitHub repo and fetched
+  by the app. New releases belong to their director's series, following the wiki.
+  Wiki content is CC BY-SA, so attribution is required.
+
+  Security: the repository is public. The Patreon feed URL and any Patreon feed
+  XML contain a personal access token and MUST never be committed, logged, or
+  sent anywhere except Patreon. Test fixtures must be synthetic or redacted.
+
+  Process: the owner is a solo developer with a devops/cloud background who is new
+  to mobile development; explain mobile-specific concepts. Use Conventional
+  Commits. Each OpenSpec change gets a plan PR (artifacts only), then a separate
+  implementation PR that ends with the archive commit. Archived changes must have
+  every task complete; split out tasks that must wait (e.g. on time passing) into
+  follow-up changes.
 
 # Per-artifact rules (optional)
 # Add custom rules for specific artifacts.
