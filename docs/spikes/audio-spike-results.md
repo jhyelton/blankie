@@ -69,6 +69,18 @@ Status is PASS, FAIL, PENDING (not run yet) or DEFERRED (covered by a follow-up 
 - **iOS waits instead of failing on network loss.** The background `URLSession` holds an interrupted download and continues when connectivity returns, instead of reporting a failure. The Retry button only appears if the system gives up (for example after its 4-hour resource timeout) or the server errors.
 - **Plugins use Swift Package Manager.** Flutter 3.47 links iOS plugins through Swift Package Manager, so `app/ios` has no Podfile and CocoaPods isn't used.
 
+## Follow-ups for blankie-v1
+
+The owner decided these on 2026-09-30, after the PR review. Fold them into `blankie-v1`'s design and tasks.
+
+- **Flutter CI job.** Add a `flutter` job to `.github/workflows/ci.yml`, gated on `app/**`, with the action pinned by SHA and the job listed under `ci-ok.needs`. It runs `dart format --output=none --set-exit-if-changed lib test`, `flutter analyze` and `flutter test`. Until then, the unit tests and the async lints only run locally.
+- **Regression tests for the four review bugs.** The spike fixed them without tests. Add seams to the player and downloader so they can be faked (a player, `FileDownloader`, the file system), then test:
+  1. a failed initial load never overwrites the saved position;
+  2. two concurrent completions rename once and end in `downloaded`;
+  3. a local-file load failure falls back to the stream;
+  4. two quick `download()` calls enqueue once.
+- **Format pass.** `dart format` from Flutter 3.47 reformats a few spike files. Run it once before the CI format check goes in.
+
 ## Result
 
 | Spec | PASS | FAIL | DEFERRED |
