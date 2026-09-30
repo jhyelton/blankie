@@ -69,6 +69,26 @@ Status is PASS, FAIL, PENDING (not run yet) or DEFERRED (covered by a follow-up 
 - **iOS waits instead of failing on network loss.** The background `URLSession` holds an interrupted download and continues when connectivity returns, instead of reporting a failure. The Retry button only appears if the system gives up (for example after its 4-hour resource timeout) or the server errors.
 - **Plugins use Swift Package Manager.** Flutter 3.47 links iOS plugins through Swift Package Manager, so `app/ios` has no Podfile and CocoaPods isn't used.
 
+## Post-review fixes
+
+The PR review found four async bugs. They were fixed in the PR, with regression tests deferred to v1:
+- a position of 0 persisted before the episode loaded
+- a race between two download-completion handlers
+- no fallback when the local file fails to load
+- a double tap enqueuing the download twice
+
+The fixed build was re-checked on the same iPhone on 2026-09-30:
+
+| Check | Status |
+|---|---|
+| R1: resume after force-quit | PASS |
+| R2: offline cold launch without a download keeps the saved position (bug 1) | PASS |
+| R3: a double tap on Download starts one download (bug 4) | PASS |
+| R4: a finished download switches playback to the local file at the same spot (bug 3, normal path) | PASS |
+| R5: offline local playback | PASS |
+
+The bug 2 race and the bug 3 failure path can't be reproduced reliably on a device. Those fixes were verified by code reading; their tests are listed below.
+
 ## Follow-ups for blankie-v1
 
 The owner decided these on 2026-09-30, after the PR review. Fold them into `blankie-v1`'s design and tasks.
@@ -168,4 +188,14 @@ xcrun devicectl device process launch --device <udid> com.jhyelton.blankie
 
 # 5.1 Long session (no commands; on-device)
 # Streamed >60 min locked; paused >30 min; seek to ~3:10:00 + play: started immediately.
+
+# Post-review regression pass
+flutter devices                   # Joshua's iPhone (wireless) (mobile) • <udid> • ios • iOS 26.6.2
+flutter run --release -d <udid>   # Launching lib/main.dart on Joshua's iPhone (wireless) in release mode...
+  # Could not run build/ios/iphoneos/Runner.app on <udid>.
+xcrun devicectl device process launch --device <udid> com.jhyelton.blankie
+  # Unable to launch com.jhyelton.blankie because the device was not, or could not be, unlocked.
+# Unlocked the phone.
+flutter run --release -d <udid>   # Installing and launching... 2,012ms / Flutter run key commands. => launched
+# R1–R5 on the device: all PASS.
 ```

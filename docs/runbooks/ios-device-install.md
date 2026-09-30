@@ -141,7 +141,7 @@ These affect daily use. They are what you give up by not paying for the Apple De
 - **7-day expiry.** The free provisioning profile expires 7 days after the install. After that, iOS refuses to launch blankie until you re-install from the Mac (section 4). Nothing warns you in advance; the app just stops opening.
 - **App-count limit.** A free Personal Team can have at most **3 apps** installed on a device at the same time. Installing a fourth fails in Xcode until you delete one of the others.
 - **App ID limit.** A free Personal Team can register at most **10 new App IDs (bundle identifiers) per 7 days**. blankie always uses `com.jhyelton.blankie`, so this only matters if you experiment with other bundle IDs.
-- **Needs the Mac.** Every install and re-install needs this Mac, Xcode, and the phone connected by cable.
+- **Needs the Mac.** Every install and re-install needs this Mac and Xcode. Once the phone has been paired, it doesn't have to be on the cable: when the phone and the Mac are on the same Wi-Fi, `flutter devices` lists it as `(wireless)` and `flutter run --release` installs over the network. The phone must be unlocked for the launch.
 - **Restricted capabilities.** Free teams can't use capabilities such as push notifications, iCloud, or App Groups. The audio spike uses none of them: background audio and background downloads work with free signing.
 - **One Apple ID's devices only.** The app is provisioned for your registered devices. It can't be shared through TestFlight or with other people's phones.
 
@@ -187,6 +187,12 @@ The phone doesn't trust your developer certificate. This happens:
 Long-pressing the icon and choosing **Remove App → Remove from Home Screen** only hides the icon. `xcrun devicectl device info apps --device <udid>` still lists Blankie, and a re-install keeps the download and the saved position.
 
 **Fix:** to really delete it, choose **Remove App → Delete App**, or use **Settings → General → iPhone Storage → Blankie → Delete App**. Deleting loses the saved position and the downloads (section 4), so only do it on purpose.
+
+### `Unable to launch com.jhyelton.blankie because the device was not, or could not be, unlocked.`
+
+The install worked, but the phone was locked, so iOS wouldn't open the app. `flutter run` only prints `Could not run build/ios/iphoneos/Runner.app on <udid>.` This one is easy to hit on a wireless install, because the phone isn't in your hand.
+
+**Fix:** unlock the phone and run `flutter run --release -d <udid>` again, or just open blankie from its icon.
 
 ### `devicectl … info files`: `The system failed to get a list of files on the remote device.`
 
