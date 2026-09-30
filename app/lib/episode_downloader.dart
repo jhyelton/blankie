@@ -23,6 +23,7 @@ class EpisodeDownloader {
   final _downloader = FileDownloader();
   StreamSubscription<TaskUpdate>? _updates;
   String? _finalPath;
+  Future<void>? _finishing;
 
   String get _taskId => 'episode-${episode.guid}';
 
@@ -75,6 +76,7 @@ class EpisodeDownloader {
     final task = _task();
     await _deleteIfExists(await task.filePath());
     state.value = state.value.started();
+    _finishing = null;
     if (!await _downloader.enqueue(task)) {
       state.value = state.value.failed('Could not enqueue download');
     }
@@ -113,17 +115,22 @@ class EpisodeDownloader {
     }
   }
 
-  Future<void> _finish(String tempPath) async {
-    // A completion replayed at startup can arrive after init already renamed.
-    if (!File(tempPath).existsSync() && File(_finalPath!).existsSync()) {
-      state.value = state.value.completed();
-      return;
-    }
+  // At startup both init() and the replayed `complete` update call this, so it
+  // runs once and later callers share the same future.
+  Future<void> _finish(String tempPath) =>
+      _finishing ??= _renameToFinal(tempPath);
+
+  Future<void> _renameToFinal(String tempPath) async {
     try {
       await File(tempPath).rename(_finalPath!);
       state.value = state.value.completed();
     } on FileSystemException catch (e) {
-      state.value = state.value.failed('Rename failed: ${e.message}');
+      // Already renamed (for example by a completion handled earlier).
+      if (File(_finalPath!).existsSync()) {
+        state.value = state.value.completed();
+      } else {
+        state.value = state.value.failed('Rename failed: ${e.message}');
+      }
     }
   }
 
