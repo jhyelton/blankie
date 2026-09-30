@@ -1,10 +1,10 @@
-# Spec Delta
+# episode-download Specification
 
 ## Purpose
 
 Lets the listener keep full-length episodes on the device so they can listen without a network connection. Downloads carry on even when the app is backgrounded.
 
-## ADDED Requirements
+## Requirements
 
 ### Requirement: Download an episode in the background
 The system SHALL download an episode's audio file to local device storage. The download SHALL continue while the app is in the background or the device is locked, and SHALL follow HTTP redirects from the episode's URL.
@@ -14,7 +14,7 @@ The system SHALL download an episode's audio file to local device storage. The d
 - **THEN** the download completes without the app being brought to the foreground, and the file is available the next time the app is opened
 
 ### Requirement: Report download progress
-The system SHALL show download progress while an episode downloads. Progress SHALL use the size reported by the HTTP response, because feed enclosure sizes may be missing or zero. If no size is known, the system SHALL show the number of bytes received.
+The system SHALL show download progress while an episode downloads. Progress SHALL use the size reported by the HTTP response, because feed enclosure sizes may be missing or zero. If no size is known, the system SHALL show indeterminate progress.
 
 #### Scenario: Feed reports zero length
 - **WHEN** an episode whose feed enclosure length is `0` is downloading and the server reports a content length
