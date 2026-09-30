@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 
@@ -103,7 +105,9 @@ class _SeekBarState extends State<_SeekBar> {
                       ? null
                       : (v) => setState(() => _dragValue = v),
                   onChangeEnd: (v) {
-                    widget.handler.seek(Duration(milliseconds: v.round()));
+                    unawaited(
+                      widget.handler.seek(Duration(milliseconds: v.round())),
+                    );
                     setState(() => _dragValue = null);
                   },
                 ),
