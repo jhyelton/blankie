@@ -83,4 +83,8 @@ The full process is in `CONTRIBUTING.md`. The parts that affect how you work:
   - an implementation PR (`/opsx:apply`), whose last commit is `/opsx:archive <change>`
 - Only archive a change when every task is done. Tasks that have to wait for time to pass go into a follow-up change.
 - Commits and PR titles use Conventional Commits, with types `feat fix docs chore ci refactor test build perf` and scopes like `spec`, `app`, `data`, `ci`. PRs are squash-merged.
+- **Pre-PR review.** Before opening an implementation PR, or when the owner asks for one, have a subagent (Agent tool) do the review. Never review your own diff in this context: you'd share the implementer's blind spots, and the review output would fill the working context.
+  - Give the subagent only pointers: the base (`main`), the branch, and `openspec/changes/<change>/`. Don't pass your summary, your reasoning, or which parts you believe are fine.
+  - Ask for correctness bugs only. Each finding needs `file:line`, a concrete failure scenario, and a suggested fix. The subagent should check its claims against the code and the package sources in `~/.pub-cache`, and should apply the async state rules above.
+  - When it reports, verify each finding yourself. Then give the owner a verdict per finding (valid, invalid, or overstated) and a fix plan. Don't change or push anything until the owner agrees.
 - CI is a single workflow, `.github/workflows/ci.yml`. `ci-ok` is the only required check. To add a check, add a job to that workflow and list it under `ci-ok.needs`; never add a separate required workflow.
