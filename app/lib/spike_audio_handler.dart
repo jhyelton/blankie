@@ -38,6 +38,11 @@ class SpikeAudioHandler extends BaseAudioHandler with SeekHandler {
   AppLifecycleListener? _lifecycle;
   DateTime? _lastRecovery;
 
+  // True only while a source is loaded at a real position. Until then the
+  // player reports 0, and saving it would overwrite the stored position (for
+  // example on `playingStream`'s seeded `false`, or after a failed load).
+  bool _loaded = false;
+
   Future<void> init({String? localPath}) async {
     // `speech` = playback category + spoken-audio mode: plays with the silent
     // switch on and in the background, and other apps' prompts pause us
@@ -96,7 +101,9 @@ class SpikeAudioHandler extends BaseAudioHandler with SeekHandler {
     source.value = localPath != null
         ? PlaybackSource.local
         : PlaybackSource.stream;
+    _loaded = false;
     await _player.setAudioSource(audioSource, initialPosition: position);
+    _loaded = true;
   }
 
   /// Switches to the downloaded file, keeping position and play state.
@@ -107,8 +114,10 @@ class SpikeAudioHandler extends BaseAudioHandler with SeekHandler {
     if (wasPlaying) unawaited(_player.play());
   }
 
-  Future<void> savePosition() =>
-      _positions.save(episode.guid, _player.position);
+  Future<void> savePosition() async {
+    if (!_loaded) return;
+    await _positions.save(episode.guid, _player.position);
+  }
 
   void _onPlayingChanged(bool playing) {
     _saveTimer?.cancel();
