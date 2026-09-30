@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -35,7 +37,8 @@ Future<void> main() async {
     final path = downloader.localPath;
     if (downloader.state.value.phase == DownloadPhase.downloaded &&
         path != null) {
-      handler.useLocalFile(path);
+      // Handles its own errors by falling back to the stream.
+      unawaited(handler.useLocalFile(path));
     }
   });
 

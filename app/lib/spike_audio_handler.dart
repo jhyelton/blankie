@@ -86,11 +86,28 @@ class SpikeAudioHandler extends BaseAudioHandler with SeekHandler {
     );
 
     final saved = await _positions.load(episode.guid) ?? Duration.zero;
+    await _loadWithFallback(localPath: localPath, position: saved);
+  }
+
+  /// Loads the local file if given, falling back to the stream if the file
+  /// can't be opened. If the stream fails too (for example offline), the
+  /// screen still opens with nothing loaded.
+  Future<void> _loadWithFallback({
+    String? localPath,
+    required Duration position,
+  }) async {
+    if (localPath != null) {
+      try {
+        await _load(localPath: localPath, position: position);
+        return;
+      } on PlayerException catch (e) {
+        debugPrint('Local file failed ${e.code}: ${e.message}; streaming');
+      }
+    }
     try {
-      await _load(localPath: localPath, position: saved);
+      await _load(position: position);
     } on PlayerException catch (e) {
-      // For example, streaming while offline. The screen still opens.
-      debugPrint('Initial load failed ${e.code}: ${e.message}');
+      debugPrint('Stream load failed ${e.code}: ${e.message}');
     }
   }
 
@@ -98,11 +115,13 @@ class SpikeAudioHandler extends BaseAudioHandler with SeekHandler {
     final audioSource = localPath != null
         ? AudioSource.file(localPath)
         : AudioSource.uri(Uri.parse(episode.enclosureUrl));
+    _loaded = false;
+    await _player.setAudioSource(audioSource, initialPosition: position);
+    // Only after success, so a failed load never leaves the indicator (and
+    // _onError's stream check) claiming a source that isn't playing.
     source.value = localPath != null
         ? PlaybackSource.local
         : PlaybackSource.stream;
-    _loaded = false;
-    await _player.setAudioSource(audioSource, initialPosition: position);
     _loaded = true;
   }
 
@@ -110,8 +129,11 @@ class SpikeAudioHandler extends BaseAudioHandler with SeekHandler {
   Future<void> useLocalFile(String path) async {
     if (source.value == PlaybackSource.local) return;
     final wasPlaying = _player.playing;
-    await _load(localPath: path, position: _player.position);
-    if (wasPlaying) unawaited(_player.play());
+    final position = _loaded
+        ? _player.position
+        : await _positions.load(episode.guid) ?? Duration.zero;
+    await _loadWithFallback(localPath: path, position: position);
+    if (wasPlaying && _loaded) unawaited(_player.play());
   }
 
   Future<void> savePosition() async {
@@ -135,7 +157,8 @@ class SpikeAudioHandler extends BaseAudioHandler with SeekHandler {
   // last position. Rate-limited so a real outage doesn't loop.
   Future<void> _onError(PlayerException e) async {
     debugPrint('Player error ${e.code}: ${e.message}');
-    if (source.value != PlaybackSource.stream) return;
+    // Errors while loading are handled by _load's caller.
+    if (!_loaded || source.value != PlaybackSource.stream) return;
     final now = DateTime.now();
     if (_lastRecovery != null &&
         now.difference(_lastRecovery!) < const Duration(seconds: 30)) {
