@@ -73,12 +73,17 @@ class EpisodeDownloader {
         state.value.isPlayable) {
       return;
     }
-    final task = _task();
-    await _deleteIfExists(await task.filePath());
+    // Before the first await, so a second tap sees `downloading` and returns.
     state.value = state.value.started();
     _finishing = null;
-    if (!await _downloader.enqueue(task)) {
-      state.value = state.value.failed('Could not enqueue download');
+    try {
+      final task = _task();
+      await _deleteIfExists(await task.filePath());
+      if (!await _downloader.enqueue(task)) {
+        state.value = state.value.failed('Could not enqueue download');
+      }
+    } on Exception catch (e) {
+      state.value = state.value.failed('Could not start download: $e');
     }
   }
 
