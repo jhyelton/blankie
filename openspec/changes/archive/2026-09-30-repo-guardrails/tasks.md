@@ -31,10 +31,10 @@
 
 These tasks can only run after the first implementation PR is merged. They go in a follow-up PR, and that PR's last commit archives this change.
 
-- [ ] 5.1 Verify the Dependabot configuration from 2.3: Insights → Dependency graph → Dependabot lists it without errors.
-- [ ] 5.2 Verify the PR template from 3.1: a new PR's description is pre-filled with it.
-- [ ] 5.3 Once `ci-ok` has run on `main`, commit `.github/rulesets/main.json` (design D5) and apply it with `gh api -X POST repos/jhyelton/blankie/rulesets --input .github/rulesets/main.json`. Verify:
+- [x] 5.1 Verify the Dependabot configuration from 2.3: Insights → Dependency graph → Dependabot lists it without errors.
+- [x] 5.2 Verify the PR template from 3.1: a new PR's description is pre-filled with it.
+- [x] 5.3 Once `ci-ok` has run on `main`, commit `.github/rulesets/main.json` (design D5) and apply it with `gh api -X POST repos/jhyelton/blankie/rulesets --input .github/rulesets/main.json`. Verify:
   - `gh api repos/jhyelton/blankie/rulesets` lists `main-protection` as active
   - `git push origin HEAD:main` from a scratch commit is rejected
   - a PR without a green `ci-ok` shows as blocked
-- [ ] 5.4 Rebase or update any open plan PRs so they report `ci-ok` under the new rules. Verify: every open PR shows `ci-ok` passing, or a real failure to fix.
+- [x] 5.4 Rebase or update any open plan PRs so they report `ci-ok` under the new rules. Verify: every open PR shows `ci-ok` passing, or a real failure to fix.
