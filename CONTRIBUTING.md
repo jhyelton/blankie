@@ -10,7 +10,7 @@ Product and tooling changes are planned with [OpenSpec](https://github.com/Fissi
 2. **Propose**: `/opsx:propose` writes the change's artifacts: `proposal.md`, `design.md`, `specs/` (unless the change sets `skip_specs`) and `tasks.md`.
 3. **Plan PR**: commit only the artifacts under `openspec/changes/<change-name>/` and open a PR, titled like `docs(spec): propose <change-name>`. Review and merge it.
 4. **Apply**: on a new branch, `/opsx:apply <change-name>` works through `tasks.md` and ticks off each task as it's done.
-5. **Implementation PR**: open a second PR with the code and the ticked-off `tasks.md`.
+5. **Implementation PR**: open a second PR with the code and the ticked-off `tasks.md`. Before opening it, run `/code-review` on the branch and fix what it finds. A review caught four async bugs in the audio-spike PR after it was opened; reviewing first keeps those fixes out of the PR's history.
 6. **Archive**: the last commit of the implementation PR is `/opsx:archive <change-name>`, which moves the change to `openspec/changes/archive/` and merges its spec deltas into `openspec/specs/`. Only archive a change when every task is done. Tasks that must wait (for example, on time passing) move to a follow-up change.
 
 Useful CLI commands:

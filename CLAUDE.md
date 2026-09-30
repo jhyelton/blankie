@@ -61,6 +61,16 @@ The current app is the `audio-spike` proof of concept. `spike_screen.dart` and t
 - **Enclosure URLs** (`traffic.megaphone.fm`) redirect with `302` to signed CDN URLs that expire. Always store and retry from the original URL. The handler reloads the stream from the original URL if playback errors.
 - **iOS project**: plugins link through Swift Package Manager, so there is no Podfile. `Info.plist` sets `UIBackgroundModes` to `audio`. `project.pbxproj` holds the owner's free Personal Team (`DEVELOPMENT_TEAM`).
 
+### Async state rules
+
+The audio-spike review found four bugs, all caused by breaking one of these rules:
+
+- **Change guard state before the first `await`.** In a user-triggered action (for example `download()`), set the "busy" state synchronously. Otherwise a second tap arrives during the `await` and passes the guard.
+- **Make completion handlers single-flight and idempotent.** Keep the in-flight `Future` in a field and give it to every caller. Treat "already done" as success. At startup the plugin replays events, so the same completion can arrive twice.
+- **Commit derived state only after the operation succeeds.** For example, set the source indicator after `setAudioSource` returns, not before.
+- **Never persist from a player that hasn't loaded.** Its position is 0 until a source has loaded. Seeded streams such as `playingStream` also emit as soon as you subscribe.
+- **No silent fire-and-forget.** `unawaited_futures` and `discarded_futures` are enabled. Use `unawaited(...)` only when the callee handles its own errors.
+
 Only `PositionStore` and the download state logic have unit tests. Background audio, lock-screen controls, interruptions and downloads can only be checked on a real iPhone. Record the results in `docs/spikes/`.
 
 ## Workflow
