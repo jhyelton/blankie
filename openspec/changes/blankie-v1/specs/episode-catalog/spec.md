@@ -29,11 +29,15 @@ The app SHALL match every feed item to dataset episodes using the shared episode
 - **THEN** that item becomes that episode's source, whatever its title
 
 ### Requirement: Preferred audio source
-When an episode is available from more than one feed, the app SHALL play the Patreon ("Ad-Free") source. If the Patreon source isn't available, it SHALL fall back to the public source.
+When an episode is available from more than one feed, the app SHALL play the Patreon ("Ad-Free") source. If the Patreon source isn't available, it SHALL fall back to the public source. A downloaded copy SHALL be played instead of streaming, whichever feed it was downloaded from.
 
 #### Scenario: Both sources available
 - **WHEN** an episode exists in both feeds
 - **THEN** playing or downloading it uses the Patreon source
+
+#### Scenario: Downloaded before Patreon was connected
+- **WHEN** an episode was downloaded from the public feed and Patreon is connected later
+- **THEN** playback uses the downloaded file, and removing the download and downloading again gets the Patreon copy
 
 #### Scenario: Patreon disconnected
 - **WHEN** Patreon is disconnected
@@ -51,11 +55,17 @@ A feed item that doesn't match any dataset episode SHALL still appear in the cat
 - Items published **after** the dataset's newest episode air date SHALL be placed in a "New, not yet sorted" group.
 - Older unmatched items SHALL be placed in an "Other" group.
 
+A public item and a Patreon item that match each other under the shared episode-matching rules SHALL appear as one episode, and the Patreon source SHALL be preferred as for any other episode.
+
 When a later dataset update matches such an item, the app SHALL move the item's played state and position to the dataset episode.
 
 #### Scenario: New Sunday episode
 - **WHEN** a new episode is published and the dataset hasn't been updated yet
 - **THEN** it appears in "New, not yet sorted" and can be played
+
+#### Scenario: New episode in both feeds
+- **WHEN** a new episode is in both feeds and the dataset hasn't been updated yet
+- **THEN** "New, not yet sorted" lists it once, and it plays from the Patreon source
 
 #### Scenario: Dataset catches up
 - **WHEN** the listener has half-played an unsorted episode and a dataset update then assigns it to a series
