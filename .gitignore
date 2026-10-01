@@ -11,3 +11,10 @@ feeds/
 .DS_Store
 Thumbs.db
 Desktop.ini
+
+# Python tooling (tools/series-data).
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+.ruff_cache/

@@ -68,9 +68,12 @@ docs/runbooks/series-data.md
 
 ### D3. Pipeline stages are pure functions around a thin I/O shell
 ```
-fetch (I/O) -> parse_wiki -> apply_overrides -> assign_ids(prev) -> match(public feed)
-            -> build_dataset -> validate(schema) -> guardrails(prev) -> report -> write (I/O)
+fetch (I/O) -> parse_wiki -> resolve_series (D13) -> apply_overrides -> match(public feed)
+            -> assign_ids(prev) -> build_dataset -> validate(schema) -> guardrails(prev)
+            -> report -> write (I/O)
 ```
+Matching runs before `assign_ids` so that a matched public GUID is available as an ID anchor (D4).
+
 Only `fetch` and `write` touch the network or disk. Every other stage takes plain data, which makes each stage testable against committed fixtures.
 
 The CLI offers:
@@ -87,9 +90,11 @@ The CLI offers:
 3. the public GUID hint
 4. normalized title plus air date
 
+The wiki number and the post ID are only trusted when the row still has the published title or air date (a wiki correction changes one, not both) and its other hints don't contradict them (a different public GUID, or for the wiki number a different post ID). A renumbered row therefore falls through to its GUID instead of taking another episode's ID. The ID itself is also an anchor: it was minted from the wiki's own title and date, so it still finds a row that has no number and no post ID after a `fix` override changed its published title. As a backstop, a guardrail fails the run when an existing ID's public GUID or post ID changes to a different value.
+
 Only rows with no existing anchor get a new ID, `<YYYY-MM-DD>:<slug(normalized title)>`. An episode's ID doesn't change when the wiki later fixes its title or date. See the `series-data` requirement "Stable episode IDs".
 
-Series IDs follow the same idea: a slug of the wiki series page name, carried forward.
+Series IDs follow the same idea: a slug of the series name (D13), carried forward by wiki URL.
 - *Alternative:* recompute IDs from scratch every run. Simpler, but any wiki correction would orphan saved playback progress in the app.
 
 ### D5. `series.json` shape (formally defined in `data/series.schema.json`)
@@ -123,10 +128,12 @@ Series IDs follow the same idea: a slug of the wiki series page name, carried fo
 ### D6. Overrides format
 `data/overrides.json` is a list of entries shaped `{ "op": ..., "target": ..., ..., "reason": "..." }`. The `op` values are `fix`, `pinPublicGuid`, `addToSeries`, `removeFromSeries`, `exclude`, `ackUnmatchedWiki` and `ackUnmatchedFeed`.
 
-`reason` is required, so a year from now you know why each entry exists. The target is either an episode ID or, for rows that don't have an ID yet, a wiki number. Overrides that don't resolve fail the run (see the `series-data` requirement "Overrides").
+`reason` is required, so a year from now you know why each entry exists. The target is either an episode ID or, for rows that don't have an ID yet, a wiki number. `exclude` only takes a wiki number: an excluded episode leaves `series.json`, so an ID target would stop resolving on the next run. Wiki numbers are canonicalized (`"033"` → `"33"`). A wiki-number target whose number is published must still be on that episode (same title or air date); if the wiki moved the number to another row, the run fails and asks for the episode ID instead. An ID target must end up on the row that keeps that ID, or the run fails. Overrides that don't resolve fail the run (see the `series-data` requirement "Overrides").
+
+A Patreon post ID linked from two wiki rows is dropped from both and reported, because one link must be wrong; the fix is on the wiki. A `pinPublicGuid` is assigned before title matching and its GUID is removed from the pool, so it always wins over another episode's title match.
 
 ### D7. Human override PRs don't regenerate the dataset
-A PR that edits `overrides.json` is checked by the `series-data` job in `ci.yml`: tests, schema validation, and whether every override resolves against the committed `series.json`. It does **not** refetch the wiki. An override that targets a wiki number not yet in the committed dataset is reported as *pending*, not as an error. The generator still fails if it can't resolve that override after fetching the wiki. The new override takes effect on the next scheduled run, or immediately if you trigger the manual run after merging.
+A PR that edits `overrides.json` is checked by the `series-data` job in `ci.yml`: tests, schema validation, and whether every override resolves against the committed `series.json`. It does **not** refetch the wiki. An override that targets a wiki number not yet in the committed dataset is reported as *pending*, not as an error. An unknown episode ID or series ID is an error. The generator still fails if it can't resolve that override after fetching the wiki. The new override takes effect on the next scheduled run, or immediately if you trigger the manual run after merging.
 
 This keeps PR checks deterministic and free of network calls, and every change to `series.json` comes from the one automated path.
 - *Alternative:* regenerate in the PR. That brings in wiki drift unrelated to the override and makes the check depend on the network.
@@ -138,14 +145,14 @@ Steps:
 1. Check out the repo and set up uv.
 2. `series-data generate`, which runs every validation and guardrail check and **fails the job before any PR step** if they fail.
 3. If `git diff` shows no change other than `generatedAt`, stop.
-4. Otherwise use `peter-evans/create-pull-request` with the fixed branch `series-data/update`, so one PR is open at a time and gets refreshed each week. The PR body is the generated report (counts, added/changed episodes, unmatched lists, and any guardrails that were overridden), plus a link to the workflow run that produced it (see D12 for why the link matters).
+4. Otherwise use `peter-evans/create-pull-request` with the fixed branch `series-data/update`, so one PR is open at a time and gets refreshed each week. The PR body is the generated report (counts, added/changed episodes, unmatched lists, and any guardrails that were overridden), plus a link to the workflow run that produced it (see D12 for why the link matters). The step also runs when there's no diff: with `delete-branch: true`, the action then deletes the branch, which closes a stale PR from an earlier week.
 
 Permissions are `contents: write` and `pull-requests: write`, using `GITHUB_TOKEN`. That requires turning on the repo setting *Actions → General → Allow GitHub Actions to create and approve pull requests*.
 
 A failed run shows a red X in Actions, and GitHub emails the owner. No issue-bot is needed.
 
 ### D9. The Fandom API is used politely
-The tool makes three `action=parse` requests per run, sequentially, with the User-Agent `blankie-series-data/<version> (+https://github.com/jhyelton/blankie)`. It retries with backoff on 5xx and 429 and never runs in parallel. Raw responses are kept as a workflow artifact for 30 days to help debug parser failures. Those responses are CC BY-SA text, and the artifact is only visible to people with repo access.
+The tool makes three `action=parse` requests per run, then batched `action=query&redirects` lookups for the series link targets (50 titles per request; about 3 today, see D13; chains of redirects are followed to the final page), then one request for the public feed. All requests are sequential, with the User-Agent `blankie-series-data/<version> (+https://github.com/jhyelton/blankie)`. It retries with backoff on 5xx and 429 and never runs in parallel. Raw responses are kept as a workflow artifact for 30 days to help debug parser failures. Those responses are public wiki text (CC BY-SA) and the public feed; on a public repository any signed-in GitHub user can download the artifact, which is fine because nothing in it is secret.
 
 ### D10. The local Patreon check uses the macOS Keychain
 `series-data check-patreon` runs `security find-generic-password -s blankie-patreon-feed -w` to get the URL. The runbook documents the one-time `security add-generic-password -s blankie-patreon-feed -a "$USER" -w` step; with no value after `-w`, macOS prompts for it, so it never lands in shell history.
@@ -175,6 +182,28 @@ Because `ci.yml` always runs and `ci-ok` treats skipped jobs as passing, PRs tha
 **Merging the weekly bot PR:** it's opened with `GITHUB_TOKEN`, so `ci-ok` never runs on it. The update job has already run every check the `series-data` job would run (D8), and its green workflow run is linked from the PR body. The owner merges with the ruleset's PR-only admin bypass after confirming that run passed. That is the only intended use of the bypass (see `CONTRIBUTING.md` from `repo-guardrails`). If using the bypass becomes routine or feels risky, switch the update job to a GitHub App token so its PRs trigger `ci.yml` normally. That's a small follow-up change.
 
 - *Alternative:* a separate `series-data-check.yml` with workflow-level path filters. It was rejected for the never-reporting problem above.
+
+### D13. Series identity comes from wiki redirects
+Added during implementation, after running against real data. The wiki names one series in several ways: different capitalization (`PodcastFellas`/`Podcastfellas`), old page names that now redirect (`The (Unofficial) DCEU Cast` → `The PodDCEU Cast`), and links to sections of the *Standalones* page (`Family Choice` → `Standalones#Ben's Choice`).
+
+Every series link target is resolved through the wiki's redirects (the extra lookups in D9). Then:
+- a link to the Standalones page itself, or to its "Other Standalone Episodes" section, means the episode has no series;
+- a link to any other Standalones section (Ben's Choice, Blank Check Mailbag, Announcements, Patreon Standalones, ...) is a series named after that section, with category `other` unless the Miniseries page lists it;
+- any other link is a series named after the canonical page.
+
+The series key is the slug of that name, so spellings that resolve to the same page or section become one series. A link whose section doesn't exist on the page (for example `Standalones#Bring Your Family To Podcast Day`) becomes its own series and shows up in the report's "not on the Miniseries page" list.
+- *Alternative:* hand-written alias overrides. Rejected because every new alias on the wiki would need an override before it merged correctly.
+
+### D14. Tolerated wiki table irregularities
+Also from real data. The parser accepts exactly these deviations from the seven-column layout, and raises an error for anything else:
+- `rowspan` on any column, not only Series (two-part episodes share guest and date cells);
+- a row that leaves out its Guest(s) cell entirely;
+- bold/italic quotes that are never closed (MediaWiki closes them at the end of the line, but `mwparserfromhell` doesn't, so the quotes are removed before parsing);
+- half-numbered Special Features rows such as `SF182.5`, and `<sup>` notes after the number.
+
+A level-3 heading on the Miniseries page that isn't one of the four known categories is also an error, so a renamed heading can't silently turn a whole group into `other`.
+
+A row with no Series cell and no `rowspan` covering it is an error; an empty Series cell means no series.
 
 ## Risks / Trade-offs
 

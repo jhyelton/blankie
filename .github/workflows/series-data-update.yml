@@ -1,0 +1,102 @@
+# Weekly regeneration of data/series.json from the fan wiki and the public feed.
+#
+# `series-data generate` runs every schema check and guardrail before anything
+# else, so a failing run never reaches the PR step. A run whose dataset is
+# unchanged leaves data/series.json byte-identical (generatedAt is kept) and
+# opens no PR; if an update PR is still open from an earlier run, the action
+# deletes its branch, which closes it, because its data no longer matches the
+# wiki. Otherwise the run opens, or refreshes, the single PR on the
+# `series-data/update` branch, with the report and a link to this run as its body.
+#
+# The PR is created with GITHUB_TOKEN, so ci.yml doesn't run on it. This run has
+# already done every check the `series-data` CI job would; merge it with the
+# PR-only admin bypass after confirming the linked run is green (see
+# docs/runbooks/series-data.md).
+#
+# This workflow never uses the Patreon feed or any secret besides GITHUB_TOKEN.
+# Third-party actions are pinned to full commit SHAs. Dependabot bumps them.
+name: series-data update
+
+on:
+  schedule:
+    # Mondays 09:00 UTC, after the Sunday release.
+    - cron: "0 9 * * 1"
+  workflow_dispatch:
+    inputs:
+      accept_guardrail_changes:
+        description: "Propose the dataset even if guardrails fail (the PR lists them)"
+        type: boolean
+        default: false
+
+concurrency:
+  group: series-data-update
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  update:
+    name: update
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+
+      - name: Install
+        working-directory: tools/series-data
+        run: uv sync --locked
+
+      - name: Generate and validate
+        working-directory: tools/series-data
+        env:
+          ACCEPT: ${{ inputs.accept_guardrail_changes && '--accept-guardrail-changes' || '' }}
+        run: |
+          # $ACCEPT is either empty or the single flag, so it's left unquoted on purpose.
+          # shellcheck disable=SC2086
+          uv run series-data generate \
+            --save-raw "$RUNNER_TEMP/raw" \
+            --report "$RUNNER_TEMP/report.md" \
+            $ACCEPT
+
+      - name: Keep raw responses
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: series-data-raw-${{ github.run_id }}
+          path: ${{ runner.temp }}/raw
+          retention-days: 30
+          if-no-files-found: ignore
+
+      - name: Note an unchanged dataset
+        run: |
+          if git diff --quiet -- data/series.json; then
+            echo "series.json is unchanged; no PR (an open update PR is closed)." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Write PR body
+        env:
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          {
+            # GitHub caps PR bodies at 65,536 characters; the full report is in the job summary.
+            head -c 60000 "$RUNNER_TEMP/report.md"
+            echo
+            echo "Generated and validated by [this workflow run]($RUN_URL). Merge only if that run is green."
+          } > "$RUNNER_TEMP/pr-body.md"
+          cat "$RUNNER_TEMP/report.md" >> "$GITHUB_STEP_SUMMARY"
+
+      # Runs even without a diff: with delete-branch, the action then deletes the
+      # update branch, closing any stale PR from an earlier run.
+      - name: Open, update or close the PR
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
+        with:
+          branch: series-data/update
+          delete-branch: true
+          add-paths: data/series.json
+          commit-message: "chore(data): update series data"
+          title: "chore(data): update series data"
+          body-path: ${{ runner.temp }}/pr-body.md

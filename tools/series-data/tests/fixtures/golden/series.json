@@ -1,0 +1,945 @@
+{
+  "episodes": {
+    "2015-03-23:in-a-galaxy-far-far-away": {
+      "airDate": "2015-03-23",
+      "feed": "main",
+      "hints": {
+        "publicGuid": "tag:audioboo.fm,2015-03-23:/boos/3482075",
+        "publicTitle": "In A Galaxy Far Far Away… - The Phantom Podcast"
+      },
+      "series": [
+        "the-phantom-podcast"
+      ],
+      "title": "In A Galaxy Far Far Away",
+      "wikiNumber": "1"
+    },
+    "2015-03-30:the-royalty-of-naboo": {
+      "airDate": "2015-03-30",
+      "feed": "main",
+      "hints": {
+        "publicGuid": "tag:audioboo.fm,2015-03-30:/boos/3482069",
+        "publicTitle": "The Royalty Of Naboo - The Phantom Podcast"
+      },
+      "series": [
+        "the-phantom-podcast"
+      ],
+      "title": "The Royalty of Naboo",
+      "wikiNumber": "2"
+    },
+    "2015-04-06:the-jedi-council": {
+      "airDate": "2015-04-06",
+      "feed": "main",
+      "hints": {
+        "publicGuid": "tag:audioboo.fm,2015-04-06:/boos/3482066",
+        "publicTitle": "The Jedi Council - The Phantom Podcast"
+      },
+      "series": [
+        "the-phantom-podcast"
+      ],
+      "title": "The Jedi Council",
+      "wikiNumber": "3"
+    },
+    "2015-04-13:commentary": {
+      "airDate": "2015-04-13",
+      "feed": "main",
+      "hints": {
+        "publicGuid": "tag:audioboo.fm,2015-04-13:/boos/3482063",
+        "publicTitle": "Commentary with Connor Ratliff - The Phantom Podcast"
+      },
+      "series": [
+        "the-phantom-podcast"
+      ],
+      "title": "Commentary",
+      "wikiNumber": "4"
+    },
+    "2015-04-20:our-performance-review": {
+      "airDate": "2015-04-20",
+      "feed": "main",
+      "hints": {
+        "publicGuid": "tag:audioboo.fm,2015-04-20:/boos/3482059",
+        "publicTitle": "Our Performance Review - The Phantom Podcast"
+      },
+      "series": [
+        "the-phantom-podcast"
+      ],
+      "title": "Our Performance Review",
+      "wikiNumber": "5"
+    },
+    "2015-04-28:a-profile-of-jar-jar-binks-and-the-gungans": {
+      "airDate": "2015-04-28",
+      "feed": "main",
+      "hints": {
+        "publicGuid": "tag:audioboo.fm,2015-04-28:/boos/3482056",
+        "publicTitle": "A Profile Of Jar Jar Binks And The Gungans - The Phantom Podcast"
+      },
+      "series": [
+        "the-phantom-podcast"
+      ],
+      "title": "A Profile Of Jar Jar Binks And The Gungans",
+      "wikiNumber": "6"
+    },
+    "2015-05-04:the-podrace": {
+      "airDate": "2015-05-04",
+      "feed": "main",
+      "hints": {
+        "publicGuid": "tag:audioboo.fm,2015-05-04:/boos/3482051",
+        "publicTitle": "The Podrace - The Phantom Podcast"
+      },
+      "series": [
+        "the-phantom-podcast"
+      ],
+      "title": "The Podrace",
+      "wikiNumber": "7"
+    },
+    "2015-05-11:merchandise": {
+      "airDate": "2015-05-11",
+      "feed": "main",
+      "hints": {
+        "publicGuid": "tag:audioboo.fm,2015-05-11:/boos/3482050",
+        "publicTitle": "Merchandise - The Phantom Podcast"
+      },
+      "series": [
+        "the-phantom-podcast"
+      ],
+      "title": "Merchandise",
+      "wikiNumber": "8"
+    },
+    "2015-05-19:fan-fiction": {
+      "airDate": "2015-05-19",
+      "feed": "main",
+      "hints": {
+        "publicGuid": "tag:audioboo.fm,2015-05-19:/boos/3482045",
+        "publicTitle": "Fan Fiction - The Phantom Podcast"
+      },
+      "series": [
+        "the-phantom-podcast"
+      ],
+      "title": "Fan Fiction",
+      "wikiNumber": "9"
+    },
+    "2015-05-26:final-thoughts": {
+      "airDate": "2015-05-26",
+      "feed": "main",
+      "hints": {
+        "publicGuid": "tag:audioboo.fm,2015-05-26:/boos/3482043",
+        "publicTitle": "Final Thoughts - The Phantom Podcast"
+      },
+      "series": [
+        "the-phantom-podcast"
+      ],
+      "title": "Final Thoughts",
+      "wikiNumber": "10"
+    },
+    "2015-06-01:watch-with-us": {
+      "airDate": "2015-06-01",
+      "feed": "main",
+      "hints": {
+        "publicGuid": "tag:audioboo.fm,2015-06-01:/boos/3482042",
+        "publicTitle": "Watch With Us - The Phantom Podcast"
+      },
+      "series": [
+        "the-phantom-podcast"
+      ],
+      "title": "Watch With Us",
+      "wikiNumber": "11"
+    },
+    "2015-09-14:the-podcastic-two": {
+      "airDate": "2015-09-14",
+      "feed": "main",
+      "hints": {
+        "publicGuid": "tag:audioboo.fm,2015-09-14:/boos/3572668",
+        "publicTitle": "The Podcastic Two"
+      },
+      "series": [],
+      "title": "The Podcastic Two",
+      "wikiNumber": "23"
+    },
+    "2015-09-21:the-beginning-of-the-end": {
+      "airDate": "2015-09-21",
+      "feed": "main",
+      "hints": {
+        "publicGuid": "tag:audioboo.fm,2015-09-21:/boos/3601045",
+        "publicTitle": "The Beginning of The End - Revenge Of The Podcast"
+      },
+      "series": [
+        "revenge-of-the-podcast"
+      ],
+      "title": "The Beginning of the End",
+      "wikiNumber": "24"
+    },
+    "2015-09-28:the-downfall-of-anakin-skywalker": {
+      "airDate": "2015-09-28",
+      "feed": "main",
+      "hints": {
+        "publicGuid": "tag:audioboo.fm,2015-09-28:/boos/3628123",
+        "publicTitle": "The Downfall Of Anakin Skywalker - Revenge Of The Podcast"
+      },
+      "series": [
+        "revenge-of-the-podcast"
+      ],
+      "title": "The Downfall Of Anakin Skywalker",
+      "wikiNumber": "25"
+    },
+    "2015-10-02:emperor-darth-sidious": {
+      "airDate": "2015-10-02",
+      "feed": "main",
+      "hints": {
+        "publicGuid": "tag:audioboo.fm,2015-10-02:/boos/3653934",
+        "publicTitle": "Emperor Darth Sidious - Revenge Of The Podcast"
+      },
+      "series": [
+        "revenge-of-the-podcast"
+      ],
+      "title": "Emperor Darth Sidious",
+      "wikiNumber": "26"
+    },
+    "2015-10-19:the-jedi-order": {
+      "airDate": "2015-10-19",
+      "feed": "main",
+      "hints": {
+        "publicGuid": "tag:audioboo.fm,2015-10-19:/boos/3709206",
+        "publicTitle": "The Jedi Order with Mike Drucker - Revenge Of The Podcast"
+      },
+      "series": [
+        "revenge-of-the-podcast"
+      ],
+      "title": "The Jedi Order",
+      "wikiNumber": "27"
+    },
+    "2015-10-23:a-broken-heart": {
+      "airDate": "2015-10-23",
+      "feed": "main",
+      "hints": {
+        "publicGuid": "tag:audioboo.fm,2015-10-23:/boos/3735470",
+        "publicTitle": "A Broken Heart with Sonia Saraiya - Revenge Of The Podcast"
+      },
+      "series": [
+        "revenge-of-the-podcast"
+      ],
+      "title": "A Broken Heart",
+      "wikiNumber": "28"
+    },
+    "2015-10-30:our-performance-review-3-0": {
+      "airDate": "2015-10-30",
+      "feed": "main",
+      "hints": {
+        "publicGuid": "tag:audioboo.fm,2015-10-30:/boos/3763223",
+        "publicTitle": "Our Performance Review 3.0 with Chris Gethard - Revenge Of The Podcast"
+      },
+      "series": [
+        "revenge-of-the-podcast"
+      ],
+      "title": "Our Performance Review 3.0",
+      "wikiNumber": "29"
+    },
+    "2015-11-06:the-clone-wars-animated-series": {
+      "airDate": "2015-11-06",
+      "feed": "main",
+      "hints": {
+        "publicGuid": "tag:audioboo.fm,2015-11-07:/boos/3790985",
+        "publicTitle": "The Clone Wars Animated Series with Jonathan Braylock - Revenge Of The Podcast"
+      },
+      "series": [
+        "revenge-of-the-podcast"
+      ],
+      "title": "The Clone Wars Animated Series",
+      "wikiNumber": "30"
+    },
+    "2015-11-16:more-deleted-scenes": {
+      "airDate": "2015-11-16",
+      "feed": "main",
+      "hints": {
+        "publicGuid": "tag:audioboo.fm,2015-11-16:/boos/3818332",
+        "publicTitle": "More Deleted Scenes with Mike Ryan - Revenge Of The Podcast"
+      },
+      "series": [
+        "revenge-of-the-podcast"
+      ],
+      "title": "More Deleted Scenes",
+      "wikiNumber": "31"
+    },
+    "2015-11-23:a-conversation-with-george-lucas": {
+      "airDate": "2015-11-23",
+      "feed": "main",
+      "hints": {
+        "publicGuid": "tag:audioboo.fm,2015-11-23:/boos/3845576",
+        "publicTitle": "A Conversation with George Lucas - Revenge Of The Podcast"
+      },
+      "series": [
+        "revenge-of-the-podcast"
+      ],
+      "title": "A Conversation with George Lucas",
+      "wikiNumber": "32"
+    },
+    "2015-11-30:watch-with-us-live-union-hall": {
+      "airDate": "2015-11-30",
+      "feed": "main",
+      "hints": {},
+      "series": [
+        "revenge-of-the-podcast"
+      ],
+      "title": "Watch With Us Live @ Union Hall",
+      "wikiNumber": "33"
+    },
+    "2016-10-23:jack-reacher-never-go-back": {
+      "airDate": "2016-10-23",
+      "feed": "main",
+      "hints": {
+        "publicGuid": "tag:soundcloud,2010:tracks/289648873",
+        "publicTitle": "Jack Reacher: Never Go Back"
+      },
+      "series": [
+        "stealth-mcquarrie-miniseries"
+      ],
+      "title": "Jack Reacher: Never Go Back",
+      "wikiNumber": "80"
+    },
+    "2016-10-28:true-lies": {
+      "airDate": "2016-10-28",
+      "feed": "main",
+      "hints": {
+        "publicGuid": "tag:soundcloud,2010:tracks/290455099",
+        "publicTitle": "True Lies"
+      },
+      "series": [
+        "podinator-judgment-cast"
+      ],
+      "title": "True Lies",
+      "wikiNumber": "81"
+    },
+    "2016-11-03:titanic-part-one": {
+      "airDate": "2016-11-03",
+      "feed": "main",
+      "hints": {
+        "publicGuid": "tag:soundcloud,2010:tracks/291384687",
+        "publicTitle": "Titanic with Emily Yoshida and Katey Rich - Part One"
+      },
+      "series": [
+        "podinator-judgment-cast"
+      ],
+      "title": "Titanic - Part One",
+      "wikiNumber": "82"
+    },
+    "2016-11-11:titanic-part-two": {
+      "airDate": "2016-11-11",
+      "feed": "main",
+      "hints": {},
+      "series": [
+        "podinator-judgment-cast"
+      ],
+      "title": "Titanic - Part Two",
+      "wikiNumber": "83"
+    },
+    "2016-11-18:aliens-of-the-deep-ghosts-of-the-abyss": {
+      "airDate": "2016-11-18",
+      "feed": "main",
+      "hints": {
+        "publicGuid": "tag:soundcloud,2010:tracks/293709118",
+        "publicTitle": "Aliens of the Deep/Ghosts of the Abyss"
+      },
+      "series": [
+        "podinator-judgment-cast"
+      ],
+      "title": "Aliens of the Deep/Ghosts of the Abyss",
+      "wikiNumber": "84"
+    },
+    "2016-11-26:avatar": {
+      "airDate": "2016-11-26",
+      "feed": "main",
+      "hints": {
+        "publicGuid": "tag:soundcloud,2010:tracks/295052702",
+        "publicTitle": "Avatar"
+      },
+      "series": [
+        "podinator-judgment-cast"
+      ],
+      "title": "Avatar",
+      "wikiNumber": "85"
+    },
+    "2016-12-03:toruk-the-first-flight": {
+      "airDate": "2016-12-03",
+      "feed": "main",
+      "hints": {
+        "publicGuid": "tag:soundcloud,2010:tracks/296235570",
+        "publicTitle": "Toruk: The First Flight with Rachel Lang"
+      },
+      "series": [
+        "podinator-judgment-cast"
+      ],
+      "title": "Toruk: The First Flight",
+      "wikiNumber": "86"
+    },
+    "2017-01-28:the-lost-world-jurassic-park": {
+      "airDate": "2017-01-28",
+      "feed": "main",
+      "hints": {
+        "publicGuid": "tag:soundcloud,2010:tracks/305017719",
+        "publicTitle": "The Lost World: Jurassic Park"
+      },
+      "series": [
+        "pod-me-if-you-cast"
+      ],
+      "title": "The Lost World: Jurassic Park",
+      "wikiNumber": "93"
+    },
+    "2017-02-04:amistad": {
+      "airDate": "2017-02-04",
+      "feed": "main",
+      "hints": {
+        "publicGuid": "tag:soundcloud,2010:tracks/305662827",
+        "publicTitle": "Amistad"
+      },
+      "series": [
+        "pod-me-if-you-cast"
+      ],
+      "title": "Amistad",
+      "wikiNumber": "94"
+    },
+    "2017-02-11:saving-private-ryan": {
+      "airDate": "2017-02-11",
+      "feed": "main",
+      "hints": {
+        "publicGuid": "tag:soundcloud,2010:tracks/307488915",
+        "publicTitle": "Saving Private Ryan with Richard Lawson"
+      },
+      "series": [
+        "pod-me-if-you-cast"
+      ],
+      "title": "Saving Private Ryan",
+      "wikiNumber": "95"
+    },
+    "2018-09-30:space-jam": {
+      "airDate": "2018-09-30",
+      "feed": "main",
+      "hints": {
+        "publicGuid": "tag:audioboom.com,2018-09-30:/posts/7027311",
+        "publicTitle": "Space Jam with James Newman"
+      },
+      "series": [
+        "bring-your-family-to-podcast-day"
+      ],
+      "title": "Space Jam",
+      "wikiNumber": "185"
+    },
+    "2018-10-07:a-star-is-born": {
+      "airDate": "2018-10-07",
+      "feed": "main",
+      "hints": {
+        "publicGuid": "tag:audioboom.com,2018-10-08:/posts/7036291",
+        "publicTitle": "A Star Is Born"
+      },
+      "series": [],
+      "title": "A Star Is Born",
+      "wikiNumber": "186"
+    },
+    "2023-07-11:spreadmasters-delight-bite-free-version": {
+      "airDate": "2023-07-11",
+      "feed": "special-features",
+      "hints": {
+        "patreonPostId": "85911862"
+      },
+      "series": [
+        "patreon-standalones"
+      ],
+      "title": "Spreadmaster’s Delight (Bite Free Version)",
+      "wikiNumber": "SF182.5"
+    },
+    "2023-07-11:spreadmasters-delight-uncut-version": {
+      "airDate": "2023-07-11",
+      "feed": "special-features",
+      "hints": {
+        "patreonPostId": "85911968"
+      },
+      "series": [
+        "patreon-standalones"
+      ],
+      "title": "Spreadmaster’s Delight (Uncut Version)",
+      "wikiNumber": "SF182"
+    },
+    "2023-07-21:oceans-eleven": {
+      "airDate": "2023-07-21",
+      "feed": "special-features",
+      "hints": {
+        "patreonPostId": "86285136"
+      },
+      "series": [
+        "oceans"
+      ],
+      "title": "Ocean's Eleven",
+      "wikiNumber": "SF183"
+    },
+    "2023-08-01:oceans-twelve": {
+      "airDate": "2023-08-01",
+      "feed": "special-features",
+      "hints": {
+        "patreonPostId": "86483181"
+      },
+      "series": [
+        "oceans"
+      ],
+      "title": "Ocean's Twelve",
+      "wikiNumber": "SF184"
+    },
+    "2025-03-02:indiana-jones-and-the-temple-of-doom": {
+      "airDate": "2025-03-02",
+      "feed": "main",
+      "hints": {},
+      "series": [
+        "podrassic-cast"
+      ],
+      "title": "Indiana Jones and the Temple of Doom",
+      "wikiNumber": "518"
+    },
+    "2025-03-06:blank-check-live-at-town-hall-2025": {
+      "airDate": "2025-03-06",
+      "feed": "main",
+      "hints": {},
+      "series": [
+        "announcements"
+      ],
+      "title": "Blank Check LIVE! at Town Hall (2025)"
+    },
+    "2025-10-11:spreadmasters-delight-3-decade-of-dreams-warriors": {
+      "airDate": "2025-10-11",
+      "feed": "special-features",
+      "hints": {},
+      "series": [
+        "patreon-standalones"
+      ],
+      "title": "Spreadmaster's Delight 3: Decade-of-Dreams Warriors",
+      "wikiNumber": "SF269"
+    },
+    "2025-10-11:spreadmasters-delight-3-decade-of-dreams-warriors-bite-free-version": {
+      "airDate": "2025-10-11",
+      "feed": "special-features",
+      "hints": {},
+      "series": [
+        "patreon-standalones"
+      ],
+      "title": "Spreadmaster's Delight 3: Decade-of-Dreams Warriors (Bite-Free Version)",
+      "wikiNumber": "SF269.5"
+    },
+    "2026-05-21:mortal-kombat-ii": {
+      "airDate": "2026-05-21",
+      "feed": "special-features",
+      "hints": {
+        "patreonPostId": "158692113"
+      },
+      "series": [
+        "mortal-kombat"
+      ],
+      "title": "Mortal Kombat II",
+      "wikiNumber": "SF294"
+    },
+    "2026-06-01:robocop": {
+      "airDate": "2026-06-01",
+      "feed": "special-features",
+      "hints": {
+        "patreonPostId": "158774325"
+      },
+      "series": [
+        "robocop-miniseries"
+      ],
+      "title": "RoboCop",
+      "wikiNumber": "SF295"
+    },
+    "2026-06-11:billie-eilish-hit-me-hard-and-soft-the-tour-live-in-3d-babe-pig-in-the-city-at-the-28th-wisconsin-film-festival": {
+      "airDate": "2026-06-11",
+      "feed": "special-features",
+      "hints": {
+        "patreonPostId": "159935660"
+      },
+      "series": [
+        "podinator-judgment-cast",
+        "patreon-standalones"
+      ],
+      "title": "Billie Eilish - Hit Me Hard and Soft: The Tour (Live in 3D)/Babe: Pig in the City at The 28th Wisconsin Film Festival",
+      "wikiNumber": "SF296"
+    },
+    "2026-06-14:disclosure-day": {
+      "airDate": "2026-06-14",
+      "feed": "main",
+      "hints": {
+        "publicGuid": "c83c284c-fae9-11f0-9ff5-677e551316de",
+        "publicTitle": "Disclosure Day"
+      },
+      "series": [
+        "pod-me-if-you-cast"
+      ],
+      "title": "Disclosure Day",
+      "wikiNumber": "584"
+    },
+    "2026-06-21:finding-nemo": {
+      "airDate": "2026-06-21",
+      "feed": "main",
+      "hints": {
+        "publicGuid": "c8718f1e-fae9-11f0-9ff5-d7220753b31d",
+        "publicTitle": "Finding Nemo with Rebecca Alter"
+      },
+      "series": [
+        "podd-c"
+      ],
+      "title": "Finding Nemo",
+      "wikiNumber": "585"
+    },
+    "2026-06-28:wall-e": {
+      "airDate": "2026-06-28",
+      "feed": "main",
+      "hints": {
+        "publicGuid": "c8a2f4b4-fae9-11f0-9ff5-972756f563bc",
+        "publicTitle": "WALL-E with David Ehrlich"
+      },
+      "series": [
+        "podd-c"
+      ],
+      "title": "WALL-E",
+      "wikiNumber": "586"
+    },
+    "2026-07-05:john-carter": {
+      "airDate": "2026-07-05",
+      "feed": "main",
+      "hints": {
+        "publicGuid": "c8d3c300-fae9-11f0-9ff5-27620046c8ed",
+        "publicTitle": "John Carter with Matt Singer"
+      },
+      "series": [
+        "podd-c"
+      ],
+      "title": "John Carter",
+      "wikiNumber": "587"
+    },
+    "2026-07-12:finding-dory": {
+      "airDate": "2026-07-12",
+      "feed": "main",
+      "hints": {
+        "publicGuid": "c902beb2-fae9-11f0-9ff5-83e4dd57e71b",
+        "publicTitle": "Finding Dory with Zach Cherry"
+      },
+      "series": [
+        "podd-c"
+      ],
+      "title": "Finding Dory",
+      "wikiNumber": "588"
+    },
+    "2026-07-19:the-odyssey": {
+      "airDate": "2026-07-19",
+      "feed": "main",
+      "hints": {
+        "publicGuid": "c93494dc-fae9-11f0-9ff5-9b0ba50e06bd",
+        "publicTitle": "The Odyssey"
+      },
+      "series": [
+        "the-pod-knight-casts"
+      ],
+      "title": "The Odyssey",
+      "wikiNumber": "589"
+    },
+    "2026-08-09:whos-that-knocking-at-my-door-boxcar-bertha": {
+      "airDate": "2026-08-09",
+      "feed": "main",
+      "hints": {
+        "publicGuid": "c9cd529e-fae9-11f0-9ff5-cba86f8d81d8",
+        "publicTitle": "Who's That Knocking at My Door / Boxcar Bertha"
+      },
+      "series": [
+        "podcastfellas"
+      ],
+      "title": "Who's That Knocking at My Door/Boxcar Bertha",
+      "wikiNumber": "593"
+    },
+    "2026-08-16:mean-streets": {
+      "airDate": "2026-08-16",
+      "feed": "main",
+      "hints": {
+        "publicGuid": "c9fefb8c-fae9-11f0-9ff5-db02a3c414f1",
+        "publicTitle": "Mean Streets with Miriam Bale"
+      },
+      "series": [
+        "podcastfellas"
+      ],
+      "title": "Mean Streets",
+      "wikiNumber": "594"
+    },
+    "2026-08-23:alice-doesnt-live-here-anymore": {
+      "airDate": "2026-08-23",
+      "feed": "main",
+      "hints": {
+        "publicGuid": "ca3155a0-fae9-11f0-9ff5-f3c169e18312",
+        "publicTitle": "Alice Doesn't Live Here Anymore with Katey Rich"
+      },
+      "series": [
+        "podcastfellas"
+      ],
+      "title": "Alice Doesn't Live Here Anymore",
+      "wikiNumber": "595"
+    },
+    "2026-08-30:taxi-driver": {
+      "airDate": "2026-08-30",
+      "feed": "main",
+      "hints": {
+        "publicGuid": "ca63c896-fae9-11f0-9ff5-67d1244352a1",
+        "publicTitle": "Taxi Driver with Tracy Letts"
+      },
+      "series": [
+        "podcastfellas"
+      ],
+      "title": "Taxi Driver",
+      "wikiNumber": "596"
+    },
+    "2026-09-06:new-york-new-york": {
+      "airDate": "2026-09-06",
+      "feed": "main",
+      "hints": {
+        "publicGuid": "ca975bb6-fae9-11f0-9ff5-db1ee9be9970",
+        "publicTitle": "New York, New York\twith Lin-Manuel Miranda"
+      },
+      "series": [
+        "podcastfellas"
+      ],
+      "title": "New York, New York",
+      "wikiNumber": "597"
+    },
+    "2026-09-13:raging-bull": {
+      "airDate": "2026-09-13",
+      "feed": "main",
+      "hints": {
+        "publicGuid": "caca36b2-fae9-11f0-9ff5-cf64e2f37cde",
+        "publicTitle": "Raging Bull with David Krumholtz"
+      },
+      "series": [
+        "podcastfellas"
+      ],
+      "title": "Raging Bull",
+      "wikiNumber": "598"
+    },
+    "2026-09-20:the-king-of-comedy": {
+      "airDate": "2026-09-20",
+      "feed": "main",
+      "hints": {
+        "publicGuid": "caffeb22-fae9-11f0-9ff5-0f7f8a0b7181",
+        "publicTitle": "The King of Comedy with Stavros Halkias"
+      },
+      "series": [
+        "podcastfellas"
+      ],
+      "title": "The King of Comedy",
+      "wikiNumber": "599"
+    },
+    "2026-09-27:after-hours": {
+      "airDate": "2026-09-27",
+      "feed": "main",
+      "hints": {
+        "publicGuid": "cb353980-fae9-11f0-9ff5-ebf9d6641dd0",
+        "publicTitle": "After Hours with Alison Sivitz"
+      },
+      "series": [
+        "podcastfellas"
+      ],
+      "title": "After Hours",
+      "wikiNumber": "600"
+    }
+  },
+  "generatedAt": "2026-10-05T09:00:00Z",
+  "schemaVersion": 1,
+  "series": [
+    {
+      "category": "star-wars",
+      "episodes": [
+        "2015-03-23:in-a-galaxy-far-far-away",
+        "2015-03-30:the-royalty-of-naboo",
+        "2015-04-06:the-jedi-council",
+        "2015-04-13:commentary",
+        "2015-04-20:our-performance-review",
+        "2015-04-28:a-profile-of-jar-jar-binks-and-the-gungans",
+        "2015-05-04:the-podrace",
+        "2015-05-11:merchandise",
+        "2015-05-19:fan-fiction",
+        "2015-05-26:final-thoughts",
+        "2015-06-01:watch-with-us"
+      ],
+      "id": "the-phantom-podcast",
+      "subject": "Star Wars Episode I: The Phantom Menace",
+      "title": "The Phantom Podcast",
+      "wikiUrl": "https://blank-check.fandom.com/wiki/The_Phantom_Podcast"
+    },
+    {
+      "category": "star-wars",
+      "episodes": [
+        "2015-09-21:the-beginning-of-the-end",
+        "2015-09-28:the-downfall-of-anakin-skywalker",
+        "2015-10-02:emperor-darth-sidious",
+        "2015-10-19:the-jedi-order",
+        "2015-10-23:a-broken-heart",
+        "2015-10-30:our-performance-review-3-0",
+        "2015-11-06:the-clone-wars-animated-series",
+        "2015-11-16:more-deleted-scenes",
+        "2015-11-23:a-conversation-with-george-lucas",
+        "2015-11-30:watch-with-us-live-union-hall"
+      ],
+      "id": "revenge-of-the-podcast",
+      "subject": "Star Wars Episode III: Revenge Of The Sith",
+      "title": "Revenge of The Podcast",
+      "wikiUrl": "https://blank-check.fandom.com/wiki/Revenge_of_The_Podcast"
+    },
+    {
+      "category": "other",
+      "episodes": [
+        "2016-10-23:jack-reacher-never-go-back"
+      ],
+      "id": "stealth-mcquarrie-miniseries",
+      "subject": "Christopher McQuarrie",
+      "title": "Stealth McQuarrie Miniseries",
+      "wikiUrl": "https://blank-check.fandom.com/wiki/Stealth_McQuarrie_Miniseries"
+    },
+    {
+      "category": "director",
+      "episodes": [
+        "2016-10-28:true-lies",
+        "2016-11-03:titanic-part-one",
+        "2016-11-11:titanic-part-two",
+        "2016-11-18:aliens-of-the-deep-ghosts-of-the-abyss",
+        "2016-11-26:avatar",
+        "2016-12-03:toruk-the-first-flight",
+        "2026-06-11:billie-eilish-hit-me-hard-and-soft-the-tour-live-in-3d-babe-pig-in-the-city-at-the-28th-wisconsin-film-festival"
+      ],
+      "id": "podinator-judgment-cast",
+      "subject": "James Cameron",
+      "title": "Podinator: Judgment Cast",
+      "wikiUrl": "https://blank-check.fandom.com/wiki/Podinator:_Judgment_Cast"
+    },
+    {
+      "category": "director",
+      "episodes": [
+        "2017-01-28:the-lost-world-jurassic-park",
+        "2017-02-04:amistad",
+        "2017-02-11:saving-private-ryan",
+        "2026-06-14:disclosure-day"
+      ],
+      "id": "pod-me-if-you-cast",
+      "subject": "Steven Spielberg, the Dreamworks years",
+      "title": "Pod Me If You Cast",
+      "wikiUrl": "https://blank-check.fandom.com/wiki/Pod_Me_If_You_Cast"
+    },
+    {
+      "category": "other",
+      "episodes": [
+        "2018-09-30:space-jam"
+      ],
+      "id": "bring-your-family-to-podcast-day",
+      "subject": "",
+      "title": "Bring Your Family To Podcast Day",
+      "wikiUrl": "https://blank-check.fandom.com/wiki/Standalones#Bring_Your_Family_To_Podcast_Day"
+    },
+    {
+      "category": "other",
+      "episodes": [
+        "2023-07-11:spreadmasters-delight-uncut-version",
+        "2023-07-11:spreadmasters-delight-bite-free-version",
+        "2025-10-11:spreadmasters-delight-3-decade-of-dreams-warriors",
+        "2025-10-11:spreadmasters-delight-3-decade-of-dreams-warriors-bite-free-version",
+        "2026-06-11:billie-eilish-hit-me-hard-and-soft-the-tour-live-in-3d-babe-pig-in-the-city-at-the-28th-wisconsin-film-festival"
+      ],
+      "id": "patreon-standalones",
+      "subject": "",
+      "title": "Patreon Standalones",
+      "wikiUrl": "https://blank-check.fandom.com/wiki/Standalones#Patreon_Standalones"
+    },
+    {
+      "category": "special-features",
+      "episodes": [
+        "2023-07-21:oceans-eleven",
+        "2023-08-01:oceans-twelve"
+      ],
+      "id": "oceans",
+      "subject": "Ocean's film series commentaries",
+      "title": "Ocean's",
+      "wikiUrl": "https://blank-check.fandom.com/wiki/Ocean's"
+    },
+    {
+      "category": "director",
+      "episodes": [
+        "2025-03-02:indiana-jones-and-the-temple-of-doom"
+      ],
+      "id": "podrassic-cast",
+      "subject": "Early Steven Spielberg",
+      "title": "Podrassic Cast",
+      "wikiUrl": "https://blank-check.fandom.com/wiki/Podrassic_Cast"
+    },
+    {
+      "category": "other",
+      "episodes": [
+        "2025-03-06:blank-check-live-at-town-hall-2025"
+      ],
+      "id": "announcements",
+      "subject": "",
+      "title": "Announcements",
+      "wikiUrl": "https://blank-check.fandom.com/wiki/Standalones#Announcements"
+    },
+    {
+      "category": "special-features",
+      "episodes": [
+        "2026-05-21:mortal-kombat-ii"
+      ],
+      "id": "mortal-kombat",
+      "subject": "Mortal Kombat commentaries",
+      "title": "Mortal Kombat",
+      "wikiUrl": "https://blank-check.fandom.com/wiki/Mortal_Kombat"
+    },
+    {
+      "category": "special-features",
+      "episodes": [
+        "2026-06-01:robocop"
+      ],
+      "id": "robocop-miniseries",
+      "subject": "RoboCop commentaries",
+      "title": "RoboCop (Miniseries)",
+      "wikiUrl": "https://blank-check.fandom.com/wiki/RoboCop_(Miniseries)"
+    },
+    {
+      "category": "director",
+      "episodes": [
+        "2026-06-21:finding-nemo",
+        "2026-06-28:wall-e",
+        "2026-07-05:john-carter",
+        "2026-07-12:finding-dory"
+      ],
+      "id": "podd-c",
+      "subject": "Andrew Stanton",
+      "title": "PODD-C",
+      "wikiUrl": "https://blank-check.fandom.com/wiki/PODD-C"
+    },
+    {
+      "category": "director",
+      "episodes": [
+        "2026-07-19:the-odyssey"
+      ],
+      "id": "the-pod-knight-casts",
+      "subject": "Christopher Nolan",
+      "title": "The Pod Knight Casts",
+      "wikiUrl": "https://blank-check.fandom.com/wiki/The_Pod_Knight_Casts"
+    },
+    {
+      "category": "director",
+      "episodes": [
+        "2026-08-09:whos-that-knocking-at-my-door-boxcar-bertha",
+        "2026-08-16:mean-streets",
+        "2026-08-23:alice-doesnt-live-here-anymore",
+        "2026-08-30:taxi-driver",
+        "2026-09-06:new-york-new-york",
+        "2026-09-13:raging-bull",
+        "2026-09-20:the-king-of-comedy",
+        "2026-09-27:after-hours"
+      ],
+      "id": "podcastfellas",
+      "subject": "Martin Scorsese",
+      "title": "Podcastfellas",
+      "wikiUrl": "https://blank-check.fandom.com/wiki/Podcastfellas"
+    }
+  ],
+  "source": {
+    "license": "CC BY-SA",
+    "licenseUrl": "https://www.fandom.com/licensing",
+    "name": "Blank Check with Griffin and David Wiki",
+    "url": "https://blank-check.fandom.com"
+  }
+}
