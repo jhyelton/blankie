@@ -1,6 +1,6 @@
 # Proposal
 
-> **Status: proposal and specs only.** `audio-spike` recorded **GO** on 2026-09-30 (`docs/spikes/audio-spike-results.md`), so the stack is Flutter with `just_audio`, `audio_service`, `audio_session` and `background_downloader`. `design.md` and `tasks.md` are the next artifacts, and they must include the spike's "Follow-ups for blankie-v1". Don't apply this change until they exist and `series-data-pipeline` has published `data/series.json`.
+> **Status: planned.** `audio-spike` recorded **GO** on 2026-09-30 (`docs/spikes/audio-spike-results.md`), so the stack is Flutter with `just_audio`, `audio_service`, `audio_session` and `background_downloader`. `design.md` and `tasks.md` include the spike's "Follow-ups for blankie-v1". Task groups 1–9 can be applied now against a synthetic series fixture. Group 10, and so archiving this change, waits until `series-data-pipeline` has published `data/series.json` and `contracts/matching-vectors.json`.
 
 ## Why
 

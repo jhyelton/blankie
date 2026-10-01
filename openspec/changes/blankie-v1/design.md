@@ -14,7 +14,11 @@
   - Its concurrency limit, `Config.holdingQueue`, is an in-memory array in native code (`HoldingQueue.swift`). It's lost if iOS terminates the app.
   - Changing Wi-Fi rules with the global `requireWiFi(..., rescheduleRunningTasks: true)` pauses running downloads with `cancelByProducingResumeData` (`WiFi.swift`). That uses the resume data `allowPause: false` exists to avoid, because it holds the expiring signed URL.
   - A per-task `requiresWiFi` sets `allowsCellularAccess = false`. iOS then holds the transfer until Wi-Fi returns, the same "wait instead of fail" behavior the spike saw on network loss.
-  - It keeps task records, which include the task URL, under Application Support (`backgroundDownloaderTaskRecords`).
+  - It keeps task records, which include the task URL, under Application Support (`backgroundDownloaderTaskRecords`). Resume data and paused tasks go in `backgroundDownloaderResumeData` and `backgroundDownloaderPausedTasks`. While the Dart side isn't listening, it keeps updates in `UserDefaults` until the app starts again.
+  - **`allowPause: false` doesn't stop resume data.** On any failure, `UrlSessionDelegate.swift` stores resume data if iOS provides it, and the plugin's own retry calls `resume()` whenever resume data exists (`base_downloader.dart`), whatever `allowPause` says.
+  - A cancelled transfer that comes with resume data, which includes iOS cancelling transfers after a force-quit, is reported as `paused`. One without resume data is reported as `canceled`. `cancelTasksWithIds` returns before that status update arrives.
+  - `start()` re-enqueues tasks recorded as `enqueued`, `running` or `waitingToRetry` that iOS no longer knows about (`rescheduleKilledTasks`, on by default). It doesn't touch `paused`, `canceled` or `failed`.
+  - The `URLSession` resource timeout defaults to 4 hours (`BDPlugin.defaultResourceTimeout`). A transfer waiting longer than that fails.
   - It can exclude completed files from iCloud backup (`Config.excludeFromCloudBackup`).
 - **Upstream inputs.** `series-data-pipeline` is not applied yet. v1 consumes its `data/series.json` (schema version 1, shape in that change's design D5) and `contracts/matching-vectors.json`.
 - **Requirements** are in `specs/`. Motivation and scope are in `proposal.md`.
@@ -84,7 +88,7 @@ drift turns a query into a `Stream` that emits again whenever its tables change.
 
 Nothing in the database holds a URL. Download rows store the episode ID and source feed, and the enclosure URL is looked up from the in-memory catalog when a download is submitted.
 
-**Backup exclusion** is a small iOS *platform channel*: a Dart call that runs about 10 lines of Swift in `AppDelegate`, setting `isExcludedFromBackup` on a directory. It runs at startup on `feed-cache/`, `episodes/` and the plugin's `backgroundDownloaderTaskRecords/`. Excluding a directory covers its contents. The Dart side is a `BackupExclusion` interface, so Android can get its own version later.
+**Backup exclusion** is a small iOS *platform channel*: a Dart call that runs about 10 lines of Swift in `AppDelegate`, setting `isExcludedFromBackup` on a directory. It runs at startup on `feed-cache/`, `episodes/` and the plugin's three folders: `backgroundDownloaderTaskRecords/`, `backgroundDownloaderResumeData/` and `backgroundDownloaderPausedTasks/`. Excluding a directory covers its contents. The Dart side is a `BackupExclusion` interface, so Android can get its own version later.
 - *Alternative:* sqflite with hand-written SQL. No codegen, but mapping rows, migrations and change notifications are all manual.
 - *Alternative:* JSON files. No transactions, and each save rewrites a file.
 - *Alternative:* cache feeds under `Library/Caches` (not backed up) instead of a channel. Rejected: iOS may purge Caches under storage pressure, which would break "offline launch shows the last catalog".
@@ -98,15 +102,13 @@ Nothing in the database holds a URL. Download rows store the episode ID and sour
   - the groups: Standalones, "New, not yet sorted" (published after the dataset's newest air date) and Other
 
   Episodes with no source, and series with no available episodes, are dropped (`episode-catalog`, "Episodes available only in the dataset are hidden"). The playable source is chosen by the rule in `episode-catalog` "Preferred audio source". A local file, if present, is chosen at play time (D9).
-- **Matching order for each feed item:**
-  1. Patreon GUID equals the dataset's `patreonPostId` hint.
-  2. GUID equals the `publicGuid` hint. Older Patreon ad-free copies reuse public GUIDs.
-  3. The title and date rules from `episode-matching`, against dataset episodes. "(Ad-Free)" is removed by normalization.
-  4. Otherwise the item is unmatched.
-
-  The matcher never guesses. A tie is unmatched.
+- **Matching runs per feed, in the direction of the shared rules.** The `episode-matching` rules pick, for one dataset episode, the best item among a set of feed items. A public item and its ad-free copy normalize to the same title on the same date, so putting both feeds in one candidate set would make every merged episode a tie. For each feed separately:
+  1. Hints first. A Patreon GUID equal to an episode's `patreonPostId` hint, or a GUID equal to its `publicGuid` hint, is that episode's item. Older Patreon ad-free copies reuse public GUIDs.
+  2. Then, for each dataset episode still without an item from this feed, `match()` picks among this feed's items not yet claimed. "(Ad-Free)" is removed by normalization.
+  3. An item that two episodes would claim is unmatched, and so are those two episodes for this feed. The matcher never guesses.
+- **Pairing unmatched items.** Unmatched Patreon items are then matched against unmatched public items with the same `match()` rules, treating each public item as the "episode". A pair becomes one catalog episode with ID `public:<guid>` and both sources, so a new Sunday episode shows once in "New, not yet sorted" (`episode-catalog`, "New episode in both feeds").
 - **Performance.** About 1,500 feed items against about 900 dataset episodes, bucketed by air date. `CatalogBuilder` runs in `Isolate.run` (a background thread for Dart), so parsing and matching don't make scrolling stutter.
-- **Unmatched items that later match.** A `feed_item_links` table records `(feed, guid) → episodeId` from the last build. When a rebuild maps a `(feed, guid)` from a `public:`/`patreon:` ID to a dataset ID, one transaction moves the listening state:
+- **Unmatched items that later match.** A `feed_item_links` table records `(feed, guid) → episodeId` from the last build. When a rebuild maps a `(feed, guid)` from a `public:`/`patreon:` ID to a different ID (a dataset ID, or a paired `public:` ID), one transaction moves the listening state:
   - played if either ID was played
   - the position with the later `updatedAt`
 
@@ -135,6 +137,7 @@ Dates compare in UTC calendar days, the same as the Python tool.
 - **RefreshService.refresh()** fetches the public feed, the Patreon feed (if connected) and the dataset in parallel. It rebuilds the catalog from whatever succeeded, merged with cached copies of whatever failed. Each successful body is written to `feed-cache/` only after it parses.
 - **Triggers:** app start, `AppLifecycleState.resumed` (the app is brought to the foreground), and pull-to-refresh.
 - **Single-flight.** An in-flight refresh `Future` is kept in a field and returned to every caller, per the async rules. A foreground event during a pull-to-refresh doesn't start a second fetch.
+- **Feed-setup generation.** `RefreshService` keeps a `feedGeneration` counter. Connecting or disconnecting Patreon increments it **before its first await**. A refresh records the generation when it starts. After each fetch it checks that the generation is unchanged before writing `feed-cache/` or publishing a catalog, and discards its results if not. Connect and disconnect then run a new refresh instead of joining the one in flight. So a refresh that started before a disconnect can never write `patreon.xml` back, and a refresh started before a connect can't publish a catalog without Patreon.
 - **Status shown.** The UI shows the "last successful refresh" time and an "Offline" banner when the last attempt failed for network reasons. The banner is driven by fetch results, not by `connectivity_plus` guesses.
 - **Parsing** uses `package:xml`:
   - `guid`, `title`, `pubDate`, `enclosure@url`, `itunes:duration`
@@ -152,15 +155,16 @@ Dates compare in UTC calendar days, the same as the Python tool.
 
   Errors show `FeedError` text only, such as "Couldn't read that feed (HTTP 403)".
 - **Display.** Settings shows "Patreon: connected" with a masked identifier (`patreon.com/…••••`) and the date it was connected. None of the URL's path or query is ever shown.
-- **Logging.** All app logging goes through one `log()` helper that runs `redactUrls()`, which replaces any `http(s)://…` with `<url>`. A unit test fails if `debugPrint(` or `print(` appears in `lib/` outside that helper. `debugPrint` still writes to the device log in release builds.
+- **Logging.** All app logging goes through one `log()` helper that runs `redactUrls()`, which replaces any `http(s)://…` with `<url>`. A unit test fails if `debugPrint(` or `print(` appears in `lib/` outside that helper. `debugPrint` still writes to the device log in release builds. Uncaught errors bypass that helper (Flutter's default handlers print them, and `ClientException.toString()` contains the URL), so `main()` sets `FlutterError.onError` and `PlatformDispatcher.instance.onError` to report through `log()`.
 - **Player and downloader errors.** `PlayerException.message` and `TaskException.description` are shown only after `redactUrls()`. For Patreon sources the UI shows the HTTP status or a generic reason.
 - **Plugin logging.** `background_downloader` logs through `package:logging`, which prints nothing unless someone listens to `Logger.root`. The app never attaches a listener.
 - **Media controls.** `MediaItem.id` is the episode ID, never a URL. `artUri` is always the **public** feed's channel image, so no Patreon URL reaches the OS media session.
 - **Disconnect** runs in this order:
-  1. Delete the Keychain item.
-  2. Delete `feed-cache/patreon.xml`.
-  3. Rebuild the catalog.
-  4. For every download row whose episode is no longer in the catalog, cancel the task and delete the file (`feed-subscription`, "Removing the Patreon feed").
+  1. Increment `feedGeneration` (D7), so any refresh in flight discards its results.
+  2. Delete the Keychain item.
+  3. Delete `feed-cache/patreon.xml`.
+  4. Rebuild the catalog.
+  5. For every download row whose episode is no longer in the catalog, cancel the task and delete the file (`feed-subscription`, "Removing the Patreon feed").
 
   Listening-state rows are never deleted. This cleanup runs **only** on an explicit disconnect. A failed refresh never removes downloads.
 - **Fixtures.** Test feeds are synthetic. The Patreon-shaped fixture uses `https://example.invalid/…` URLs, and gitleaks runs in CI as before.
@@ -181,9 +185,10 @@ Dates compare in UTC calendar days, the same as the Python tool.
   - otherwise the preferred stream
 
   The loaded episode ID and context are saved to settings, so a relaunch restores them.
-- **Played threshold.** A position listener marks the episode played once per load, when `position >= duration − 30 s` or on `ProcessingState.completed`. The same event advances a re-listen run if this episode is the run's *next* episode (D10).
-- **Auto-advance.** On `ProcessingState.completed`:
-  1. The handler calls the pure `chooseNext(catalog, state, runs, context, finishedId)`. It holds every rule in `listening-session`: played episodes skipped, run order, groups stop, unavailable episodes skipped.
+- **Played threshold.** A position listener marks the episode played once per load, when playback **crosses** `duration − 30 s` while playing, or on `ProcessingState.completed`. A load whose starting position is already past the threshold doesn't count as crossing it. The same event advances a re-listen run if this episode is the run's *next* episode (D10). The mark-and-advance write is single-flight: its `Future` is kept for the current load and shared by every caller.
+- **Finishing resets the position.** On `ProcessingState.completed` the handler stops the 10 s save timer and saves position 0, before anything else (`listening-state`, "Playing a finished episode again"). `just_audio` keeps `playing == true` after completion, so without stopping the timer it would keep saving the end position.
+- **Auto-advance.** On `ProcessingState.completed`, after the position reset:
+  1. The handler awaits the current load's mark-and-advance `Future`, so the re-listen run has already moved on. Then it calls the pure `chooseNext(catalog, state, runs, context, finishedId)`. It holds every rule in `listening-session`: played episodes skipped, run order, groups stop, unavailable episodes skipped.
   2. If the result isn't downloaded and the last connectivity check says offline, playback stops. The UI and the lock-screen subtitle show "Next episode needs a connection".
   3. Otherwise it loads the result and plays.
 
@@ -210,26 +215,32 @@ Dates compare in UTC calendar days, the same as the Python tool.
 - **`downloads` table:** `(episodeId PK, sourceFeed, fileName, state: queued | active | failed | downloaded, queuedAt, error)`. It's the source of truth, and it survives termination.
 - **File names** are `<feed>-<sanitized guid>.mp3`, with a `.part` suffix until renamed, as in the spike. They're stable when an unmatched episode's ID changes to a dataset ID (D4).
 - **Submission.** Every `queued` row is submitted to `background_downloader`, in `queuedAt` order, with `Config.holdingQueue` set to `(2, null, null)`. Each task gets:
-  - `retries: 3`
+  - `retries: 0`, so the plugin never retries by resuming from resume data (see Context). `DownloadManager` does the retrying (below).
   - `allowPause: false`
   - `requiresWiFi: !settings.allowCellular`
   - the original enclosure URL from the catalog
+  - a **task ID per attempt**: `<fileName>#<attempt>`. The row stores its current attempt number, and `DownloadManager` ignores updates for any other attempt. So a late `canceled` from an attempt that was cancelled and resubmitted never touches the new one.
 
-  The native holding queue starts the next one when one finishes, even while the app is suspended in the background. The Dart side doesn't need to be awake.
-- **After termination.** If iOS terminates the app, the holding queue is lost but active `URLSession` transfers continue. At startup, `DownloadManager.init` reconciles each row, using the spike's `reconcile` generalized per episode:
+  `Config.resourceTimeout` is set to 7 days, so a transfer waiting for Wi-Fi isn't failed after the 4-hour default.
+
+  The native holding queue starts the next task when it's told a transfer finished. While the app is suspended, that happens only when iOS wakes it, which it does once a background session's transfers have all finished. iOS may also schedule transfers created in the background at its own discretion. So with the app suspended the queue moves in batches of up to 2, possibly with delays. With audio playing, the app isn't suspended and the queue moves normally. 11.1 checks the suspended case.
+- **After termination.** If iOS terminates the app, the holding queue is lost. Active `URLSession` transfers continue, unless the user force-quit the app, in which case iOS cancels them. At startup, `DownloadManager.init` calls `start()` and relies on its default `doRescheduleKilledTasks: true`. It then reconciles each row against the plugin record for the row's **current attempt**, using the spike's `reconcile` generalized per episode:
   - a final file exists → `downloaded`
-  - the plugin recorded `complete` and the `.part` file exists → finish the rename (single-flight, as the spike's fix does)
-  - the plugin has an active record → leave it
-  - no record → resubmit
+  - the record is `complete` and the `.part` file exists → finish the rename (single-flight, as the spike's fix does)
+  - the record is `enqueued`, `running` or `waitingToRetry` → leave it; `start()` has re-enqueued it if iOS lost it
+  - the record is `paused`, `canceled`, `failed` or `notFound`, or there is no record → resubmit as a fresh attempt, keeping the row's place in the queue. A `paused` record's resume data is discarded.
 - **Wi-Fi.** "Waiting for Wi-Fi" is iOS holding the task (`allowsCellularAccess = false`). The UI shows it when a row is active, the device is on cellular, and cellular is off.
   - Changing the cellular setting **cancels and resubmits** active tasks, which then restart from zero with the new flag. It deliberately doesn't use the plugin's global `requireWiFi` reschedule, because that produces resume data (see Context).
 - **Cancel.** `cancelTaskWithId`, then delete any `.part` and the row. The holding queue starts the next task. "Cancel all" does this for every row.
-- **Failure.** After the plugin's 3 retries the row becomes `failed` with a redacted reason. "Retry" resets it to `queued`, at the end of the queue, starting from the original URL.
+- **Failure and retry.** On a `failed` update for the current attempt, `DownloadManager` resubmits a fresh attempt from the original URL, up to 3 times, waiting 2, 4 and 8 s between attempts. After that the row becomes `failed` with a redacted reason. "Retry" resets it to `queued`, at the end of the queue, with a fresh attempt. Like the plugin's own retries, these waits only run while the app is awake. A row still waiting to retry when the app is terminated is resubmitted at the next startup.
 - **After completion,** the plugin's task record is deleted (`database.deleteRecordWithId`), so enclosure URLs don't pile up in its store.
 - **Download series** takes the unplayed available episodes in series order, or the rest of the active run in run order. It skips downloaded and queued episodes and inserts the rest in one transaction.
 - **Auto-remove.** A listener on listening-state changes deletes the file and row when the setting is on and the episode:
   - becomes played and is not ahead in an active run, or
   - has just been passed by an active run (`download-queue`, "Removing played downloads").
+
+  If the episode is loaded in the player at that moment, which is normal because played is marked 30 s before the end, the deletion waits. It runs when the handler reports that the episode is no longer loaded: another episode is loaded or playback stops (`download-queue`, "Still playing").
+- **Remove download** (manual) cancels any active attempt, deletes the file, `.part` and row, and leaves listening state alone. If the episode is loaded from that file, the handler first reloads it from the stream at the same position.
 - **Startup sweep.** After reconcile, a sweep deletes files in `episodes/` that no row refers to. That covers crash leftovers and the spike's `<guid>.mp3`. A `.part` file is deleted only if its task has no active plugin record.
 - *Alternative:* only our Dart queue, submitting 2 at a time. Rejected: Dart doesn't reliably run when a transfer finishes in the background, so a 19-episode queue would stall until the app is opened.
 - *Alternative:* only the plugin's holding queue. Rejected: it's lost on termination, so "App restarted mid-queue" would fail.
@@ -275,15 +286,16 @@ Navigation is plain `Navigator` pushes. There are no deep links, so there's no r
 
 ### D14. On-device verification record
 
-Anything unit tests can't reach is checked on the iPhone with a release build: locked auto-advance, queue progress while locked, Wi-Fi waiting, Keychain survival across a re-install, the lock-screen metadata after an advance, and the spike's R1–R5 re-run on v1. Results go in `docs/device-checks/blankie-v1.md`, in the same PASS/FAIL table style as the spike results. That keeps `docs/spikes/` for stack-gating spikes only.
+Anything unit tests can't reach is checked on the iPhone with a release build: locked auto-advance, queue progress while the app is suspended, recovery after a force-quit with downloads queued, Wi-Fi waiting, Keychain survival across a re-install, the lock-screen metadata after an advance, and the spike's R1–R5 re-run on v1. Results go in `docs/device-checks/blankie-v1.md`, in the same PASS/FAIL table style as the spike results. That keeps `docs/spikes/` for stack-gating spikes only.
 
 ## Risks / Trade-offs
 
 - **[Risk] iOS suspends the app between the end of one episode and the start of the next while locked**, so auto-advance silently stops. → *Mitigation:* load the next episode directly in the completion callback (D9) and verify it on the device (D14). Fallback: preload the next item as a two-item `just_audio` playlist, and accept the redirect-expiry risk for that one item.
-- **[Risk] A holding-queue transfer finishes while the app is terminated**, and the next item isn't submitted until the app next opens. → *Accepted.* Active transfers still finish, and startup reconcile resubmits the rest. With 2 slots, at most 2 episodes wait for the next app launch.
-- **[Risk] The plugin's task records hold Patreon enclosure URLs on disk.** → *Mitigation:* delete records after completion, exclude their directory from backup, and never log them. The residual copy lives only in the app's sandbox, which is where the Keychain-held URL already lives.
+- **[Risk] The download queue moves slowly while the app is suspended or terminated.** iOS wakes the app only when a session's transfers have all finished, and a terminated app gets nothing submitted until it next opens. → *Accepted.* Active transfers still finish, startup reconcile resubmits the rest, and the queue moves normally whenever audio is playing. 11.1 records what actually happens.
+- **[Risk] A force-quit cancels active downloads.** → *Mitigation:* reconcile treats `paused` and `canceled` records as "resubmit" (D11), so they restart from zero at the next launch rather than sticking as active.
+- **[Risk] The plugin keeps Patreon enclosure URLs on disk**: in task records, paused-task and resume-data files, and (while Dart isn't listening) in `UserDefaults`. → *Mitigation:* delete task records after completion, exclude the plugin's three folders from backup, and never log them. The `UserDefaults` copy can't be excluded and is backed up until the plugin hands it to Dart at the next start. *Accepted:* it lives in the app's own backup, which already holds the database.
 - **[Risk] Changing the cellular setting restarts active downloads from zero.** → *Accepted.* It's rare, and resuming would need the resume data this design avoids.
-- **[Risk] `series-data-pipeline` isn't applied**, so there's no `series.json` or matching-vectors file to build against. → *Mitigation:* apply is blocked on it (proposal Impact). Until it lands, a minimal synthetic `series.json` fixture that follows its schema lets the core logic be built and tested.
+- **[Risk] `series-data-pipeline` isn't applied**, so there's no `series.json` or matching-vectors file to build against. → *Mitigation:* groups 1–9 build against a minimal synthetic `series.json` fixture that follows its schema. Group 10, and so archiving this change, waits until it lands (proposal Impact).
 - **[Risk] Generated drift code conflicts with the format check.** → *Mitigation:* run `dart format` after every codegen (D13). CI's `flutter analyze` catches generated code that is out of date.
 - **[Risk] Deleting the app, including by mistake, erases all listening state**, and there's no export (a proposal Non-Goal). → *Accepted by the owner.* The runbook already warns about it. Device backups keep `blankie.sqlite`, because only caches and audio are excluded.
 - **[Trade-off] drift adds a code-generation step** (`build_runner`), one more tool for a new mobile developer. The owner accepted it for typed queries, migrations and live queries. Riverpod is used without its generator to keep it the only one.

@@ -55,11 +55,17 @@ A feed item that doesn't match any dataset episode SHALL still appear in the cat
 - Items published **after** the dataset's newest episode air date SHALL be placed in a "New, not yet sorted" group.
 - Older unmatched items SHALL be placed in an "Other" group.
 
+A public item and a Patreon item that match each other under the shared episode-matching rules SHALL appear as one episode, and the Patreon source SHALL be preferred as for any other episode.
+
 When a later dataset update matches such an item, the app SHALL move the item's played state and position to the dataset episode.
 
 #### Scenario: New Sunday episode
 - **WHEN** a new episode is published and the dataset hasn't been updated yet
 - **THEN** it appears in "New, not yet sorted" and can be played
+
+#### Scenario: New episode in both feeds
+- **WHEN** a new episode is in both feeds and the dataset hasn't been updated yet
+- **THEN** "New, not yet sorted" lists it once, and it plays from the Patreon source
 
 #### Scenario: Dataset catches up
 - **WHEN** the listener has half-played an unsorted episode and a dataset update then assigns it to a series

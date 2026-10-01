@@ -51,11 +51,15 @@ By default, downloads SHALL run only on Wi-Fi. When the device isn't on Wi-Fi, q
 - **THEN** downloads pause and resume automatically when Wi-Fi returns
 
 ### Requirement: Removing played downloads
-By default, the app SHALL delete an episode's downloaded file when the episode becomes played, or when an active re-listen run moves past it. An episode that's still ahead in an active re-listen run SHALL NOT be deleted. A setting SHALL turn automatic removal off.
+By default, the app SHALL delete an episode's downloaded file when the episode becomes played, or when an active re-listen run moves past it. An episode that's still ahead in an active re-listen run SHALL NOT be deleted. An episode loaded in the player SHALL NOT be deleted until it is no longer loaded. A setting SHALL turn automatic removal off.
 
 #### Scenario: Auto-remove after playing
 - **WHEN** a downloaded episode finishes and is marked played, with the setting on
 - **THEN** its file is deleted, and the episode can be streamed or downloaded again
+
+#### Scenario: Still playing
+- **WHEN** a downloaded episode becomes played while it's still playing its last 30 seconds, with the setting on
+- **THEN** its file is kept until the player loads another episode or stops, and is deleted then
 
 #### Scenario: Re-listen moves past a download
 - **WHEN** a re-listen run moves past a downloaded episode, with the setting on
