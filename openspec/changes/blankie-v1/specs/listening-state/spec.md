@@ -7,11 +7,15 @@ Tracks what the listener has heard and where they are, per logical episode. It p
 ## ADDED Requirements
 
 ### Requirement: Played state and resume position per episode
-The app SHALL keep a played flag and a resume position for every episode, keyed by the episode's stable ID. An episode SHALL become played automatically when playback reaches its end or passes the last 30 seconds. The listener SHALL be able to mark any episode played or unplayed by hand. Marking an episode unplayed SHALL keep its resume position.
+The app SHALL keep a played flag and a resume position for every episode, keyed by the episode's stable ID. An episode SHALL become played automatically when playback reaches its end or passes the last 30 seconds. The listener SHALL be able to mark any episode played or unplayed by hand. Marking an episode unplayed SHALL keep its resume position. When playback reaches the end of an episode, its resume position SHALL reset to the start.
 
 #### Scenario: Finishing an episode
 - **WHEN** playback passes the final 30 seconds of an episode
 - **THEN** the episode is marked played
+
+#### Scenario: Playing a finished episode again
+- **WHEN** an episode that was played to its end is played again, for example in a re-listen
+- **THEN** it starts from the beginning
 
 #### Scenario: State follows the episode, not the feed
 - **WHEN** an episode was played from the public source and Patreon is connected later
@@ -38,7 +42,7 @@ Each episode SHALL offer "Mark everything before this as played". After asking f
 ### Requirement: Re-listen runs
 Each series SHALL offer "Start re-listen". It starts a run through the series' available episodes in series order, starting from the first. The run SHALL track its own progress, meaning the count of run episodes finished during the run, and SHALL NOT change played flags when it starts.
 
-Finishing an episode during the run SHALL advance the run to the next episode. The listener SHALL be able to end the run at any time. The run SHALL end automatically after its last episode. Only one run per series SHALL exist at a time.
+Finishing the run's next episode SHALL count toward the run's progress and make the following run episode next. Finishing any other episode SHALL NOT change the run. The listener SHALL be able to end the run at any time. The run SHALL end automatically after its last episode. Only one run per series SHALL exist at a time.
 
 #### Scenario: Start a re-listen of a finished series
 - **WHEN** every episode of "They Podcast" is played and the listener starts a re-listen
@@ -47,6 +51,10 @@ Finishing an episode during the run SHALL advance the run to the next episode. T
 #### Scenario: Progress through the run
 - **WHEN** the listener finishes the next episode in the run
 - **THEN** progress becomes "1/23" and the following episode becomes next
+
+#### Scenario: Episode outside the run order
+- **WHEN** a run's next episode is episode 6 and the listener plays and finishes episode 12 of the same series
+- **THEN** the run's progress and next episode are unchanged
 
 #### Scenario: Run completes
 - **WHEN** the listener finishes the last episode of the run

@@ -36,11 +36,11 @@ The app SHALL store the Patreon feed URL only in the platform's secure credentia
 - **THEN** the error shown or logged contains the status or reason but not the URL
 
 ### Requirement: Removing the Patreon feed
-The app SHALL let the listener disconnect the Patreon feed. Disconnecting SHALL delete the stored URL. Episodes available only from Patreon SHALL disappear from the catalog. Listening state for all episodes SHALL be kept.
+The app SHALL let the listener disconnect the Patreon feed. Disconnecting SHALL delete the stored URL. Episodes available only from Patreon SHALL disappear from the catalog, and their downloaded files and queued downloads SHALL be deleted. Listening state for all episodes SHALL be kept.
 
 #### Scenario: Disconnect
 - **WHEN** the listener disconnects Patreon
-- **THEN** the URL is removed from secure storage, Patreon-only episodes and series disappear, and played state for main-feed episodes is unchanged
+- **THEN** the URL is removed from secure storage, Patreon-only episodes and series disappear, their downloads are deleted, and played state for main-feed episodes is unchanged
 
 #### Scenario: Reconnect keeps history
 - **WHEN** the listener later reconnects the same Patreon feed

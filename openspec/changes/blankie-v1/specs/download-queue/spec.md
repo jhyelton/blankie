@@ -25,11 +25,11 @@ Episodes that are already downloaded or already queued SHALL be skipped.
 - **THEN** 5 episodes are added to the queue in series order
 
 #### Scenario: Queue a re-listen
-- **WHEN** a re-listen run is at episode 5 of 23 and the listener taps "Download series"
+- **WHEN** a re-listen run's next episode is episode 5 of 23 and the listener taps "Download series"
 - **THEN** episodes 5 through 23 of the run are queued, apart from any already downloaded
 
 ### Requirement: Limited-concurrency queue
-Queued downloads SHALL be processed first-in, first-out, with at most 2 downloads active at a time. The queue SHALL survive app restarts. The listener SHALL be able to view the queue, cancel a queued or active download, and cancel all downloads. A failed download SHALL be retried automatically up to 3 times. After that it SHALL be shown as failed with a retry action. Downloads SHALL continue while the app is in the background, as proven by `episode-download`.
+Queued downloads SHALL be processed first-in, first-out, with at most 2 downloads active at a time. The queue SHALL survive app restarts. The listener SHALL be able to view the queue, cancel a queued or active download, and cancel all downloads. A failed download SHALL be retried automatically up to 3 times. After that it SHALL be shown as failed with a retry action. Downloads SHALL continue while the app is in the background, as required by `episode-download`.
 
 #### Scenario: Large series queued
 - **WHEN** 19 episodes are queued
@@ -51,11 +51,19 @@ By default, downloads SHALL run only on Wi-Fi. When the device isn't on Wi-Fi, q
 - **THEN** downloads pause and resume automatically when Wi-Fi returns
 
 ### Requirement: Removing played downloads
-By default, the app SHALL delete an episode's downloaded file when the episode becomes played. A setting SHALL turn this off. An episode that's part of an active re-listen run SHALL NOT be deleted until the run has passed it.
+By default, the app SHALL delete an episode's downloaded file when the episode becomes played, or when an active re-listen run moves past it. An episode that's still ahead in an active re-listen run SHALL NOT be deleted. An episode loaded in the player SHALL NOT be deleted until it is no longer loaded. A setting SHALL turn automatic removal off.
 
 #### Scenario: Auto-remove after playing
 - **WHEN** a downloaded episode finishes and is marked played, with the setting on
 - **THEN** its file is deleted, and the episode can be streamed or downloaded again
+
+#### Scenario: Still playing
+- **WHEN** a downloaded episode becomes played while it's still playing its last 30 seconds, with the setting on
+- **THEN** its file is kept until the player loads another episode or stops, and is deleted then
+
+#### Scenario: Re-listen moves past a download
+- **WHEN** a re-listen run moves past a downloaded episode, with the setting on
+- **THEN** that episode's file is deleted, and downloaded episodes still ahead in the run are kept
 
 #### Scenario: Setting off
 - **WHEN** the setting is off and a downloaded episode is marked played
