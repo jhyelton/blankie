@@ -38,7 +38,7 @@ Each episode SHALL offer "Mark everything before this as played". After asking f
 ### Requirement: Re-listen runs
 Each series SHALL offer "Start re-listen". It starts a run through the series' available episodes in series order, starting from the first. The run SHALL track its own progress, meaning the count of run episodes finished during the run, and SHALL NOT change played flags when it starts.
 
-Finishing an episode during the run SHALL advance the run to the next episode. The listener SHALL be able to end the run at any time. The run SHALL end automatically after its last episode. Only one run per series SHALL exist at a time.
+Finishing the run's next episode SHALL count toward the run's progress and make the following run episode next. Finishing any other episode SHALL NOT change the run. The listener SHALL be able to end the run at any time. The run SHALL end automatically after its last episode. Only one run per series SHALL exist at a time.
 
 #### Scenario: Start a re-listen of a finished series
 - **WHEN** every episode of "They Podcast" is played and the listener starts a re-listen
@@ -47,6 +47,10 @@ Finishing an episode during the run SHALL advance the run to the next episode. T
 #### Scenario: Progress through the run
 - **WHEN** the listener finishes the next episode in the run
 - **THEN** progress becomes "1/23" and the following episode becomes next
+
+#### Scenario: Episode outside the run order
+- **WHEN** a run's next episode is episode 6 and the listener plays and finishes episode 12 of the same series
+- **THEN** the run's progress and next episode are unchanged
 
 #### Scenario: Run completes
 - **WHEN** the listener finishes the last episode of the run

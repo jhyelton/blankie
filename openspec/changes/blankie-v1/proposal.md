@@ -1,6 +1,6 @@
 # Proposal
 
-> **Status: specs only.** `design.md` and `tasks.md` are deliberately not written yet. They will be added with `/opsx:update blankie-v1` after `audio-spike` records GO, so the design can use the spike's results (the stack, and whether app data survives the 7-day re-install). Don't apply this change before then.
+> **Status: proposal and specs only.** `audio-spike` recorded **GO** on 2026-09-30 (`docs/spikes/audio-spike-results.md`), so the stack is Flutter with `just_audio`, `audio_service`, `audio_session` and `background_downloader`. `design.md` and `tasks.md` are the next artifacts, and they must include the spike's "Follow-ups for blankie-v1". Don't apply this change until they exist and `series-data-pipeline` has published `data/series.json`.
 
 ## Why
 
@@ -8,7 +8,7 @@ The owner listens to Blank Check through Pocket Casts, where the show is one fla
 
 ## What Changes
 
-- **Series-first home screen.** Every miniseries appears with its unplayed count, ordered by most recent episode. Episodes without a series are grouped as Standalones. New episodes that the series data doesn't know about yet appear in a "New, not yet sorted" group until the data catches up.
+- **Series-first home screen.** Every miniseries appears with its unplayed count, ordered by most recent episode. Episodes without a series are grouped as Standalones. New episodes that the series data doesn't know about yet appear in a "New, not yet sorted" group until the data catches up. Older feed items that the data doesn't match appear in an "Other" group at the end.
 - **One logical episode per wiki ID.** The public and Patreon feeds are merged using the `series-data` dataset and the `episode-matching` rules. The ad-free copy plays when it's available.
 - **Listening state.**
   - Played/unplayed status and resume position are kept per episode.
@@ -16,7 +16,8 @@ The owner listens to Blank Check through Pocket Casts, where the show is one fla
   - "Start re-listen" works through a finished series with its own progress, without erasing play history.
 - **Continuous listening.** When an episode finishes, playback advances to the next episode in the same series, or the next in the re-listen. Speed control applies to the whole app.
 - **Manual downloads.** You can download one episode, or queue a whole series. The queue downloads a limited number at a time, is Wi-Fi only unless you allow cellular, and deletes played episodes automatically unless you turn that off.
-- **Feeds.** The public feed works out of the box. The Patreon feed URL can be added in settings and is stored in the device's secure storage. Feeds and series data refresh when the app opens and on pull-to-refresh, with offline fallbacks.
+- **Feeds.** The public feed works out of the box. The Patreon feed URL can be added in settings and is stored in the device's secure storage. Feeds and series data refresh when the app opens or returns to the foreground, and on pull-to-refresh, with offline fallbacks.
+- **Groundwork from `audio-spike`.** The spike's follow-ups are part of this change: a `flutter` CI job (format check, `flutter analyze`, `flutter test`), test seams around the player and downloader with regression tests for the four async bugs found in the spike's review, and a one-time `dart format` pass.
 
 ## Capabilities
 
@@ -31,11 +32,9 @@ The owner listens to Blank Check through Pocket Casts, where the show is one fla
 
 ### Modified Capabilities
 
-None yet. This change builds on capabilities introduced by in-flight changes that aren't archived yet:
-- `audio-playback` and `episode-download` from `audio-spike`: background playback, media controls, interruptions, position persistence, and background download of a single file.
-- `series-data` and `episode-matching` from `series-data-pipeline`: the dataset contract and matching rules.
-
-This change adds new behavior on top of them rather than changing their requirements.
+None. This change adds new behavior on top of these capabilities without changing their requirements:
+- `audio-playback` and `episode-download`, archived from `audio-spike`: background playback, media controls, interruptions, position persistence, and background download of a single file.
+- `series-data` and `episode-matching` from `series-data-pipeline`, which isn't archived yet: the dataset contract and matching rules.
 
 ## Non-Goals (candidates for later changes)
 
@@ -43,10 +42,8 @@ Search, episode show notes, sleep timer, CarPlay, background refresh, film metad
 
 ## Impact
 
-- **Depends on:**
-  - `audio-spike` recording **GO**. Its results decide the design, including whether app data survives the 7-day free-signing re-install.
-  - `series-data-pipeline` publishing `data/series.json` at a public URL and `contracts/matching-vectors.json`.
-  - The repository being public.
-- **Code:** extends the `app/` project created by `audio-spike`. The disposable spike screen is replaced.
-- **Data on device:** listening state (played flags, positions, re-listen runs), the download queue and files, cached feeds, and the cached series dataset. All of it is keyed by stable episode IDs from `series-data`. There's no backend.
+- **Depends on:** `series-data-pipeline` publishing `data/series.json` at a public URL and `contracts/matching-vectors.json`.
+- **Code:** extends the `app/` project created by `audio-spike`. The disposable spike screen and hard-coded episode are replaced, and the spike's position storage keyed by GUID is replaced by storage keyed by episode ID.
+- **CI:** `.github/workflows/ci.yml` gains a `flutter` job, listed under `ci-ok.needs`.
+- **Data on device:** listening state (played flags, positions, re-listen runs), the download queue and files, cached feeds, and the cached series dataset. All of it is keyed by stable episode IDs from `series-data`, or by feed and GUID for items that aren't in the dataset yet. There's no backend. The spike showed this data survives a re-install over the existing app, but deleting the app erases it. Behavior at a real 7-day signature expiry is being checked by `ios-reinstall-verification`.
 - **Secrets:** the Patreon URL lives only in the device's secure storage and in requests to Patreon.

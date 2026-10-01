@@ -29,11 +29,15 @@ The app SHALL match every feed item to dataset episodes using the shared episode
 - **THEN** that item becomes that episode's source, whatever its title
 
 ### Requirement: Preferred audio source
-When an episode is available from more than one feed, the app SHALL play the Patreon ("Ad-Free") source. If the Patreon source isn't available, it SHALL fall back to the public source.
+When an episode is available from more than one feed, the app SHALL play the Patreon ("Ad-Free") source. If the Patreon source isn't available, it SHALL fall back to the public source. A downloaded copy SHALL be played instead of streaming, whichever feed it was downloaded from.
 
 #### Scenario: Both sources available
 - **WHEN** an episode exists in both feeds
 - **THEN** playing or downloading it uses the Patreon source
+
+#### Scenario: Downloaded before Patreon was connected
+- **WHEN** an episode was downloaded from the public feed and Patreon is connected later
+- **THEN** playback uses the downloaded file, and removing the download and downloading again gets the Patreon copy
 
 #### Scenario: Patreon disconnected
 - **WHEN** Patreon is disconnected
