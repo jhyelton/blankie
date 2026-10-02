@@ -3,7 +3,7 @@
 ## 1. Tooling skeleton and PR checks
 
 - [x] 1.1 Create `tools/series-data/` as a uv-managed Python 3.12 package `series_data`, with pytest and ruff configured and a `series-data` CLI entry point with `generate`, `check` and `check-patreon` subcommands (stubs for now) (design D1, D2). Verify: `uv run pytest` passes (one placeholder test), `uv run ruff check` is clean, and `uv run series-data --help` lists the three subcommands.
-- [ ] 1.2 Add a `series-data` job to the existing `.github/workflows/ci.yml` (design D12): a `series-data` path-filter output for `tools/series-data/**`, `contracts/**` and `data/**`; a conditional job that sets up uv and runs ruff, pytest and `series-data check`; and the job added to `ci-ok`'s `needs`. If `ci.yml` doesn't exist yet, stop: `repo-guardrails` must be applied first. Verify: a PR touching `tools/series-data/` shows the `series-data` job running and `ci-ok` passing, and a PR touching only `README.md` shows the job skipped and `ci-ok` still passing.
+- [x] 1.2 Add a `series-data` job to the existing `.github/workflows/ci.yml` (design D12): a `series-data` path-filter output for `tools/series-data/**`, `contracts/**` and `data/**`; a conditional job that sets up uv and runs ruff, pytest and `series-data check`; and the job added to `ci-ok`'s `needs`. If `ci.yml` doesn't exist yet, stop: `repo-guardrails` must be applied first. Verify: a PR touching `tools/series-data/` shows the `series-data` job running and `ci-ok` passing, and a PR touching only `README.md` shows the job skipped and `ci-ok` still passing.
 
 ## 2. Contracts: schema and shared matching test cases
 
