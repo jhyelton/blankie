@@ -78,5 +78,35 @@
     "op": "ackUnmatchedWiki",
     "target": "2024-01-25:blank-check-on-broadway",
     "reason": "A Broadway-show announcement that was never in the public feed."
+  },
+  {
+    "op": "ackUnmatchedWiki",
+    "target": "2019-03-07:serenity-2019-a-summary",
+    "reason": "Patreon posted 'Serenity (2019) A Summary' as a video, so it is not in the Patreon podcast feed (checked with check-patreon, 2026-10-02)."
+  },
+  {
+    "op": "ackUnmatchedWiki",
+    "target": "2022-04-06:special-announcement",
+    "reason": "Patreon posted the 2022-04-06 special announcement as a video, so it is not in the Patreon podcast feed (checked with check-patreon, 2026-10-02)."
+  },
+  {
+    "op": "ackUnmatchedWiki",
+    "target": "2022-04-13:another-special-announcement",
+    "reason": "Patreon posted the 2022-04-13 special announcement as a video, so it is not in the Patreon podcast feed (checked with check-patreon, 2026-10-02)."
+  },
+  {
+    "op": "ackUnmatchedWiki",
+    "target": "2023-08-05:blank-check-presents-congratulations",
+    "reason": "Patreon posted 'Blank Check presents...Congratulations' as a video, so it is not in the Patreon podcast feed (checked with check-patreon, 2026-10-02)."
+  },
+  {
+    "op": "ackUnmatchedWiki",
+    "target": "2024-01-23:special-announcement-broadway-edition",
+    "reason": "Patreon posted the Broadway-edition special announcement as a video, so it is not in the Patreon podcast feed (checked with check-patreon, 2026-10-02)."
+  },
+  {
+    "op": "ackUnmatchedWiki",
+    "target": "2024-12-25:blank-check-the-nineversary-at-town-hall",
+    "reason": "Patreon posted 'Blank Check: The Nineversary at Town Hall' as a video, so it is not in the Patreon podcast feed (checked with check-patreon, 2026-10-02)."
   }
 ]

@@ -133,8 +133,8 @@ The Patreon feed URL contains a personal access token. It must never be committe
    uv run series-data check-patreon
    ```
 
-   It lists the Special Features episodes that matched the same feed item as another episode, then four groups: unmatched, ambiguous, matched by title and date, and matched by the Patreon post ID from the wiki. The exit code is 1 if anything is unmatched, ambiguous or shares a feed item.
+   It lists the Special Features episodes that matched the same feed item as another episode, then: those acknowledged with `ackUnmatchedWiki` in `data/overrides.json`, acknowledged ones that now match (that override can go), unmatched, ambiguous, matched by title and date, and matched by the Patreon post ID from the wiki. The exit code is 1 if anything unacknowledged is unmatched or ambiguous, or if two episodes share a feed item.
 
-3. For each unmatched, ambiguous or shared episode, decide whether it's a genuine miss. Fix the wiki row's Patreon link (preferred), or add a `fix` or `ackUnmatchedWiki` override (section 3).
+3. For each unmatched, ambiguous or shared episode, decide whether it's a genuine miss. Fix the wiki row's Patreon link (preferred), or add a `fix` or `ackUnmatchedWiki` override (section 3). Patreon video posts (announcements, the fashion show, some live events) are on the wiki but never in the podcast feed; acknowledge those with `ackUnmatchedWiki` and a reason saying so.
 
 If the command says there is no URL in the Keychain, it hasn't made any network request; store the URL (step 1). If it reports an HTTP status such as 403, the token has probably been rotated: copy the current feed URL from Patreon and store it again with `-U`.

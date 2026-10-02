@@ -19,7 +19,7 @@ import json
 import logging
 import subprocess
 import sys
-from collections.abc import Callable
+from collections.abc import Callable, Collection
 from datetime import date
 from pathlib import Path
 from typing import Any
@@ -28,6 +28,7 @@ import httpx
 
 from series_data.feed import FeedParseError, parse_feed
 from series_data.matching import FeedItem, match_outcome
+from series_data.overrides import Override, OverrideError, load_overrides
 
 KEYCHAIN_SERVICE = "blankie-patreon-feed"
 SETUP = (
@@ -73,9 +74,29 @@ def fetch_feed(url: str, client: httpx.Client | None = None) -> bytes:
     return response.content
 
 
-def build_report(dataset: dict[str, Any], items: list[FeedItem]) -> tuple[str, int]:
-    """The report text, and how many episodes are unmatched, ambiguous or share an item."""
-    groups: dict[str, list[str]] = {"hint": [], "title": [], "none": [], "ambiguous": []}
+def acknowledged_ids(dataset: dict[str, Any], overrides: list[Override]) -> set[str]:
+    """Episode IDs that `ackUnmatchedWiki` overrides target, by ID or by wiki number."""
+    by_number = {e.get("wikiNumber"): i for i, e in dataset["episodes"].items()}
+    targets = {o.target for o in overrides if o.op == "ackUnmatchedWiki" and o.target}
+    return {by_number.get(t, t) for t in targets}
+
+
+def build_report(
+    dataset: dict[str, Any], items: list[FeedItem], acknowledged: Collection[str] = frozenset()
+) -> tuple[str, int]:
+    """The report text, and how many episodes are unmatched, ambiguous or share an item.
+
+    Unmatched or ambiguous episodes acknowledged with `ackUnmatchedWiki` (for
+    example video-only posts) are listed separately and don't count as problems.
+    """
+    groups: dict[str, list[str]] = {
+        "hint": [],
+        "title": [],
+        "none": [],
+        "ambiguous": [],
+        "acknowledged": [],
+        "stale": [],
+    }
     claims: dict[str, list[str]] = {}
     for episode_id, episode in sorted(
         dataset["episodes"].items(), key=lambda pair: (pair[1]["airDate"], pair[0])
@@ -89,7 +110,12 @@ def build_report(dataset: dict[str, Any], items: list[FeedItem]) -> tuple[str, i
             episode["hints"],
         )
         line = f"  {episode['airDate']}  {episode['title']}  [{episode_id}]"
-        groups[outcome.how].append(line)
+        if episode_id in acknowledged and outcome.item is None:
+            groups["acknowledged"].append(line)
+        else:
+            groups[outcome.how].append(line)
+            if episode_id in acknowledged:
+                groups["stale"].append(line)
         if outcome.item is not None:
             claims.setdefault(outcome.item.guid, []).append(line)
     shared = [line for lines in claims.values() if len(lines) > 1 for line in lines]
@@ -98,6 +124,8 @@ def build_report(dataset: dict[str, Any], items: list[FeedItem]) -> tuple[str, i
     lines.append(f"\nMatched to the same feed item as another episode: {len(shared)}")
     lines += shared
     for how, heading in (
+        ("acknowledged", "Acknowledged as not in the feed (ackUnmatchedWiki)"),
+        ("stale", "Acknowledged, but now matched (the override can go)"),
         ("none", "Unmatched"),
         ("ambiguous", "Ambiguous (several equally good items)"),
         ("title", "Matched by title and date (no post ID hint)"),
@@ -113,6 +141,7 @@ def run(
     dataset_path: Path,
     url_reader: Callable[[], str | None] = keychain_url,
     client: httpx.Client | None = None,
+    overrides_path: Path | None = None,
 ) -> int:
     url = url_reader()
     if not url:
@@ -120,9 +149,10 @@ def run(
         return 2
     try:
         dataset = json.loads(dataset_path.read_text())
+        overrides = load_overrides(overrides_path) if overrides_path else []
         items = parse_feed(fetch_feed(url, client))
-        report, problems = build_report(dataset, items)
-    except (PatreonCheckError, FeedParseError) as exc:
+        report, problems = build_report(dataset, items, acknowledged_ids(dataset, overrides))
+    except (PatreonCheckError, FeedParseError, OverrideError) as exc:
         print(f"error: {exc}", file=sys.stderr)
         return 1
     except FileNotFoundError:

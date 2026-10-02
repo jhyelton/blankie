@@ -71,7 +71,7 @@ def _cmd_check(args: argparse.Namespace) -> int:
 def _cmd_check_patreon(args: argparse.Namespace) -> int:
     from series_data.patreon import run
 
-    return run(args.dataset)
+    return run(args.dataset, overrides_path=args.overrides)
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -103,6 +103,7 @@ def build_parser() -> argparse.ArgumentParser:
         "check-patreon", help="local only: check Special Features matching against your feed"
     )
     pat.add_argument("--dataset", type=Path, default=paths.SERIES_JSON)
+    pat.add_argument("--overrides", type=Path, default=paths.OVERRIDES_JSON)
     pat.set_defaults(func=_cmd_check_patreon)
     return parser
 
