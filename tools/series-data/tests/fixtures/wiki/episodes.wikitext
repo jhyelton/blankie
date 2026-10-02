@@ -1,0 +1,486 @@
+[[File:Blank check banner 2021.jpg|thumb|350x350px]]
+This '''Episode Guide''' is a summary of each episode of the show. Please note that, to a large degree, any titles and information listed for future episodes are unofficial and subject to change.
+
+For more details on the history of the podcast, see [[About|About The Show]] or the miniseries page for [[The Phantom Podcast]]. For a general summary of the different series, see the [[Miniseries]] Guide summary page. For a summary of every film covered, see [[List of Films Covered on the Podcast]].
+
+== Blank Check: Special Features ==
+:''Main article: [[Blank Check: Special Features]]''<br>
+'''Blank Check: Special Features''' is the name of the [https://www.patreon.com/blankcheck/ Blank Check Patreon]. The Patreon was launched in January 2019 with a $5/month patron tier. Some special features complement a [[Episodes|main feed episode]], while others are [[Standalones|standalones]] or audio commentaries.
+
+== Episode List ==
+
+=== 1-50 ===
+{| class="wikitable plainrowheaders" style="border:medium solid black; width:99%; margin-right: 0;"
+|- style="color:black"
+! scope="col" width="5%" | <u>#</u>
+! scope="col" width="40%" | <u>Title</u>
+! scope="col" width="5%" | <u>Audio</u>
+! scope="col" width="20%" | <u>Guest(s)</u>
+! scope="col" width="7.5%" | <u>Length</u>
+! scope="col" width="7.5%" | <u>Date</u>
+! scope="col" width="15%" |<u>Series</u>
+|-
+| style="text-align:center;" | 001
+|'''[[In A Galaxy Far Far Away]]'''
+| [https://soundcloud.com/griffin-and-david-present/the-phantom-podcast-episode-one-in-a-galaxy-far-far-away 🔊]
+|
+| style="text-align:center;" | 1:23
+| style="text-align:center;" | 3/23/2015
+| rowspan="11" | [[The Phantom Podcast]]
+|-
+| style="text-align:center;" | 002
+|'''[[The Royalty of Naboo]]'''
+| [https://soundcloud.com/griffin-and-david-present/the-phantom-podcast-episode-two-the-royalty-of-naboo 🔊]
+|
+| style="text-align:center;" | 1:26
+| style="text-align:center;" | 3/30/2015
+|-
+| style="text-align:center;" | 003
+|'''[[The Jedi Council]]'''
+| [https://soundcloud.com/griffin-and-david-present/the-phantom-podcast-episode-three-the-jedi-council 🔊]
+|
+| style="text-align:center;" | 1:15
+| style="text-align:center;" | 4/6/2015
+|-
+| style="text-align:center;" | 004
+|'''[[Commentary]]'''
+| [https://soundcloud.com/griffin-and-david-present/the-phantom-podcast-episode-four-commentary-w-connor-ratliff 🔊]
+| [[Connor Ratliff]]
+| style="text-align:center;" | 1:24
+| style="text-align:center;" | 4/13/2015
+|-
+| style="text-align:center;" | 005
+|'''[[Our Performance Review]]'''
+| [https://soundcloud.com/griffin-and-david-present/the-phantom-podcast-episode-five-our-performance-review 🔊]
+|
+| style="text-align:center;" | 1:20
+| style="text-align:center;" | 4/20/2015
+|-
+| style="text-align:center;" | 006
+|'''[[A Profile Of Jar Jar Binks And The Gungans]]'''
+| [https://soundcloud.com/griffin-and-david-present/the-phantom-podcast-episode-six-a-profile-of-jar-jar-binks-and-the-gungans 🔊]
+|
+| style="text-align:center;" | 1:08
+| style="text-align:center;" | 4/28/2015
+|-
+| style="text-align:center;" | 007
+|'''[[The Podrace]]'''
+| [https://soundcloud.com/griffin-and-david-present/the-phantom-podcast-episode-seven-the-podrace 🔊]
+|
+| style="text-align:center;" | 1:14
+| style="text-align:center;" | 5/4/2015
+|-
+| style="text-align:center;" | 008
+|'''[[Merchandise]]'''
+| [https://soundcloud.com/griffin-and-david-present/the-phantom-podcast-episode-eight-merchandise 🔊]
+|
+| style="text-align:center;" | 1:12
+| style="text-align:center;" | 5/11/2015
+|-
+| style="text-align:center;" | 009
+|'''[[Fan Fiction]]'''
+| [https://soundcloud.com/griffin-and-david-present/the-phantom-podcast-episode-nine-fan-fiction 🔊]
+|
+| style="text-align:center;" | 0:59
+| style="text-align:center;" | 5/19/2015
+|-
+| style="text-align:center;" | 010
+|'''[[Final Thoughts]]'''
+| [https://soundcloud.com/griffin-and-david-present/the-phantom-podcast-episode-ten-final-thoughts 🔊]
+|
+| style="text-align:center;" | 1:16
+| style="text-align:center;" | 5/26/2015
+|-
+| style="text-align:center;" | 011
+|'''[[Watch With Us]]'''
+| [https://soundcloud.com/griffin-and-david-present/the-phantom-podcast-episode-eleven-watch-with-us 🔊]
+|
+| style="text-align:center;" | 2:28
+| style="text-align:center;" | 6/1/2015
+|}
+
+{| class="wikitable plainrowheaders" style="border:medium solid black; width:99%; margin-right: 0;"
+|- style="color:black"
+! scope="col" width="5%" | <u>#</u>
+! scope="col" width="40%" | <u>Title</u>
+! scope="col" width="5%" | <u>Audio</u>
+! scope="col" width="20%" | <u>Guest(s)</u>
+! scope="col" width="7.5%" | <u>Length</u>
+! scope="col" width="7.5%" | <u>Date</u>
+! scope="col" width="15%" |<u>Series</u>
+|-
+| style="text-align:center;" | 023
+|'''[[The Podtastic Two]]'''<br />''<sup>(The Fantastic Four)</sup>''
+| [https://soundcloud.com/griffin-and-david-present/the-pod-castic-two 🔊]
+|
+| style="text-align:center;" | 1:20
+| style="text-align:center;" | 9/14/2015
+| [[Standalones#Other Standalone Episodes|Standalone]]
+|-
+| style="text-align:center;" | 024
+|'''[[The Beginning of the End]]'''
+| [https://soundcloud.com/griffin-and-david-present/revenge-of-the-podcast-episode-one-the-beginning-of-the-end-of-the-clone-wars 🔊]
+|
+| style="text-align:center;" | 1:11
+| style="text-align:center;" | 9/21/2015
+| rowspan="10" | [[Revenge of The Podcast]]
+|-
+| style="text-align:center;" | 025
+|'''[[The Downfall Of Anakin Skywalker]]'''
+| [https://soundcloud.com/griffin-and-david-present/revenge-of-the-podcast-episode-two-the-downfall-of-anakin-skywalker 🔊]
+|
+| style="text-align:center;" | 1:20
+| style="text-align:center;" | 9/28/2015
+|-
+| style="text-align:center;" | 026
+|'''[[Emperor Darth Sidious]]'''
+| [https://soundcloud.com/griffin-and-david-present/revenge-of-the-podcast-episode-three-emperor-darth-sidious 🔊]
+|
+| style="text-align:center;" | 1:18
+| style="text-align:center;" | 10/2/2015
+|-
+| style="text-align:center;" | 027
+|'''[[The Jedi Order]]'''
+| [https://soundcloud.com/griffin-and-david-present/revenge-of-the-podcast-episode-four-the-jedi-order-w-mike-drucker 🔊]
+| [[Mike Drucker]]
+| style="text-align:center;" | 1:22
+| style="text-align:center;" | 10/19/2015
+|-
+| style="text-align:center;" | 028
+|'''[[A Broken Heart]]'''
+| [https://soundcloud.com/griffin-and-david-present/revenge-of-the-podcast-episode-five-a-broken-heart-w-sonia-saraiya 🔊]
+| [[Sonia Saraiya]]
+| style="text-align:center;" | 1:18
+| style="text-align:center;" | 10/23/2015
+|-
+| style="text-align:center;" | 029
+|'''[[Our Performance Review 3.0]]'''
+| [https://soundcloud.com/griffin-and-david-present/revenge-of-the-podcast-episode-six-our-performance-review-30-w-chris-gethard 🔊]
+| [[Chris Gethard]]
+| style="text-align:center;" | 1:43
+| style="text-align:center;" | 10/30/2015
+|-
+| style="text-align:center;" | 030
+|'''[[The Clone Wars Animated Series]]'''
+| [https://soundcloud.com/griffin-and-david-present/revenge-of-the-podcast-episode-seven-the-clone-wars-animated-series-w-jonathan-braylock 🔊]
+| [[Jonathan Braylock]]
+| style="text-align:center;" | 1:39
+| style="text-align:center;" | 11/06/2015
+|-
+| style="text-align:center;" | 031
+|'''[[More Deleted Scenes]]'''
+| [https://soundcloud.com/griffin-and-david-present/revenge-of-the-podcast-episode-eight-more-deleted-scenes-w-mike-ryan 🔊]
+| [[Mike Ryan]]
+| style="text-align:center;" | 1:08
+| style="text-align:center;" | 11/16/2015
+|-
+| style="text-align:center;" | 032
+|'''[[A Conversation with George Lucas]]'''
+| [https://soundcloud.com/griffin-and-david-present/revenge-of-the-podcast-episode-nine-a-conversation-w-george-lucas 🔊]
+| rowspan="2"|[[Connor Ratliff]]
+| style="text-align:center;" | 1:03
+| style="text-align:center;" | 11/23/2015
+|-
+| style="text-align:center;" | 033
+|'''[[Watch With Us Live @ Union Hall]]'''
+| [https://soundcloud.com/griffin-and-david-present/revenge-of-the-podcast-episode-ten-watch-with-us-live 🔊]
+| style="text-align:center;" | 2:27
+| style="text-align:center;" | 11/30/2015
+|}
+
+=== 51-100 ===
+{| class="wikitable plainrowheaders" style="border:medium solid black; width:99%; margin-right: 0;"
+|- style="color:black"
+! scope="col" width="5%" | <u>#</u>
+! scope="col" width="40%" | <u>Title</u>
+! scope="col" width="5%" | <u>Audio</u>
+! scope="col" width="20%" | <u>Guest(s)</u>
+! scope="col" width="7.5%" | <u>Length</u>
+! scope="col" width="7.5%" | <u>Date</u>
+! scope="col" width="15%" |<u>Series</u>
+|-
+| style="text-align:center;" | 080
+|'''[[Jack Reacher: Never Go Back]]'''
+| [https://soundcloud.com/griffin-and-david-present/jack-reacher-never-go-back 🔊]
+|
+| style="text-align:center;" | 1:32
+| style="text-align:center;" | 10/23/2016
+| [[Standalones#Other Standalone Episodes|Standalone]]<br>[[Stealth McQuarrie Miniseries]]
+|-
+| style="text-align:center;" | 081
+|'''[[True Lies]]'''
+| [https://soundcloud.com/griffin-and-david-present/true-lies 🔊]
+|
+| style="text-align:center;" | 1:40
+| style="text-align:center;" | 10/28/2016
+| rowspan="6" | [[Podinator: Judgment Cast]]
+|-
+| style="text-align:center;" | 082
+|'''[[Titanic - Part One]]'''
+| [https://soundcloud.com/griffin-and-david-present/titanic-with-emily-yoshida-and-katey-rich-part-one 🔊]
+| rowspan="2"|[[Emily Yoshida]]<br />[[Katey Rich]]
+| style="text-align:center;" | 1:37
+| style="text-align:center;" | 11/3/2016
+|-
+| style="text-align:center;" | 083
+|'''[[Titanic - Part Two]]'''
+| [https://soundcloud.com/griffin-and-david-present/titanic-with-emily-yoshida-and-katey-rich-part-two 🔊]
+| style="text-align:center;" | 2:02
+| style="text-align:center;" | 11/11/2016
+|-
+| style="text-align:center;" | 084
+|'''[[Aliens of the Deep/Ghosts of the Abyss]]'''
+| [https://soundcloud.com/griffin-and-david-present/aliens-of-the-deep-ghosts-of-the-abyss 🔊]
+|
+| style="text-align:center;" | 1:05
+| style="text-align:center;" | 11/18/2016
+|-
+| style="text-align:center;" | <span class="avatar">085</span>
+|<span class="avatar">'''[[Avatar]]'''</span>
+| [https://soundcloud.com/griffin-and-david-present/avatar 🔊]
+|
+| style="text-align:center;" | <span class="avatar">1:43</span>
+| style="text-align:center;" | <span class="avatar">11/26/2016</span>
+|-
+| style="text-align:center;" |<span class="avatar"> 086</span>
+| <span class="avatar">'''[[Toruk: The First Flight]]'''</span>
+| [https://soundcloud.com/griffin-and-david-present/toruk-the-first-flight-with-rachel-lang 🔊]
+| [[Rachel Lang]]
+| style="text-align:center;" | <span class="avatar">1:40</span>
+| style="text-align:center;" | <span class="avatar">12/3/2016</span>
+|}
+
+{| class="wikitable plainrowheaders" style="border:medium solid black; width:99%; margin-right: 0;"
+|- style="color:black"
+! scope="col" width="5%" | <u>#</u>
+! scope="col" width="40%" | <u>Title</u>
+! scope="col" width="5%" | <u>Audio</u>
+! scope="col" width="20%" | <u>Guest(s)</u>
+! scope="col" width="7.5%" | <u>Length</u>
+! scope="col" width="7.5%" | <u>Date</u>
+! scope="col" width="15%" |<u>Series</u>
+|-
+| style="text-align:center;" | 093
+|'''[[The Lost World: Jurassic Park]]'''
+| [https://soundcloud.com/griffin-and-david-present/the-lost-world-jurassic-park 🔊]
+|
+| style="text-align:center;" | 1:42
+| style="text-align:center;" | 1/28/2017
+| rowspan="3" | [[Pod Me If You Cast]]
+|-
+| style="text-align:center;" | 094
+|'''[[Amistad]]'''
+| [https://soundcloud.com/griffin-and-david-present/amistad 🔊]
+|
+| style="text-align:center;" | 1:09
+| style="text-align:center;" | 2/4/2017
+|-
+| style="text-align:center;" | 095
+|'''[[Saving Private Ryan]]'''
+| [https://soundcloud.com/griffin-and-david-present/saving-private-ryan-with-richard-lawson 🔊]
+| [[Richard Lawson]]
+| style="text-align:center;" | 1:45
+| style="text-align:center;" | 2/11/2017
+|}
+
+=== 151-200 ===
+{| class="wikitable plainrowheaders" style="border:medium solid black; width:99%; margin-right: 0;"
+|- style="color:black"
+! scope="col" width="5%" | <u>#</u>
+! scope="col" width="40%" | <u>Title</u>
+! scope="col" width="5%" | <u>Audio</u>
+! scope="col" width="20%" | <u>Guest(s)</u>
+! scope="col" width="7.5%" | <u>Length</u>
+! scope="col" width="7.5%" | <u>Date</u>
+! scope="col" width="15%" |<u>Series</u>
+|-
+| style="text-align:center;" | 185
+| '''[[Space Jam]]'''
+| [https://soundcloud.com/griffin-and-david-present/space-jam-with-james-newman 🔊]
+| [[James Newman]]
+| style="text-align:center;" | 2:14
+| style="text-align:center;" | 9/30/3018
+| [[Standalones#Bring Your Family To Podcast Day|Family Choice]]
+|-
+| style="text-align:center;" | 186
+| '''[[A Star Is Born]]'''
+| [https://soundcloud.com/griffin-and-david-present/a-star-is-born 🔊]
+|
+| style="text-align:center;" | 2:16
+| style="text-align:center;" | 10/7/2018
+| [[Standalones#Other Standalone Episodes|Standalone]]
+|}
+
+=== 501-550 ===
+{| class="wikitable plainrowheaders" style="border:medium solid black; width:99%; margin-right: 0;"
+|- style="color:black"
+! scope="col" width="5%" | <u>#</u>
+! scope="col" width="40%" | <u>Title</u>
+! scope="col" width="5%" | <u>Audio</u>
+! scope="col" width="20%" | <u>Guest(s)</u>
+! scope="col" width="7.5%" | <u>Length</u>
+! scope="col" width="7.5%" | <u>Date</u>
+! scope="col" width="15%" |<u>Series</u>
+|-
+| style="text-align:center;" | 518
+| '''[[Indiana Jones and the Temple of Doom]]'''
+| [https://blankcheck.podcastpage.io/episode/indiana-jones-and-the-temple-of-doom-with-olivia-craighead 🔊]
+| [[Olivia Craighead]]
+| style="text-align:center;" | 2:36
+| style="text-align:center;" | 3/2/2025
+| [[Podrassic Cast]]
+|-
+| style="text-align:center;" | ---
+| '''[[Blank Check LIVE! at Town Hall (2025)#Main Feed: Blank Check LIVE! at Town Hall (2025)|Blank Check LIVE! at Town Hall (2025)]]
+| [https://blankcheck.podcastpage.io/episode/blank-check-live-at-town-hall-2025 🔊]
+| 
+| style="text-align:center;" | 0:03
+| style="text-align:center;" | 3/6/2025
+| [[Announcements]]
+|}
+
+=== 551-600 ===
+{| class="wikitable plainrowheaders" style="border:medium solid black; width:99%; margin-right: 0;"
+|- style="color:black"
+! scope="col" width="5%" | <u>#</u>
+! scope="col" width="40%" | <u>Title</u>
+! scope="col" width="5%" | <u>Audio</u>
+! scope="col" width="20%" | <u>Guest(s)</u>
+! scope="col" width="7.5%" | <u>Length</u>
+! scope="col" width="7.5%" | <u>Date</u>
+! scope="col" width="15%" |<u>Series</u>
+|-
+| style="text-align:center;" | 584
+| '''[[Disclosure Day]]'''
+| [https://blankcheck.beam.ly/episode/disclosure-day 🔊]
+| 
+| style="text-align:center;" | 2:23
+| style="text-align:center;" | 6/14/2026
+|[[Pod Me If You Cast]]
+|-
+| style="text-align:center;" | 585
+| '''[[Finding Nemo]]'''
+| [https://blankcheck.beam.ly/episode/finding-nemo-with-rebecca-alter 🔊]
+| [[Rebecca Alter]]
+| style="text-align:center;" | 3:22
+| style="text-align:center;" | 6/21/2026
+| rowspan="4" |[[PODD-C]]
+|-
+| style="text-align:center;" | 586
+| '''[[WALL-E]]'''
+| [https://blankcheck.beam.ly/episode/wall-e-with-david-ehrlich 🔊]
+| [[David Ehrlich]]
+| style="text-align:center;" | 3:26
+| style="text-align:center;" | 6/28/2026
+|-
+| style="text-align:center;" | 587
+| '''[[John Carter]]'''
+| [https://blankcheck.beam.ly/episode/john-carter-with-matt-singer 🔊]
+| [[Matt Singer]]
+| style="text-align:center;" | 3:14
+| style="text-align:center;" | 7/5/2026
+|-
+| style="text-align:center;" | 588
+| '''[[Finding Dory]]'''
+| [https://blankcheck.beam.ly/episode/finding-dory-with-zach-cherry 🔊]
+| [[Zach Cherry]]
+| style="text-align:center;" | 2:44
+| style="text-align:center;" | 7/12/2026
+|-
+| style="text-align:center;" | 589
+| '''[[The Odyssey]]'''
+| [https://blankcheck.beam.ly/episode/the-odyssey 🔊]
+| 
+| style="text-align:center;" | 2:34
+| style="text-align:center;" | 7/19/2026
+| [[The Pod Knight Casts]]
+|}
+
+{| class="wikitable plainrowheaders" style="border:medium solid black; width:99%; margin-right: 0;"
+|- style="color:black"
+! scope="col" width="5%" | <u>#</u>
+! scope="col" width="40%" | <u>Title</u>
+! scope="col" width="5%" | <u>Audio</u>
+! scope="col" width="20%" | <u>Guest(s)</u>
+! scope="col" width="7.5%" | <u>Length</u>
+! scope="col" width="7.5%" | <u>Date</u>
+! scope="col" width="15%" |<u>Series</u>
+|-
+| style="text-align:center;" | 593
+| '''[[Who's That Knocking at My Door/Boxcar Bertha]]'''
+| [https://blankcheck.beam.ly/episode/whos-that-knocking-at-my-door-boxcar-bertha 🔊]
+| 
+| style="text-align:center;" | 2:26
+| style="text-align:center;" | 8/9/2026
+| rowspan="8" |[[Podcastfellas]]
+|-
+| style="text-align:center;" | 594
+| '''[[Mean Streets]]'''
+| [https://blankcheck.beam.ly/episode/mean-streets-with-miriam-bale 🔊]
+| [[Miriam Bale]]
+| style="text-align:center;" | 2:35
+| style="text-align:center;" | 8/16/2026
+|-
+| style="text-align:center;" | 595
+| '''[[Alice Doesn't Live Here Anymore]]'''
+| [https://blankcheck.beam.ly/episode/alice-doesnt-live-here-anymore-with-katey-rich 🔊]
+| [[Katey Rich]]
+| style="text-align:center;" | 2:31
+| style="text-align:center;" | 8/23/2026
+|-
+| style="text-align:center;" | 596
+| '''[[Taxi Driver]]'''
+| [https://blankcheck.beam.ly/episode/taxi-driver-with-tracy-letts 🔊]
+| [[Tracy Letts]]
+| style="text-align:center;" | 3:53
+| style="text-align:center;" | 8/30/2026
+|-
+| style="text-align:center;" | 597
+| '''[[New York, New York]]'''
+| [https://blankcheck.beam.ly/episode/new-york-new-yorkwith-lin-manuel-miranda 🔊]
+| [[Lin-Manuel Miranda]]
+| style="text-align:center;" | 2:02
+| style="text-align:center;" | 9/6/2026
+|-
+| style="text-align:center;" | 598
+| '''[[Raging Bull]]'''
+| [https://blankcheck.beam.ly/episode/raging-bull-with-david-krumholtz 🔊]
+| [[David Krumholtz]]
+| style="text-align:center;" | 2:19
+| style="text-align:center;" | 9/13/2026
+|-
+| style="text-align:center;" | 599
+| '''[[The King of Comedy]]'''
+| [https://blankcheck.beam.ly/episode/the-king-of-comedy-with-stavros-halkias 🔊]
+| [[Stavros Halkias]]
+| style="text-align:center;" | 3:04
+| style="text-align:center;" | 9/20/2026
+|-
+| style="text-align:center;" | 600
+| '''[[After Hours]]'''
+| [https://blankcheck.beam.ly/episode/after-hours-with-alison-sivitz 🔊]
+| [[Alison Sivitz]]
+| style="text-align:center;" | 2:29
+| style="text-align:center;" | 9/27/2026
+|-
+| style="text-align:center;" | ...
+| 
+| 
+| 
+| style="text-align:center;" | 
+| style="text-align:center;" | 
+| 
+|}
+[[Episodes#top|Back to top]]
+<!-- These are all announced, but since things can change I'm moving them to a hidden section so we can just move episodes up as they happen. --antlersantlers
+
+
+|-
+| style="text-align:center;" | 601
+| '''[[The Color of Money]]'''
+| 
+| 
+| style="text-align:center;" | 
+| style="text-align:center;" | 10/4/2026
+-->
+[[Category:Reference]]

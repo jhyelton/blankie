@@ -1,0 +1,101 @@
+=== SF151-SF200 ===
+{| class="wikitable plainrowheaders" style="border:medium solid black; width:100%; margin-right: 0;"
+|- style="color:black"
+! scope="col" width="5%" | <u>#</u>
+! scope="col" width="40%" | <u>Title</u>
+! scope="col" width="5%" | <u>Audio</u>
+! scope="col" width="20%" | <u>Guest(s)</u>
+! scope="col" width="7.5%" | <u>Length</u>
+! scope="col" width="7.5%" | <u>Date</u>
+! width="15%" |<u>Series</u>
+|-
+| style="text-align:center;" | SF182
+| '''[[Spreadmaster's Delight|Spreadmaster’s Delight (Uncut Version)]]'''
+| [https://www.patreon.com/posts/spreadmasters-85911968 🔊✔️]
+| rowspan="2" |
+| style="text-align:center;" | 1:41
+| rowspan="2" style="text-align:center;" | 7/11/2023
+| rowspan="2"| [[Patreon Standalones]]
+|-
+| style="text-align:center;" | SF182.5
+| '''[[Spreadmaster's Delight|Spreadmaster’s Delight (Bite Free Version)]]'''
+| [https://www.patreon.com/posts/spreadmasters-85911862 🔊✔️]
+| style="text-align:center;" | 1:27
+|-
+| style="text-align:center;" | SF183
+| '''[[Ocean's Eleven Commentary|Ocean's Eleven]]'''
+| [https://www.patreon.com/posts/oceans-eleven-86285136 🔊✔️]
+| 
+| style="text-align:center;" | 2:00
+| style="text-align:center;" | 7/21/2023
+| rowspan="2"|[[Ocean's]]
+|-
+| style="text-align:center;" | SF184
+| '''[[Ocean's Twelve Commentary|Ocean's Twelve]]'''
+| [https://www.patreon.com/posts/oceans-twelve-86483181 🔊✔️]
+| 
+| style="text-align:center;" | 2:15
+| style="text-align:center;" | 8/1/2023
+|}
+
+=== SF251-SF300 ===
+{| class="wikitable plainrowheaders" style="border:medium solid black; width:100%; margin-right: 0;"
+|- style="color:black"
+! scope="col" width="5%" | <u>#</u>
+! scope="col" width="40%" | <u>Title</u>
+! scope="col" width="5%" | <u>Audio</u>
+! scope="col" width="20%" | <u>Guest(s)</u>
+! scope="col" width="7.5%" | <u>Length</u>
+! scope="col" width="7.5%" | <u>Date</u>
+! width="15%" |<u>Series</u>
+|-
+| style="text-align:center;" | SF269<sup>Nice</sup>
+| '''[[Spreadmaster's Delight 3: Decade-of-Dreams Warriors]]'''
+| [https://www.patreon.com/posts/spreadmasters-3-140857396 🔊]
+| 
+| style="text-align:center;" | 2:15
+| style="text-align:center;" | 10/11/2025
+| rowspan="2" |[[Patreon Standalones]]
+|-
+| style="text-align:center;" | SF269.5<sup>Nice</sup>
+| '''[[Spreadmaster's Delight 3: Decade-of-Dreams Warriors|Spreadmaster's Delight 3: Decade-of-Dreams Warriors (Bite-Free Version)]]'''
+| [https://www.patreon.com/posts/spreadmasters-3-140857396 🔊]
+| 
+| style="text-align:center;" | 1:38
+| style="text-align:center;" | 10/11/2025
+|}
+
+{| class="wikitable plainrowheaders" style="border:medium solid black; width:100%; margin-right: 0;"
+|- style="color:black"
+! scope="col" width="5%" | <u>#</u>
+! scope="col" width="40%" | <u>Title</u>
+! scope="col" width="5%" | <u>Audio</u>
+! scope="col" width="20%" | <u>Guest(s)</u>
+! scope="col" width="7.5%" | <u>Length</u>
+! scope="col" width="7.5%" | <u>Date</u>
+! width="15%" |<u>Series</u>
+|-
+| style="text-align:center;" | SF294
+| '''[[Mortal Kombat II]]'''
+| [https://www.patreon.com/posts/mortal-kombat-ii-158692113 🔊]
+| 
+| style="text-align:center;" | 1:58
+| style="text-align:center;" | 5/21/2026
+| [[Mortal Kombat]]
+|-
+| style="text-align:center;" | SF295
+| '''[[RoboCop Commentary|RoboCop]]'''
+| [https://www.patreon.com/posts/robocop-1987-158774325 🔊]
+| 
+| style="text-align:center;" | 1:54
+| style="text-align:center;" | 6/1/2026
+| [[RoboCop (Miniseries)|RoboCop]]
+|-
+| style="text-align:center;" | SF296
+| '''[[Billie Eilish - Hit Me Hard and Soft: The Tour (Live in 3D)/Babe: Pig in the City at The 28th Wisconsin Film Festival]]'''
+| [https://www.patreon.com/blankcheck/posts/billie-eilish-me-159935660 🔊]
+| 
+| style="text-align:center;" | 1:53
+| style="text-align:center;" | 6/11/2026
+| [[Podinator: Judgment Cast]]<br>[[Patreon Standalones]]
+|}

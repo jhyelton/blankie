@@ -1,0 +1,30 @@
+[
+  {
+    "op": "fix",
+    "target": "185",
+    "airDate": "2018-09-30",
+    "reason": "The wiki dates Space Jam 9/30/3018."
+  },
+  {
+    "op": "fix",
+    "target": "23",
+    "title": "The Podcastic Two",
+    "reason": "The wiki spells it Podtastic; the episode is The Podcastic Two."
+  },
+  {
+    "op": "pinPublicGuid",
+    "target": "82",
+    "guid": "tag:soundcloud,2010:tracks/291384687",
+    "reason": "The feed puts the guests before the part number."
+  },
+  {
+    "op": "ackUnmatchedWiki",
+    "target": "83",
+    "reason": "Test: left unmatched on purpose."
+  },
+  {
+    "op": "ackUnmatchedFeed",
+    "guid": "tag:audioboom.com,2024-05-10:/posts/8503464",
+    "reason": "The show trailer has no wiki row."
+  }
+]

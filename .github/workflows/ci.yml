@@ -28,6 +28,7 @@ jobs:
       pull-requests: read
     outputs:
       openspec: ${{ steps.filter.outputs.openspec }}
+      series-data: ${{ steps.filter.outputs.series-data }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # v4.0.3
@@ -36,6 +37,10 @@ jobs:
           filters: |
             openspec:
               - 'openspec/**'
+            series-data:
+              - 'tools/series-data/**'
+              - 'contracts/**'
+              - 'data/**'
 
   openspec:
     name: openspec
@@ -51,6 +56,24 @@ jobs:
       # (see CONTRIBUTING.md).
       - run: npm install -g @fission-ai/openspec@1.13.2
       - run: openspec validate --all --strict
+
+  series-data:
+    name: series-data
+    needs: changes
+    if: needs.changes.outputs.series-data == 'true'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: tools/series-data
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+      - run: uv sync --locked
+      - run: uv run ruff check
+      - run: uv run ruff format --check
+      - run: uv run pytest
+      # Validates the committed dataset and overrides. No network access.
+      - run: uv run series-data check
 
   secrets:
     name: secrets
@@ -96,7 +119,7 @@ jobs:
   ci-ok:
     name: ci-ok
     if: always()
-    needs: [changes, openspec, secrets, pr-title]
+    needs: [changes, openspec, series-data, secrets, pr-title]
     runs-on: ubuntu-latest
     steps:
       - name: Check that no job failed or was cancelled

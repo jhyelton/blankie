@@ -19,6 +19,7 @@ Before proposing a dataset, the system SHALL compare it with the dataset current
 - any previously published episode ID disappeared
 - any series lost episodes
 - more than 5% of previously published episodes changed their series membership
+- any previously published episode's public GUID or Patreon post ID hint changed to a different value
 
 The owner SHALL be able to deliberately accept such changes by triggering the run manually with an explicit acceptance option. The pull request SHALL then list every guardrail that was overridden.
 
@@ -29,6 +30,10 @@ The owner SHALL be able to deliberately accept such changes by triggering the ru
 #### Scenario: Series loses episodes
 - **WHEN** a wiki edit removes three episodes from "Podcastfellas"
 - **THEN** the run fails and names the series and the missing episodes
+
+#### Scenario: Wiki renumbers episodes
+- **WHEN** a wiki edit swaps the numbers of two published episodes
+- **THEN** each episode keeps its own ID, anchored by its public GUID, and no hint changes
 
 #### Scenario: Deliberate acceptance
 - **WHEN** the owner manually triggers the run with the acceptance option after confirming that a large wiki reorganization is correct

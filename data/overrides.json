@@ -1,0 +1,82 @@
+[
+  {
+    "op": "fix",
+    "target": "185",
+    "airDate": "2018-09-30",
+    "reason": "The wiki dates Space Jam 9/30/3018; it aired 2018-09-30."
+  },
+  {
+    "op": "fix",
+    "target": "23",
+    "title": "The Podcastic Two",
+    "reason": "The wiki spells it 'The Podtastic Two'; the episode's title is 'The Podcastic Two'."
+  },
+  {
+    "op": "pinPublicGuid",
+    "target": "33",
+    "guid": "tag:audioboo.fm,2015-11-30:/boos/3887887",
+    "reason": "The feed titles the live episode 'Watch With Us LIVE! - Revenge Of The Podcast'."
+  },
+  {
+    "op": "pinPublicGuid",
+    "target": "82",
+    "guid": "tag:soundcloud,2010:tracks/291384687",
+    "reason": "The feed puts the guests before the part number: 'Titanic with ... - Part One'."
+  },
+  {
+    "op": "pinPublicGuid",
+    "target": "83",
+    "guid": "tag:soundcloud,2010:tracks/292610883",
+    "reason": "The feed puts the guests before the part number: 'Titanic with ... - Part Two'."
+  },
+  {
+    "op": "pinPublicGuid",
+    "target": "273",
+    "guid": "tag:audioboom.com,2020-05-28:/posts/7593236",
+    "reason": "The feed drops 'The Movie' and the quotes: 'Twilight Zone: Nightmare at 20,000 Feet'."
+  },
+  {
+    "op": "pinPublicGuid",
+    "target": "351",
+    "guid": "tag:audioboom.com,2021-11-19:/posts/7983070",
+    "reason": "The feed titles it 'John Carpenter's Vampires'."
+  },
+  {
+    "op": "pinPublicGuid",
+    "target": "480",
+    "guid": "tag:audioboom.com,2024-05-31:/posts/8516682",
+    "reason": "The feed drops the subtitle: 'Furiosa with Kyle Buchanan'."
+  },
+  {
+    "op": "pinPublicGuid",
+    "target": "507",
+    "guid": "741a82b2-80ed-11ef-8066-a760b70fb04c",
+    "reason": "The feed spells out 'Episode 8' where the wiki has 'Ep 8'."
+  },
+  {
+    "op": "pinPublicGuid",
+    "target": "508",
+    "guid": "74336688-80ed-11ef-8066-8f18eb63ddd3",
+    "reason": "The feed spells out 'Episodes 9-13' where the wiki has 'Eps 9-13'."
+  },
+  {
+    "op": "ackUnmatchedFeed",
+    "guid": "tag:audioboom.com,2024-05-10:/posts/8503464",
+    "reason": "The show trailer has no wiki row."
+  },
+  {
+    "op": "ackUnmatchedWiki",
+    "target": "2022-02-26:special-blank-check-march-madness-announcement",
+    "reason": "A March Madness announcement that was never in the public feed."
+  },
+  {
+    "op": "ackUnmatchedWiki",
+    "target": "2022-04-07:live-show-at-the-bell-house-on-may-12th",
+    "reason": "A live-show announcement that was never in the public feed."
+  },
+  {
+    "op": "ackUnmatchedWiki",
+    "target": "2024-01-25:blank-check-on-broadway",
+    "reason": "A Broadway-show announcement that was never in the public feed."
+  }
+]

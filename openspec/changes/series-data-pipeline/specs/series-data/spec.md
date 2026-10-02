@@ -64,11 +64,15 @@ Each episode ID SHALL be derived when the episode is first published, from its a
 - **THEN** generation fails with an error naming both rows
 
 ### Requirement: Feed match hints
-For each episode matched to an item in the public feed, the dataset SHALL include that item's GUID and title as hints. For each Special Features episode whose wiki row links to a Patreon post, the dataset SHALL include the Patreon post ID as a hint. The dataset SHALL NOT contain any audio or enclosure URLs, or any Patreon feed URL.
+For each episode matched to an item in the public feed, the dataset SHALL include that item's GUID and title as hints. For each Special Features episode whose wiki row links to a Patreon post, the dataset SHALL include the Patreon post ID as a hint. A Patreon post ID linked from more than one wiki row SHALL NOT be included as a hint for any of them, and SHALL be reported. The dataset SHALL NOT contain any audio or enclosure URLs, or any Patreon feed URL.
 
 #### Scenario: Public match hint
 - **WHEN** the wiki row "After Hours" (9/27/2026) matches the public feed item "After Hours with Alison Sivitz"
 - **THEN** the episode's hints include that item's GUID and title
+
+#### Scenario: Post ID linked from two rows
+- **WHEN** two Special Features rows link to the same Patreon post
+- **THEN** neither episode has a Patreon post ID hint, and the update report lists both rows
 
 #### Scenario: Patreon post hint
 - **WHEN** a Special Features wiki row links to `https://www.patreon.com/posts/mortal-kombat-ii-158692113`

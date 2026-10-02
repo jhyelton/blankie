@@ -1,0 +1,536 @@
+{
+  "$schema": "./matching-vectors.schema.json",
+  "version": 1,
+  "normalization": [
+    {
+      "name": "plain title",
+      "input": "After Hours",
+      "expected": "after-hours"
+    },
+    {
+      "name": "guest suffix kept",
+      "input": "After Hours with Alison Sivitz",
+      "expected": "after-hours-with-alison-sivitz"
+    },
+    {
+      "name": "trailing whitespace from the feed",
+      "input": "After Hours with Alison Sivitz ",
+      "expected": "after-hours-with-alison-sivitz"
+    },
+    {
+      "name": "ad-free copy equals the public title",
+      "input": "After Hours with Alison Sivitz (Ad-Free)",
+      "expected": "after-hours-with-alison-sivitz"
+    },
+    {
+      "name": "apostrophe removed",
+      "input": "Alice Doesn't Live Here Anymore",
+      "expected": "alice-doesnt-live-here-anymore"
+    },
+    {
+      "name": "missing apostrophe",
+      "input": "Alice Doesnt Live Here Anymore",
+      "expected": "alice-doesnt-live-here-anymore"
+    },
+    {
+      "name": "curly apostrophe removed",
+      "input": "Alice Doesn’t Live Here Anymore",
+      "expected": "alice-doesnt-live-here-anymore"
+    },
+    {
+      "name": "quotation marks removed",
+      "input": "“Weird Al” Yankovic and \"Friends\"",
+      "expected": "weird-al-yankovic-and-friends"
+    },
+    {
+      "name": "tab treated as a single separator",
+      "input": "You Were Never Really Here\twith Sean Clements",
+      "expected": "you-were-never-really-here-with-sean-clements"
+    },
+    {
+      "name": "space before tab collapses too",
+      "input": "You Were Never Really Here \twith Sean Clements",
+      "expected": "you-were-never-really-here-with-sean-clements"
+    },
+    {
+      "name": "markup removed and slash becomes one separator",
+      "input": "<span class=\"avatar\">Avatarland</span>/The Second Blank Check Mailbag",
+      "expected": "avatarland-the-second-blank-check-mailbag"
+    },
+    {
+      "name": "HTML entities decoded",
+      "input": "Pod &amp; Basketcast",
+      "expected": "pod-basketcast"
+    },
+    {
+      "name": "accents folded",
+      "input": "Amélie and the Pokémon Naïveté",
+      "expected": "amelie-and-the-pokemon-naivete"
+    },
+    {
+      "name": "leading and trailing separators trimmed",
+      "input": "  ...Mean Streets!  ",
+      "expected": "mean-streets"
+    },
+    {
+      "name": "colon and dash runs collapse",
+      "input": "Furiosa: A Mad Max Saga -- Part One",
+      "expected": "furiosa-a-mad-max-saga-part-one"
+    },
+    {
+      "name": "other parenthetical suffix kept",
+      "input": "Spreadmaster's Delight 3: Decade-of-Dreams Warriors (Bite-Free Version)",
+      "expected": "spreadmasters-delight-3-decade-of-dreams-warriors-bite-free-version"
+    },
+    {
+      "name": "same title without the suffix differs",
+      "input": "Spreadmaster's Delight 3: Decade-of-Dreams Warriors",
+      "expected": "spreadmasters-delight-3-decade-of-dreams-warriors"
+    },
+    {
+      "name": "sunglasses edition kept",
+      "input": "The Matrix (Sunglasses Edition)",
+      "expected": "the-matrix-sunglasses-edition"
+    },
+    {
+      "name": "ad-free suffix only removed at the end",
+      "input": "(Ad-Free) Movie Night",
+      "expected": "ad-free-movie-night"
+    },
+    {
+      "name": "leading article is not removed by normalization",
+      "input": "The Silence of the Lambs",
+      "expected": "the-silence-of-the-lambs"
+    },
+    {
+      "name": "digits kept",
+      "input": "2001: A Space Odyssey with Jordan Hoffman",
+      "expected": "2001-a-space-odyssey-with-jordan-hoffman"
+    }
+  ],
+  "matching": [
+    {
+      "name": "guest suffix",
+      "episode": {
+        "title": "Taxi Driver",
+        "airDate": "2026-08-30"
+      },
+      "candidates": [
+        {
+          "guid": "ca63c896-fae9-11f0-9ff5-67d1244352a1",
+          "title": "Taxi Driver with Tracy Letts",
+          "pubDate": "2026-08-30"
+        },
+        {
+          "guid": "ca3155a0-fae9-11f0-9ff5-f3c169e18312",
+          "title": "Alice Doesn't Live Here Anymore with Katey Rich",
+          "pubDate": "2026-08-23"
+        }
+      ],
+      "expected": "ca63c896-fae9-11f0-9ff5-67d1244352a1"
+    },
+    {
+      "name": "trailing space in feed title",
+      "episode": {
+        "title": "After Hours",
+        "airDate": "2026-09-27"
+      },
+      "candidates": [
+        {
+          "guid": "cb353980-fae9-11f0-9ff5-ebf9d6641dd0",
+          "title": "After Hours with Alison Sivitz ",
+          "pubDate": "2026-09-27"
+        }
+      ],
+      "expected": "cb353980-fae9-11f0-9ff5-ebf9d6641dd0"
+    },
+    {
+      "name": "leading article difference",
+      "episode": {
+        "title": "The Silence of the Lambs",
+        "airDate": "2020-01-12"
+      },
+      "candidates": [
+        {
+          "guid": "tag:audioboom.com,2020-01-09:/posts/7474210",
+          "title": "Silence of the Lambs with Emily St. James",
+          "pubDate": "2020-01-12"
+        }
+      ],
+      "expected": "tag:audioboom.com,2020-01-09:/posts/7474210"
+    },
+    {
+      "name": "prefix must end at a separator",
+      "episode": {
+        "title": "Avatar",
+        "airDate": "2016-11-27"
+      },
+      "candidates": [
+        {
+          "guid": "synthetic-avatarland",
+          "title": "Avatarland with Somebody",
+          "pubDate": "2016-11-27"
+        }
+      ],
+      "expected": null
+    },
+    {
+      "name": "date outside window",
+      "episode": {
+        "title": "Mean Streets",
+        "airDate": "2026-08-16"
+      },
+      "candidates": [
+        {
+          "guid": "synthetic-mean-streets",
+          "title": "Mean Streets with Miriam Bale",
+          "pubDate": "2026-08-26"
+        }
+      ],
+      "expected": null,
+      "note": "Same normalized title, published 10 days away."
+    },
+    {
+      "name": "date at the edge of the window",
+      "episode": {
+        "title": "Mean Streets",
+        "airDate": "2026-08-16"
+      },
+      "candidates": [
+        {
+          "guid": "synthetic-mean-streets",
+          "title": "Mean Streets with Miriam Bale",
+          "pubDate": "2026-08-19"
+        }
+      ],
+      "expected": "synthetic-mean-streets"
+    },
+    {
+      "name": "ambiguous",
+      "episode": {
+        "title": "Bonus Episode",
+        "airDate": "2021-03-01"
+      },
+      "candidates": [
+        {
+          "guid": "synthetic-a",
+          "title": "Bonus Episode with Guest A",
+          "pubDate": "2021-03-01"
+        },
+        {
+          "guid": "synthetic-b",
+          "title": "Bonus Episode with Guest B",
+          "pubDate": "2021-03-01"
+        }
+      ],
+      "expected": null,
+      "note": "Two candidates with the same date distance and the same overlap: no guess."
+    },
+    {
+      "name": "closest date wins",
+      "episode": {
+        "title": "Bonus Episode",
+        "airDate": "2021-03-01"
+      },
+      "candidates": [
+        {
+          "guid": "synthetic-near",
+          "title": "Bonus Episode with Guest A",
+          "pubDate": "2021-03-02"
+        },
+        {
+          "guid": "synthetic-far",
+          "title": "Bonus Episode with Guest B",
+          "pubDate": "2021-03-03"
+        }
+      ],
+      "expected": "synthetic-near"
+    },
+    {
+      "name": "longest overlap wins after date",
+      "episode": {
+        "title": "The Thing",
+        "airDate": "2019-10-13"
+      },
+      "candidates": [
+        {
+          "guid": "synthetic-direct",
+          "title": "The Thing with Guest A",
+          "pubDate": "2019-10-13"
+        },
+        {
+          "guid": "synthetic-article",
+          "title": "Thing with Guest B",
+          "pubDate": "2019-10-13"
+        }
+      ],
+      "expected": "synthetic-direct",
+      "note": "Both are candidates on the same day. The direct match overlaps 'the-thing' (9 characters); the other only matches after dropping 'the', overlapping 'thing' (5)."
+    },
+    {
+      "name": "real miss: wiki year typo",
+      "episode": {
+        "title": "Space Jam",
+        "airDate": "3018-09-30"
+      },
+      "candidates": [
+        {
+          "guid": "tag:audioboom.com,2018-09-30:/posts/7027311",
+          "title": "Space Jam with James Newman",
+          "pubDate": "2018-09-30"
+        }
+      ],
+      "expected": null,
+      "note": "The wiki has 9/30/3018. Fixed with a `fix` override in data/overrides.json."
+    },
+    {
+      "name": "real miss: spelling difference",
+      "episode": {
+        "title": "The Podtastic Two",
+        "airDate": "2015-09-14"
+      },
+      "candidates": [
+        {
+          "guid": "tag:audioboo.fm,2015-09-14:/boos/3572668",
+          "title": "The Podcastic Two",
+          "pubDate": "2015-09-14"
+        }
+      ],
+      "expected": null,
+      "note": "Fixed with a `fix` override."
+    },
+    {
+      "name": "real miss: subtitle difference",
+      "episode": {
+        "title": "Furiosa: A Mad Max Saga",
+        "airDate": "2024-06-02"
+      },
+      "candidates": [
+        {
+          "guid": "tag:audioboom.com,2024-05-31:/posts/8516682",
+          "title": "Furiosa with Kyle Buchanan",
+          "pubDate": "2024-06-02"
+        }
+      ],
+      "expected": null,
+      "note": "The feed drops the subtitle. Fixed with a `pinPublicGuid` override."
+    },
+    {
+      "name": "real miss: split-episode naming",
+      "episode": {
+        "title": "Titanic - Part One",
+        "airDate": "2016-11-04"
+      },
+      "candidates": [
+        {
+          "guid": "tag:soundcloud,2010:tracks/291384687",
+          "title": "Titanic with Emily Yoshida and Katey Rich - Part One",
+          "pubDate": "2016-11-04"
+        }
+      ],
+      "expected": null,
+      "note": "The part suffix comes after the guests. Fixed with a `pinPublicGuid` override."
+    },
+    {
+      "name": "real miss: live show never in the public feed",
+      "episode": {
+        "title": "Watch With Us Live @ Union Hall",
+        "airDate": "2015-07-01"
+      },
+      "candidates": [
+        {
+          "guid": "synthetic-unrelated",
+          "title": "Something Else Entirely",
+          "pubDate": "2015-07-01"
+        }
+      ],
+      "expected": null,
+      "note": "Acknowledged with `ackUnmatchedWiki`."
+    },
+    {
+      "name": "real miss: feed-only trailer is not claimed",
+      "episode": {
+        "title": "The Podcast Reawakens",
+        "airDate": "2016-01-11"
+      },
+      "candidates": [
+        {
+          "guid": "tag:audioboo.fm,2016-01-11:/boos/4047561",
+          "title": "The Podcast Reawakens with Emily Yoshida",
+          "pubDate": "2016-01-11"
+        },
+        {
+          "guid": "tag:audioboom.com,2024-05-10:/posts/8503464",
+          "title": "Blank Check with Griffin & David Trailer",
+          "pubDate": "2016-01-18"
+        }
+      ],
+      "expected": "tag:audioboo.fm,2016-01-11:/boos/4047561",
+      "note": "The trailer has no wiki row and is acknowledged with `ackUnmatchedFeed`."
+    },
+    {
+      "name": "hint wins over title",
+      "episode": {
+        "title": "Mortal Kombat II",
+        "airDate": "2026-05-21",
+        "hints": {
+          "patreonPostId": "900000001"
+        }
+      },
+      "candidates": [
+        {
+          "guid": "900000001",
+          "title": "MK2 Commentary (synthetic)",
+          "pubDate": "2026-05-22"
+        },
+        {
+          "guid": "900000002",
+          "title": "Mortal Kombat II",
+          "pubDate": "2026-05-21"
+        }
+      ],
+      "expected": "900000001",
+      "note": "Synthetic Patreon items: a Patreon feed GUID is the post ID."
+    },
+    {
+      "name": "public guid hint wins",
+      "episode": {
+        "title": "Furiosa: A Mad Max Saga",
+        "airDate": "2024-06-02",
+        "hints": {
+          "publicGuid": "synthetic-furiosa"
+        }
+      },
+      "candidates": [
+        {
+          "guid": "synthetic-furiosa",
+          "title": "Furiosa with Kyle Buchanan",
+          "pubDate": "2024-06-02"
+        }
+      ],
+      "expected": "synthetic-furiosa"
+    },
+    {
+      "name": "hint ignores the date window",
+      "episode": {
+        "title": "Space Jam",
+        "airDate": "3018-09-30",
+        "hints": {
+          "publicGuid": "synthetic-space-jam"
+        }
+      },
+      "candidates": [
+        {
+          "guid": "synthetic-space-jam",
+          "title": "Space Jam with James Newman",
+          "pubDate": "2018-09-30"
+        }
+      ],
+      "expected": "synthetic-space-jam"
+    },
+    {
+      "name": "hint not in the feed falls back to title and date",
+      "episode": {
+        "title": "Taxi Driver",
+        "airDate": "2026-08-30",
+        "hints": {
+          "patreonPostId": "900000099"
+        }
+      },
+      "candidates": [
+        {
+          "guid": "synthetic-taxi",
+          "title": "Taxi Driver with Tracy Letts",
+          "pubDate": "2026-08-30"
+        }
+      ],
+      "expected": "synthetic-taxi"
+    },
+    {
+      "name": "ad-free copy matches",
+      "episode": {
+        "title": "You Were Never Really Here",
+        "airDate": "2018-05-06"
+      },
+      "candidates": [
+        {
+          "guid": "900000003",
+          "title": "You Were Never Really Here\twith Sean Clements (Ad-Free)",
+          "pubDate": "2018-05-07"
+        }
+      ],
+      "expected": "900000003",
+      "note": "Synthetic Patreon item with a tab in its title."
+    },
+    {
+      "name": "distinct edition does not match the plain title exactly",
+      "episode": {
+        "title": "Spreadmaster's Delight 3: Decade-of-Dreams Warriors (Bite-Free Version)",
+        "airDate": "2023-10-21"
+      },
+      "candidates": [
+        {
+          "guid": "900000004",
+          "title": "Spreadmaster's Delight 3: Decade-of-Dreams Warriors",
+          "pubDate": "2023-10-21"
+        },
+        {
+          "guid": "900000005",
+          "title": "Spreadmaster's Delight 3: Decade-of-Dreams Warriors (Bite-Free Version)",
+          "pubDate": "2023-10-21"
+        }
+      ],
+      "expected": "900000005"
+    },
+    {
+      "name": "exact title beats a same-day edition",
+      "episode": {
+        "title": "Spreadmaster's Delight 3: Decade-of-Dreams Warriors",
+        "airDate": "2025-10-11"
+      },
+      "candidates": [
+        {
+          "guid": "900000006",
+          "title": "Spreadmaster's Delight 3: Decade-of-Dreams Warriors (Bite-Free Version)",
+          "pubDate": "2025-10-11"
+        },
+        {
+          "guid": "900000007",
+          "title": "Spreadmaster's Delight 3: Decade-of-Dreams Warriors",
+          "pubDate": "2025-10-11"
+        }
+      ],
+      "expected": "900000007",
+      "note": "Both are candidates on the same day with the same overlap; the exact title wins over the one that only starts with it."
+    },
+    {
+      "name": "closer date beats an exact title",
+      "episode": {
+        "title": "Bonus Episode",
+        "airDate": "2021-03-01"
+      },
+      "candidates": [
+        {
+          "guid": "synthetic-exact-far",
+          "title": "Bonus Episode",
+          "pubDate": "2021-03-03"
+        },
+        {
+          "guid": "synthetic-prefix-near",
+          "title": "Bonus Episode with Guest A",
+          "pubDate": "2021-03-01"
+        }
+      ],
+      "expected": "synthetic-prefix-near"
+    },
+    {
+      "name": "no candidates",
+      "episode": {
+        "title": "Talking the Walk",
+        "airDate": "2022-02-02"
+      },
+      "candidates": [],
+      "expected": null
+    }
+  ]
+}

@@ -48,9 +48,9 @@ A feed item SHALL be a candidate for a wiki episode when both of these hold:
 - its publication date is within 3 days of the episode's air date
 - its normalized title equals the episode's normalized title, or starts with it followed by a separator (so guest suffixes like "with Tracy Letts" are allowed), or matches after removing a leading "the"
 
-If there's exactly one candidate, that's the match. If there are several, the closest date wins, then the longest title overlap. If a tie remains, or there are no candidates, the result SHALL be "no match". The matcher SHALL NOT guess.
+If there's exactly one candidate, that's the match. If there are several, the closest date wins, then a candidate whose normalized title equals the episode's (directly or after removing a leading "the") wins over one that only starts with it, then the longest title overlap. If a tie remains, or there are no candidates, the result SHALL be "no match". The matcher SHALL NOT guess.
 
-An exact GUID or Patreon post ID hint SHALL take precedence over title and date matching.
+An exact GUID or Patreon post ID hint SHALL take precedence over title and date matching, including another episode's title match to the same feed item.
 
 #### Scenario: Guest suffix
 - **WHEN** matching the wiki episode "Taxi Driver" (8/30/2026) against feed item "Taxi Driver with Tracy Letts" published 2026-08-30
@@ -67,6 +67,10 @@ An exact GUID or Patreon post ID hint SHALL take precedence over title and date 
 #### Scenario: Ambiguous
 - **WHEN** two feed items within the date window match equally well
 - **THEN** the result is "no match"
+
+#### Scenario: Exact title beats an edition
+- **WHEN** matching the wiki episode "Spreadmaster's Delight 3: Decade-of-Dreams Warriors" against that exact title and "Spreadmaster's Delight 3: Decade-of-Dreams Warriors (Bite-Free Version)", both published the same day
+- **THEN** it matches the exact title
 
 #### Scenario: Hint wins
 - **WHEN** an episode has a Patreon post ID hint and a feed item's GUID equals that post ID
