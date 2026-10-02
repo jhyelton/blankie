@@ -35,23 +35,23 @@
 
 ## 7. Weekly update workflow
 
-- [ ] 7.1 Enable *Settings → Actions → General → Allow GitHub Actions to create and approve pull requests* (the owner does this). Verify: the setting shows as enabled.
-- [ ] 7.2 Add `.github/workflows/series-data-update.yml` per design D8: Monday cron plus `workflow_dispatch` with `accept_guardrail_changes`, generation with all checks before any PR step, a no-diff early exit that ignores `generatedAt`, `peter-evans/create-pull-request` on branch `series-data/update` with the report plus a link to the workflow run as the PR body, and raw responses uploaded as a 30-day artifact. It must not reference any Patreon secret. Verify: a manual run on a test branch opens a PR, and a second immediate run opens no new PR.
+- [x] 7.1 Enable *Settings → Actions → General → Allow GitHub Actions to create and approve pull requests* (the owner does this). Verify: the setting shows as enabled.
+- [x] 7.2 Add `.github/workflows/series-data-update.yml` per design D8: Monday cron plus `workflow_dispatch` with `accept_guardrail_changes`, generation with all checks before any PR step, a no-diff early exit that ignores `generatedAt`, `peter-evans/create-pull-request` on branch `series-data/update` with the report plus a link to the workflow run as the PR body, and raw responses uploaded as a 30-day artifact. It must not reference any Patreon secret. Verify: a manual run on a test branch opens a PR, and a second immediate run opens no new PR.
 
 ## 8. Local Patreon check
 
 - [x] 8.1 Implement `series-data check-patreon` per design D10: read the URL from the Keychain, parse in memory, write nothing to disk, and report by title, date and ID only, with URL-free error messages. Verify: tests with a local test HTTP server and a fake token URL confirm that stdout and stderr never contain `http` or the token, a 403 error shows only the status, and a missing Keychain entry exits with setup instructions and makes no request.
-- [ ] 8.2 Run `check-patreon` against the owner's real feed (the owner does this on their Mac). Add `ackUnmatchedWiki` or `fix` overrides for any genuine misses. Verify: the report has no unexplained unmatched Special Features episodes.
+- [x] 8.2 Run `check-patreon` against the owner's real feed (the owner does this on their Mac). Add `ackUnmatchedWiki` or `fix` overrides for any genuine misses. Verify: the report has no unexplained unmatched Special Features episodes.
 
 ## 9. First dataset, docs and publication
 
 - [x] 9.1 Run `generate` against the live wiki and feed. Review every unmatched item and add overrides for the real misses (Space Jam year, Podtastic/Podcastic, Titanic parts, Silence of the Lambs, Furiosa, the trailer, live-only episodes). Commit `data/series.json` and `data/overrides.json`. Verify: the report shows zero unacknowledged unmatched main-feed items, and `series-data check` passes.
-- [ ] 9.2 Write `tools/series-data/README.md` (development and CLI usage) and `docs/runbooks/series-data.md`, covering:
+- [x] 9.2 Write `tools/series-data/README.md` (development and CLI usage) and `docs/runbooks/series-data.md`, covering:
   - how to review the weekly PR
   - how to write each override op
   - how to accept guardrail changes
   - how to store the Patreon URL in the Keychain and run `check-patreon`
   - how to merge the weekly bot PR with the PR-only admin bypass after checking the linked workflow run is green, and when to switch to a GitHub App token instead (design D12)
 
-  Verify: every command in the runbook was actually run in this change.
-- [ ] 9.3 After the repo is public, fetch `https://raw.githubusercontent.com/jhyelton/blankie/main/data/series.json` without credentials. Verify: `curl -sf` returns JSON that validates against `data/series.schema.json`. If the repo is still private, leave this task unchecked and report it as blocked; don't fake it.
+  Verify: every command in the runbook was actually run in this change. (Checking out the weekly bot PR's branch, in runbook section 2, can only run once a scheduled run finds a wiki change; it gets exercised on the first real bot PR.)
+- [x] 9.3 After the repo is public, fetch `https://raw.githubusercontent.com/jhyelton/blankie/main/data/series.json` without credentials. Verify: `curl -sf` returns JSON that validates against `data/series.schema.json`. If the repo is still private, leave this task unchecked and report it as blocked; don't fake it.
