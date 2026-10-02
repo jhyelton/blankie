@@ -195,3 +195,33 @@ def test_two_episodes_on_one_feed_item_are_flagged():
     report, problems = build_report(dataset, [FeedItem("900000010", "A", date(2025, 10, 11))])
     assert "Matched to the same feed item as another episode: 2" in report
     assert problems == 2
+
+
+def test_acknowledged_video_posts_are_not_problems(server, workdir, capsys):
+    overrides = workdir / "overrides.json"
+    overrides.write_text(
+        json.dumps(
+            [
+                {"op": "ackUnmatchedWiki", "target": "2024-01-01:not-in-feed", "reason": "video"},
+                {"op": "ackUnmatchedWiki", "target": "2026-05-21:mortal-kombat-ii", "reason": "x"},
+            ]
+        )
+    )
+    code = run(workdir / "series.json", lambda: _url(server), overrides_path=overrides)
+    captured = capsys.readouterr()
+    _assert_clean(captured)
+    assert "Acknowledged as not in the feed (ackUnmatchedWiki): 1" in captured.out
+    assert "Not In Feed  [2024-01-01:not-in-feed]" in captured.out
+    assert "Acknowledged, but now matched (the override can go): 1" in captured.out
+    assert "Unmatched: 0" in captured.out
+    assert code == 0
+
+
+def test_bad_overrides_fail_before_any_request(server, workdir, capsys):
+    overrides = workdir / "overrides.json"
+    overrides.write_text(json.dumps([{"op": "ackUnmatchedWiki", "target": "x"}]))
+    code = run(workdir / "series.json", lambda: _url(server), overrides_path=overrides)
+    captured = capsys.readouterr()
+    _assert_clean(captured)
+    assert code == 1
+    assert _Handler.hits == []
